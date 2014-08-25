@@ -57,6 +57,9 @@ group :development, :test do
   # Test framework
   gem 'rspec-rails', '~> 3.0.1'
 
+  # Mock framework
+  gem 'mocha', '~> 1.1.0'
+
   # Fixtures made easy
   gem 'factory_girl_rails', '~> 4.4.1'
 

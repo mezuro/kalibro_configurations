@@ -14,14 +14,6 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-
-#Starts Simplecov
-require 'simplecov'
-SimpleCov.start
-SimpleCov.coverage_dir 'coverage/rspec'
-
-
-
 RSpec.configure do |config|
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
@@ -72,14 +64,5 @@ RSpec.configure do |config|
 
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
-  config.mock_with :rspec do |mocks|
-    # Enable only the newer, non-monkey-patching expect syntax.
-    # For more details, see:
-    #   - http://teaisaweso.me/blog/2013/05/27/rspecs-new-message-expectation-syntax/
-    mocks.syntax = :expect
-
-    # Prevents you from mocking or stubbing a method that does not exist on
-    # a real object. This is generally recommended.
-    mocks.verify_partial_doubles = true
-  end
+  config.mock_with :mocha
 end
