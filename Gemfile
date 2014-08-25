@@ -55,7 +55,7 @@ group :development, :test do
   gem 'spring'
 
   # Test framework
-  gem 'rspec-rails', '~> 3.0.1'
+  gem 'rspec-rails', '~> 3.0.2'
 
   # Mock framework
   gem 'mocha', '~> 1.1.0'
