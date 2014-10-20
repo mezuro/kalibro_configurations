@@ -2,10 +2,6 @@
 require 'simplecov'
 
 SimpleCov.start do
-  formatter SimpleCov::Formatter::MultiFormatter[
-                Coveralls::SimpleCov::Formatter,
-                SimpleCov::Formatter::HTMLFormatter
-              ]
   coverage_dir 'coverage/rspec'
 
   add_group "Models", "app/models"
