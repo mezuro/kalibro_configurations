@@ -3,7 +3,14 @@
 
 # TEAM
 
-    Rafael Reggiani Manzo - Base app maintaneir - rr.manzo at gmail.com
+    Copyright 2014
+    --------------
+
+      Daniel Paulino Alves (danpaulalves at gmail.com)
+      Diego de Araújo Martinez Camarinha (diegoamc90 at gmail.com)
+      Heitor Reis Ribeiro (marcheing at gmail.com)
+      Paulo Meirelles (paulo at softwarelivre.org)
+      Rafael Reggiani Manzo (rr.manzo at gmail.com)
 
 # THANKSs
 
