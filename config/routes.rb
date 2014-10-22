@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  # Routes for Kalibro Configuration
+  resources :kalibro_configurations, except: [:index, :new, :edit]
+  get 'kalibro_configurations' => 'kalibro_configurations#all'
+  get 'kalibro_configurations/:id/exists' => 'kalibro_configurations#exists'
+  get 'kalibro_configurations/:id/metric_configurations_of' => 'kalibro_configurations#metric_configurations_of'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
