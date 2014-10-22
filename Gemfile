@@ -39,6 +39,9 @@ group :test do
 
   # Test coverage
   gem 'simplecov', require: false
+
+  # Code climate test coverage
+  gem "codeclimate-test-reporter", group: :test, require: nil
 end
 
 group :development, :test do
