@@ -11,9 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141022160529) do
+ActiveRecord::Schema.define(version: 20141022164330) do
 
   create_table "kalibro_configurations", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "reading_groups", force: true do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",  null: false
