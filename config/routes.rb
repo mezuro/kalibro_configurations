@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :readings, except: [:index, :new, :edit]
+
   # Routes for Kalibro Configuration
   resources :kalibro_configurations, except: [:index, :new, :edit]
   get 'kalibro_configurations' => 'kalibro_configurations#all'

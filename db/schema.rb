@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141022164330) do
+ActiveRecord::Schema.define(version: 20141024161446) do
 
   create_table "kalibro_configurations", force: true do |t|
     t.string   "name"
@@ -26,5 +26,16 @@ ActiveRecord::Schema.define(version: 20141022164330) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "readings", force: true do |t|
+    t.string   "label"
+    t.float    "grade"
+    t.integer  "color"
+    t.integer  "reading_group_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "readings", ["reading_group_id"], name: "index_readings_on_reading_group_id"
 
 end
