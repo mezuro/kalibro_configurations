@@ -1,5 +1,5 @@
 class ReadingGroupsController < ApplicationController
-  before_action :set_reading_group,  only: [:update, :destroy]
+  before_action :set_reading_group,  only: [:update, :destroy, :readings_of]
 
   def all
     reading_groups = {reading_groups: ReadingGroup.all}
@@ -9,7 +9,6 @@ class ReadingGroupsController < ApplicationController
     end
   end
 
-  # GET /reading_groups/1.json
   def show
     begin
       set_reading_group
@@ -25,7 +24,6 @@ class ReadingGroupsController < ApplicationController
     end
   end
 
-  # POST /reading_groups.json
   def create
     reading_group = ReadingGroup.new(reading_group_params)
 
@@ -38,7 +36,6 @@ class ReadingGroupsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /reading_groups/1.json
   def update
     respond_to do |format|
       if @reading_group.update(reading_group_params)
@@ -49,14 +46,12 @@ class ReadingGroupsController < ApplicationController
     end
   end
 
-  # GET /reading_groups/1/exists.json
   def exists
     respond_to do |format|
       format.json { render json: {exists: ReadingGroup.exists?(params[:id].to_i)} }
     end
   end
 
-  # DELETE /reading_groups/1.json
   def destroy
     @reading_group.destroy
     respond_to do |format|
@@ -64,13 +59,17 @@ class ReadingGroupsController < ApplicationController
     end
   end
 
+  def readings_of
+    respond_to do |format|
+      format.json { render json: {readings: @reading_group.readings} }
+    end
+  end
+
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_reading_group
       @reading_group = ReadingGroup.find(params[:id].to_i)
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def reading_group_params
       params.require(:reading_group).permit(:name, :description)
     end

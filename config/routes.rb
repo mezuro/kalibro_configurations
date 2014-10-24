@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :reading_groups, except: [:index, :new, :edit]
   get 'reading_groups' => 'reading_groups#all'
   get 'reading_groups/:id/exists' => 'reading_groups#exists'
+  get 'reading_groups/:id/readings_of' => 'reading_groups#readings_of'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
