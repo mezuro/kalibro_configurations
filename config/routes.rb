@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :metric_configurations, except: [:index, :show, :new, :edit]
+
   resources :readings, except: [:index, :new, :edit]
 
   # Routes for Kalibro Configuration

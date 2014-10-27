@@ -1,0 +1,2 @@
+class NativeMetric < Metric
+end

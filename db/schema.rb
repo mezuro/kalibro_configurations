@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141024161446) do
+ActiveRecord::Schema.define(version: 20141027152920) do
 
   create_table "kalibro_configurations", force: true do |t|
     t.string   "name"
@@ -19,6 +19,41 @@ ActiveRecord::Schema.define(version: 20141024161446) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "metric_configurations", force: true do |t|
+    t.integer  "metric_id"
+    t.float    "weight"
+    t.string   "aggregation_form"
+    t.integer  "reading_group_id"
+    t.integer  "kalibro_configuration_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "metrics", force: true do |t|
+    t.string   "type"
+    t.string   "name"
+    t.text     "description"
+    t.string   "code"
+    t.string   "metric_collector_name"
+    t.string   "scope"
+    t.text     "script"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  create_table "mezuro_ranges", force: true do |t|
+    t.float    "beginning"
+    t.float    "end"
+    t.string   "comments"
+    t.integer  "reading_id"
+    t.integer  "metric_configuration_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "mezuro_ranges", ["metric_configuration_id"], name: "index_mezuro_ranges_on_metric_configuration_id"
+  add_index "mezuro_ranges", ["reading_id"], name: "index_mezuro_ranges_on_reading_id"
 
   create_table "reading_groups", force: true do |t|
     t.string   "name"

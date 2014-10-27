@@ -84,7 +84,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
   end
 
   describe 'update' do
-    let(:kalibro_configuration_params) { Hash[FactoryGirl.attributes_for(:kalibro_configuration).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with sybols and integers
+    let(:kalibro_configuration_params) { Hash[FactoryGirl.attributes_for(:kalibro_configuration).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
 
     before :each do
       KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
@@ -152,13 +152,12 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
   end
 
   describe 'metric_configurations_of' do 
-    pending "Awaiting for metric configuration implementation" do
       context 'with at least 1 metric configuration' do
         let!(:metric_configuration) { FactoryGirl.build(:metric_configuration, id: 1, kalibro_configuration: kalibro_configuration) }
         let!(:metric_configurations) { [metric_configuration] }
         before :each do
           kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
-          KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+          KalibroConfiguration.expects(:find).twice.with(kalibro_configuration.id).returns(kalibro_configuration)
 
           get :metric_configurations_of, id: kalibro_configuration.id, format: :json
         end
@@ -174,7 +173,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
         let!(:metric_configurations) { [] }
         before :each do
           kalibro_configuration.metric_configurations = metric_configurations
-          KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+          KalibroConfiguration.expects(:find).twice.with(kalibro_configuration.id).returns(kalibro_configuration)
 
         get :metric_configurations_of, id: kalibro_configuration.id, format: :json
       end
@@ -184,7 +183,6 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
       it 'should return an empty array' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: metric_configurations}.to_json))
       end
-    end
     end
   end
 

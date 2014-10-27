@@ -1,0 +1,2 @@
+class CompoundMetric < Metric
+end
