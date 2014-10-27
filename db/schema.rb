@@ -11,13 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141027150812) do
+ActiveRecord::Schema.define(version: 20141027152920) do
 
   create_table "kalibro_configurations", force: true do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "metric_configurations", force: true do |t|
+    t.integer  "metric_id"
+    t.float    "weight"
+    t.string   "aggregation_form"
+    t.integer  "reading_group_id"
+    t.integer  "configuration_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "metrics", force: true do |t|
