@@ -4,6 +4,12 @@ Rails.application.routes.draw do
 
   resources :metric_configurations, except: [:index, :show, :new, :edit]
 
+  post 'ranges/save' => 'mezuro_ranges#save'
+  post 'ranges/destroy' => 'mezuro_ranges#destroy'
+  post 'ranges/of' => 'mezuro_ranges#of'
+
+  resources :readings, except: [:index, :new, :edit]
+
 
   # Routes for Kalibro Configuration
   resources :kalibro_configurations, except: [:index, :new, :edit]
