@@ -53,7 +53,10 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   def metric_configurations_of
-    #TODO Waiting for Metric Configuration model implementation
+    metric_configurations = KalibroConfiguration.metric_configurations_of(params[:id].to_i)
+    respond_to do |format|
+      format.json { render json: {metric_configurations: metric_configurations} }
+    end
   end
 
   def destroy

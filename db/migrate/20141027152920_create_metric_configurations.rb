@@ -5,7 +5,7 @@ class CreateMetricConfigurations < ActiveRecord::Migration
       t.float :weight
       t.string :aggregation_form
       t.integer :reading_group_id
-      t.integer :configuration_id
+      t.integer :kalibro_configuration_id
 
       t.timestamps null: false
     end

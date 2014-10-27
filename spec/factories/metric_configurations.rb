@@ -5,7 +5,7 @@ FactoryGirl.define do
     weight 1.5
     aggregation_form "MyString"
     reading_group_id 1
-    configuration_id 1
+    kalibro_configuration_id 1
   end
 
 end

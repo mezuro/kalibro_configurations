@@ -25,9 +25,9 @@ ActiveRecord::Schema.define(version: 20141027152920) do
     t.float    "weight"
     t.string   "aggregation_form"
     t.integer  "reading_group_id"
-    t.integer  "configuration_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "kalibro_configuration_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "metrics", force: true do |t|
