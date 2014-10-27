@@ -82,6 +82,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
 
       delete :destroy, id: metric_configuration.id, format: :json
     end
+    it { is_expected.to respond_with(:no_content)}
   end
 
 end

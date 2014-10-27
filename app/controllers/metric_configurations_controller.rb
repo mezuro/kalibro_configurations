@@ -26,7 +26,6 @@ class MetricConfigurationsController < ApplicationController
   def destroy
     @metric_configuration.destroy
     respond_to do |format|
-      format.html { redirect_to metric_configurations_url, notice: 'Metric configuration was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
