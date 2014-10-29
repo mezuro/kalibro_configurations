@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe MetricConfigurationsController, :type => :controller do
   let(:metric_configuration) { FactoryGirl.build(:metric_configuration) }
 
-  describe "POST create" do
+  describe "create" do
     describe "with valid params" do
       let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
       before :each do
@@ -37,7 +37,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     end
   end
 
-  describe "PUT update" do
+  describe "update" do
     let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
 
     before :each do
@@ -75,7 +75,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     end
   end
 
-  describe "DELETE destroy" do
+  describe "destroy" do
     before :each do
       metric_configuration.expects(:destroy).returns(true)
       MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
@@ -85,22 +85,38 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     it { is_expected.to respond_with(:no_content)}
   end
 
-  describe 'GET ranges_of' do
-    let!(:ranges) {[FactoryGirl.build(:kalibro_range)]}
-
-    before :each do
-      KalibroRange.expects(:ranges_of).returns(ranges)
-    end
-
-    context 'json format' do
+  describe 'ranges_of' do
+    context 'with at least 1 range' do
+      let!(:kalibro_range) { FactoryGirl.build(:kalibro_range) }
+      let!(:kalibro_ranges) { [kalibro_range] }
       before :each do
+        metric_configuration.expects(:kalibro_ranges).returns(kalibro_ranges)
+        MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
+
         get :ranges_of, id: metric_configuration.id, format: :json
       end
 
       it { is_expected.to respond_with(:success) }
 
-      it 'returns the list of ranges' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({ranges: ranges}.to_json))
+      it 'should return an array of readings' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_ranges:   kalibro_ranges}.to_json))
+      end
+    end
+
+    context 'without ranges' do
+      let!(:kalibro_ranges) { [] }
+
+      before :each do
+        metric_configuration.kalibro_ranges = kalibro_ranges
+        MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
+
+        get :ranges_of, id: metric_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return an empty array' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_ranges: kalibro_ranges}.to_json))
       end
     end
   end

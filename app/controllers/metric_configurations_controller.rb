@@ -1,5 +1,5 @@
 class MetricConfigurationsController < ApplicationController
-  before_action :set_metric_configuration, only: [:show, :edit, :update, :destroy]
+  before_action :set_metric_configuration, only: [:show, :edit, :update, :destroy, :ranges_of]
 
   def create
     @metric_configuration = MetricConfiguration.new(metric_configuration_params)
@@ -31,10 +31,8 @@ class MetricConfigurationsController < ApplicationController
   end
 
   def ranges_of
-    ranges = {ranges: KalibroRange.ranges_of(params[:metric_configuration_id]).map { |range| range}}
-
     respond_to do |format|
-      format.json { render json: ranges}
+      format.json { render json: {kalibro_ranges: @metric_configuration.kalibro_ranges}}
     end
   end
 
