@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # Acceptance tests route
+  post 'tests/clean_database' => 'tests#clean_database'
+
   resources :metric_configurations, except: [:index, :show, :new, :edit]
 
 
