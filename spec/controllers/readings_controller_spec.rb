@@ -9,7 +9,7 @@ RSpec.describe ReadingsController, :type => :controller do
       before :each do
         Reading.expects(:find).with(reading.id).returns(reading)
 
-        get :show, id: reading.id, format: :json
+        get :show, reading_group_id: reading.reading_group.id, id: reading.id, format: :json
       end
 
       it { is_expected.to respond_with(:success) }
@@ -23,7 +23,7 @@ RSpec.describe ReadingsController, :type => :controller do
       before :each do
         Reading.expects(:find).with(reading.id).raises(ActiveRecord::RecordNotFound)
 
-        get :show, id: reading.id, format: :json
+        get :show, reading_group_id: reading.reading_group.id, id: reading.id, format: :json
       end
 
       it { is_expected.to respond_with(:unprocessable_entity) }
@@ -41,7 +41,7 @@ RSpec.describe ReadingsController, :type => :controller do
       before :each do
         Reading.any_instance.expects(:save).returns(true)
 
-        post :create, reading: reading_params, format: :json
+        post :create, reading_group_id: reading.reading_group.id, reading: reading_params, format: :json
       end
 
       it { is_expected.to respond_with(:created) }
@@ -56,7 +56,7 @@ RSpec.describe ReadingsController, :type => :controller do
       before :each do
         Reading.any_instance.expects(:save).returns(false)
 
-        post :create, reading: reading_params, format: :json
+        post :create, reading_group_id: reading.reading_group.id, reading: reading_params, format: :json
       end
 
       it { is_expected.to respond_with(:unprocessable_entity) }
@@ -80,7 +80,7 @@ RSpec.describe ReadingsController, :type => :controller do
         reading_params.delete('id')
         Reading.any_instance.expects(:update).with(reading_params).returns(true)
 
-        put :update, reading: reading_params, id: reading.id, format: :json
+        put :update, reading_group_id: reading.reading_group.id, reading: reading_params, id: reading.id, format: :json
       end
 
       it { is_expected.to respond_with(:created) }
@@ -95,7 +95,7 @@ RSpec.describe ReadingsController, :type => :controller do
         reading_params.delete('id')
         Reading.any_instance.expects(:update).with(reading_params).returns(false)
 
-        put :update, reading: reading_params, id: reading.id, format: :json
+        put :update, reading_group_id: reading.reading_group.id, reading: reading_params, id: reading.id, format: :json
       end
 
       it { is_expected.to respond_with(:unprocessable_entity) }
@@ -111,7 +111,7 @@ RSpec.describe ReadingsController, :type => :controller do
       reading.expects(:destroy).returns(true)
       Reading.expects(:find).with(reading.id).returns(reading)
 
-      delete :destroy, id: reading.id, format: :json
+      delete :destroy, reading_group_id: reading.reading_group.id, id: reading.id, format: :json
     end
 
     it { is_expected.to respond_with(:success) }
