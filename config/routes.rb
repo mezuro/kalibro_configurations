@@ -5,8 +5,8 @@ Rails.application.routes.draw do
 
   resources :metric_configurations, except: [:index, :show, :new, :edit] do
     resources :kalibro_ranges, except: [:index, :show, :new, :edit]
-    get 'kalibro_ranges' => 'kalibro_ranges#of'
   end
+  get 'metric_configurations/:id/ranges_of' => 'metric_configurations#ranges_of'
 
   resources :readings, except: [:index, :new, :edit]
 

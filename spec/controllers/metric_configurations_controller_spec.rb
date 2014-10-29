@@ -13,7 +13,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
       end
 
       it { is_expected.to respond_with(:created) }
-      
+
       it 'is expected to return the MetricConfiguration' do
         metric_configuration.id = nil
         expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configuration: metric_configuration}.to_json))
@@ -83,6 +83,26 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
       delete :destroy, id: metric_configuration.id, format: :json
     end
     it { is_expected.to respond_with(:no_content)}
+  end
+
+  describe 'GET ranges_of' do
+    let!(:ranges) {[FactoryGirl.build(:kalibro_range)]}
+
+    before :each do
+      KalibroRange.expects(:ranges_of).returns(ranges)
+    end
+
+    context 'json format' do
+      before :each do
+        get :ranges_of, id: metric_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'returns the list of ranges' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({ranges: ranges}.to_json))
+      end
+    end
   end
 
 end
