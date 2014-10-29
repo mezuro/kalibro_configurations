@@ -1,8 +1,8 @@
 FactoryGirl.define do
-  factory :mezuro_range do
-    beginning 1.5
+  factory :kalibro_range do
+    beginning 0.5
     self.end 1.5
-    comments "MyString"
+    comments "Range comments"
     reading nil
     metric_configuration nil
   end

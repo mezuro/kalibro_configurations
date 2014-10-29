@@ -4,7 +4,6 @@ class KalibroRange < ActiveRecord::Base
 
   def self.ranges_of(metric_configuration_id)
     metric_configuration = MetricConfiguration.find(metric_configuration_id)
-    #TODO Waiting for MetricConfiguration model
-    metric_configuration.ranges
+    metric_configuration.kalibro_ranges
   end
 end
