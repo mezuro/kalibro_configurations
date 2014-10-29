@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
+
   # Acceptance tests route
   post 'tests/clean_database' => 'tests#clean_database'
 
-  resources :metric_configurations, except: [:index, :show, :new, :edit]
-
+  resources :metric_configurations, except: [:index, :show, :new, :edit] do
+    resources :kalibro_ranges, except: [:index, :show, :new, :edit]
+  end
+  get 'metric_configurations/:id/ranges_of' => 'metric_configurations#ranges_of'
 
   # Routes for Kalibro Configuration
   resources :kalibro_configurations, except: [:index, :new, :edit]

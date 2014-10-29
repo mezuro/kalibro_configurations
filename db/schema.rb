@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141027152920) do
+ActiveRecord::Schema.define(version: 20141027182332) do
 
   create_table "kalibro_configurations", force: true do |t|
     t.string   "name"
@@ -19,6 +19,19 @@ ActiveRecord::Schema.define(version: 20141027152920) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "kalibro_ranges", force: true do |t|
+    t.float    "beginning"
+    t.float    "end"
+    t.string   "comments"
+    t.integer  "reading_id"
+    t.integer  "metric_configuration_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "kalibro_ranges", ["metric_configuration_id"], name: "index_kalibro_ranges_on_metric_configuration_id"
+  add_index "kalibro_ranges", ["reading_id"], name: "index_kalibro_ranges_on_reading_id"
 
   create_table "metric_configurations", force: true do |t|
     t.integer  "metric_id"
@@ -41,19 +54,6 @@ ActiveRecord::Schema.define(version: 20141027152920) do
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
-
-  create_table "mezuro_ranges", force: true do |t|
-    t.float    "beginning"
-    t.float    "end"
-    t.string   "comments"
-    t.integer  "reading_id"
-    t.integer  "metric_configuration_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  add_index "mezuro_ranges", ["metric_configuration_id"], name: "index_mezuro_ranges_on_metric_configuration_id"
-  add_index "mezuro_ranges", ["reading_id"], name: "index_mezuro_ranges_on_reading_id"
 
   create_table "reading_groups", force: true do |t|
     t.string   "name"
