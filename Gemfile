@@ -67,11 +67,15 @@ group :development, :test do
   gem "konacha", "~> 3.2.4"
 end
 
+group :development, :test, :cucumber do
+  # cleans the database
+  gem 'database_cleaner'
+end
+
 # Acceptance tests
 group :cucumber do
   gem 'cucumber', '~> 1.3.16'
   gem 'cucumber-rails'
-  gem 'database_cleaner'
   gem 'poltergeist', '~> 1.5.0'
 end
 
