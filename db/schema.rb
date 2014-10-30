@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141027182332) do
+ActiveRecord::Schema.define(version: 20141030135023) do
+
+  create_table "configurations", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "kalibro_configurations", force: true do |t|
     t.string   "name"
@@ -65,7 +72,7 @@ ActiveRecord::Schema.define(version: 20141027182332) do
   create_table "readings", force: true do |t|
     t.string   "label"
     t.float    "grade"
-    t.integer  "color"
+    t.string   "color"
     t.integer  "reading_group_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
