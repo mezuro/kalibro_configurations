@@ -6,6 +6,6 @@ RSpec.describe KalibroConfiguration, :type => :model do
   end
 
   describe 'associations' do
-    it { is_expected.to have_many(:metric_configurations) }
+    it { is_expected.to have_many(:metric_configurations).dependent(:destroy) }
   end
 end
