@@ -30,12 +30,6 @@ class MetricConfigurationsController < ApplicationController
     end
   end
 
-  def ranges_of
-    respond_to do |format|
-      format.json { render json: {kalibro_ranges: @metric_configuration.kalibro_ranges}}
-    end
-  end
-
   private
     def set_metric_configuration
       @metric_configuration = MetricConfiguration.find(params[:id].to_i)

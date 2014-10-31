@@ -87,41 +87,4 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     end
     it { is_expected.to respond_with(:no_content)}
   end
-
-  describe 'ranges_of' do
-    context 'with at least 1 range' do
-      let!(:kalibro_range) { FactoryGirl.build(:kalibro_range) }
-      let!(:kalibro_ranges) { [kalibro_range] }
-      before :each do
-        metric_configuration.expects(:kalibro_ranges).returns(kalibro_ranges)
-        MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
-
-        get :ranges_of, id: metric_configuration.id, format: :json
-      end
-
-      it { is_expected.to respond_with(:success) }
-
-      it 'should return an array of readings' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_ranges:   kalibro_ranges}.to_json))
-      end
-    end
-
-    context 'without ranges' do
-      let!(:kalibro_ranges) { [] }
-
-      before :each do
-        metric_configuration.kalibro_ranges = kalibro_ranges
-        MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
-
-        get :ranges_of, id: metric_configuration.id, format: :json
-      end
-
-      it { is_expected.to respond_with(:success) }
-
-      it 'should return an empty array' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_ranges: kalibro_ranges}.to_json))
-      end
-    end
-  end
-
 end
