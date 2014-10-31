@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe KalibroRangesController, :type => :controller do
 
-  let!(:metric_configuration) { FactoryGirl.create(:metric_configuration) }
+  let!(:metric_configuration) { FactoryGirl.build(:metric_configuration) }
   let!(:reading) { FactoryGirl.create(:reading) }
   let!(:range) { FactoryGirl.build(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id) }
 
