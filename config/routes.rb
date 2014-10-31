@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :kalibro_configurations, except: [:index, :new, :edit]
   get 'kalibro_configurations' => 'kalibro_configurations#all'
   get 'kalibro_configurations/:id/exists' => 'kalibro_configurations#exists'
-  get 'kalibro_configurations/:id/metric_configurations_of' => 'kalibro_configurations#metric_configurations_of'
+  get 'kalibro_configurations/:id/metric_configurations' => 'kalibro_configurations#metric_configurations'
 
   resources :reading_groups, except: [:index, :new, :edit] do
     resources :readings, except: [:new, :edit]

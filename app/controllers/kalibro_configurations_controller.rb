@@ -52,7 +52,9 @@ class KalibroConfigurationsController < ApplicationController
     end
   end
 
-  def metric_configurations_of
+  def metric_configurations
+    metric_configurations = @kalibro_configuration.metric_configurations
+
     respond_to do |format|
       format.json { render json: {metric_configurations: @kalibro_configuration.metric_configurations} }
     end
@@ -66,11 +68,12 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   private
-    def set_kalibro_configuration
-      @kalibro_configuration = KalibroConfiguration.find(params[:id].to_i)
-    end
 
-    def kalibro_configuration_params
-      params.require(:kalibro_configuration).permit(:name, :description)
-    end
+  def set_kalibro_configuration
+    @kalibro_configuration = KalibroConfiguration.find(params[:id].to_i)
+  end
+
+  def kalibro_configuration_params
+    params.require(:kalibro_configuration).permit(:name, :description)
+  end
 end
