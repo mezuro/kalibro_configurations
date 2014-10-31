@@ -4,7 +4,45 @@ RSpec.describe ReadingsController, :type => :controller do
 
   let(:reading) { FactoryGirl.build(:reading) }
 
-  describe "GET show" do
+  describe 'index' do
+    let!(:reading_group) {FactoryGirl.build(:reading_group)}
+
+    context 'with at least 1 reading' do
+      let!(:readings) { [reading] }
+
+      before :each do
+        reading_group.expects(:readings).returns(readings)
+        ReadingGroup.expects(:find).with(reading_group.id).returns(reading_group)
+
+        get :index, reading_group_id: reading_group.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return an array of readings' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({readings: [reading]}.to_json))
+      end
+    end
+
+    context 'without readings' do
+      let!(:readings) { [] }
+
+      before :each do
+        reading_group.expects(:readings).returns(readings)
+        ReadingGroup.expects(:find).with(reading_group.id).returns(reading_group)
+
+        get :index, reading_group_id: reading_group.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return an empty array' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({readings: []}.to_json))
+      end
+    end
+  end
+
+  describe "show" do
     context 'when the Reading exists' do
       before :each do
         Reading.expects(:find).with(reading.id).returns(reading)
@@ -34,7 +72,7 @@ RSpec.describe ReadingsController, :type => :controller do
     end
   end
 
-  describe "POST create" do
+  describe "create" do
     let!(:reading_params) { Hash[FactoryGirl.attributes_for(:reading, reading_group_id: reading.reading_group.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with sybols and integers
 
     context 'with valid attributes' do
@@ -68,7 +106,7 @@ RSpec.describe ReadingsController, :type => :controller do
     end
   end
 
-  describe "PUT update" do
+  describe "update" do
     let!(:reading_params) { Hash[FactoryGirl.attributes_for(:reading, reading_group_id: reading.reading_group.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with sybols and integers
 
     before :each do
@@ -106,7 +144,7 @@ RSpec.describe ReadingsController, :type => :controller do
     end
   end
 
-  describe "DELETE destroy" do
+  describe "destroy" do
     before :each do
       reading.expects(:destroy).returns(true)
       Reading.expects(:find).with(reading.id).returns(reading)

@@ -163,38 +163,4 @@ RSpec.describe ReadingGroupsController, :type => :controller do
     it { is_expected.to respond_with(:success) }
   end
 
-  describe 'readings_of' do
-    context 'with at least 1 reading' do
-      let!(:reading) { FactoryGirl.build(:reading) }
-      let!(:readings) { [reading] }
-      before :each do
-        reading_group.expects(:readings).returns(readings)
-        ReadingGroup.expects(:find).with(reading_group.id).returns(reading_group)
-
-        get :readings_of, id: reading_group.id, format: :json
-      end
-
-      it { is_expected.to respond_with(:success) }
-
-      it 'should return an array of readings' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({readings: readings}.to_json))
-      end
-    end
-
-    context 'without readings' do
-      let!(:readings) { [] }
-      before :each do
-        reading_group.readings = readings
-        ReadingGroup.expects(:find).with(reading_group.id).returns(reading_group)
-
-        get :readings_of, id: reading_group.id, format: :json
-      end
-
-      it { is_expected.to respond_with(:success) }
-
-      it 'should return an empty array' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({readings: readings}.to_json))
-      end
-    end
-  end
 end

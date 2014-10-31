@@ -1,5 +1,12 @@
 class ReadingsController < ApplicationController
   before_action :set_reading, only: [:update, :destroy]
+  before_action :set_reading_group, only: [:index]
+
+  def index
+    respond_to do |format|
+      format.json { render json: {readings: @reading_group.readings} }
+    end
+  end
 
   def show
     begin
@@ -47,11 +54,16 @@ class ReadingsController < ApplicationController
   end
 
   private
-    def set_reading
-      @reading = Reading.find(params[:id].to_i)
-    end
 
-    def reading_params
-      params.require(:reading).permit(:label, :grade, :color, :reading_group_id)
-    end
+  def set_reading_group
+    @reading_group = ReadingGroup.find(params[:reading_group_id].to_i)
+  end
+
+  def set_reading
+    @reading = Reading.find(params[:id].to_i)
+  end
+
+  def reading_params
+    params.require(:reading).permit(:label, :grade, :color, :reading_group_id)
+  end
 end

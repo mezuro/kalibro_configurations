@@ -1,5 +1,5 @@
 class MetricConfigurationsController < ApplicationController
-  before_action :set_metric_configuration, only: [:show, :edit, :update, :destroy, :ranges_of]
+  before_action :set_metric_configuration, only: [:show, :edit, :update, :destroy]
 
   def create
     @metric_configuration = MetricConfiguration.new(metric_configuration_params)

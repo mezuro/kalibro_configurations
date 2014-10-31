@@ -14,11 +14,10 @@ Rails.application.routes.draw do
   get 'kalibro_configurations/:id/metric_configurations_of' => 'kalibro_configurations#metric_configurations_of'
 
   resources :reading_groups, except: [:index, :new, :edit] do
-    resources :readings, except: [:index, :new, :edit]
+    resources :readings, except: [:new, :edit]
   end
   get 'reading_groups' => 'reading_groups#all'
   get 'reading_groups/:id/exists' => 'reading_groups#exists'
-  get 'reading_groups/:id/readings_of' => 'reading_groups#readings_of'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
