@@ -4,8 +4,10 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
   let(:metric_configuration) { FactoryGirl.build(:metric_configuration) }
 
   describe "create" do
+    let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration,
+      kalibro_configuration_id: metric_configuration.kalibro_configuration.id,
+      metric_id: metric_configuration.metric.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
     describe "with valid params" do
-      let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
       before :each do
         MetricConfiguration.any_instance.expects(:save).returns(true)
 
@@ -21,7 +23,6 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     end
 
     describe "with invalid params" do
-      let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
       before :each do
         MetricConfiguration.any_instance.expects(:save).returns(false)
 
@@ -38,7 +39,9 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
   end
 
   describe "update" do
-    let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+    let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration,
+      kalibro_configuration_id: metric_configuration.kalibro_configuration.id,
+      metric_id: metric_configuration.metric.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
 
     before :each do
       MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)

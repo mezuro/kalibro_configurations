@@ -1,8 +1,5 @@
 class KalibroConfiguration < ActiveRecord::Base
-  has_many :metric_configurations
+  has_many :metric_configurations, dependent: :destroy
 
-  def self.metric_configurations_of(configuration_id)
-    kalibro_configuration = KalibroConfiguration.find(configuration_id)
-    kalibro_configuration.metric_configurations
-  end
+  validates :name, presence: true
 end
