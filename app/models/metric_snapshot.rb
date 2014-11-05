@@ -1,4 +1,4 @@
-class Metric < ActiveRecord::Base
+class MetricSnapshot < ActiveRecord::Base
   has_many :metric_configurations
 
   validates :name, :code, :scope, presence: true

@@ -26,7 +26,7 @@ describe CodeUniquenessValidator, :type => :model do
 
         it 'should contain errors' do
           subject.save
-          expect(subject.errors[:code]).to include("There is already a metric with the code #{metric_configuration.metric.code}! Please, choose another one.")
+          expect(subject.errors[:code]).to include("There is already a metric snapshot with the code #{metric_configuration.metric_snapshot.code}! Please, choose another one.")
         end
       end
     end

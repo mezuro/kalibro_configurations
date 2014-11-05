@@ -1,2 +1,2 @@
-class NativeMetric < Metric
+class NativeMetric < MetricSnapshot
 end

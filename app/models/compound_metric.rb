@@ -1,2 +1,2 @@
-class CompoundMetric < Metric
+class CompoundMetric < MetricSnapshot
 end

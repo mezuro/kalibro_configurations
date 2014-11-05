@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :metric do
+  factory :metric_snapshot do
     type "NativeMetric"
     name "MyString"
     description "MyString"
