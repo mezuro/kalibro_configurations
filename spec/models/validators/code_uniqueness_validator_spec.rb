@@ -7,8 +7,8 @@ describe CodeUniquenessValidator, :type => :model do
       let!(:kalibro_configuration) {FactoryGirl.build(:kalibro_configuration)}
       context 'without saved metric_configurations' do
         before :each do
-          KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
-          kalibro_configuration.expects(:metric_configurations).returns([])
+          KalibroConfiguration.expects(:find).twice.with(kalibro_configuration.id).returns(kalibro_configuration)
+          kalibro_configuration.expects(:metric_configurations).twice.returns([])
         end
 
         it 'should contain no errors' do
