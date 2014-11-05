@@ -87,4 +87,34 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     end
     it { is_expected.to respond_with(:no_content)}
   end
+
+  describe 'show' do
+    context 'when the MetricConfiguration exists' do
+      before :each do
+        MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
+
+        get :show, id: metric_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'is expected to return the list of metric_configurations converted to JSON' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configuration: metric_configuration}.to_json))
+      end
+    end
+
+    context 'when the MetricConfiguration does not exist' do
+      before :each do
+        MetricConfiguration.expects(:find).with(metric_configuration.id).raises(ActiveRecord::RecordNotFound)
+
+        get :show, id: metric_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:unprocessable_entity) }
+
+      it 'should return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({error: 'RecordNotFound'}.to_json))
+      end
+    end
+  end
 end

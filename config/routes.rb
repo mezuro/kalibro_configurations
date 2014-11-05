@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # Acceptance tests route
   post 'tests/clean_database' => 'tests#clean_database'
 
-  resources :metric_configurations, except: [:index, :show, :new, :edit] do
+  resources :metric_configurations, except: [:index, :new, :edit] do
     resources :kalibro_ranges, except: [:show, :new, :edit]
   end
 
