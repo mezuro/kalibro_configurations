@@ -17,4 +17,17 @@ RSpec.describe MetricConfiguration, :type => :model do
     it { is_expected.to validate_presence_of(:kalibro_configuration) }
     it { is_expected.to validate_presence_of(:metric) }
   end
+
+  describe 'destroy' do
+    context 'it refers to a CompoundMetric' do
+      let!(:compound_metric){ FactoryGirl.build(:compound_metric) }
+      subject { FactoryGirl.build(:metric_configuration, metric: compound_metric) }
+
+      it 'is expected to destroy that metric as well' do
+        compound_metric.expects(:destroy).returns(true)
+
+        subject.destroy
+      end
+    end
+  end
 end
