@@ -53,8 +53,6 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   def metric_configurations
-    metric_configurations = @kalibro_configuration.metric_configurations
-
     respond_to do |format|
       format.json { render json: {metric_configurations: @kalibro_configuration.metric_configurations} }
     end

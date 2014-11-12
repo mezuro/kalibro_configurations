@@ -156,7 +156,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
         let!(:metric_configuration) { FactoryGirl.build(:metric_configuration, id: 1, kalibro_configuration: kalibro_configuration) }
         let!(:metric_configurations) { [metric_configuration] }
         before :each do
-          kalibro_configuration.expects(:metric_configurations).twice.returns(metric_configurations)
+          kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
           KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
 
           get :metric_configurations, id: kalibro_configuration.id, format: :json
@@ -172,7 +172,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
       context 'without metric configurations' do
         let!(:metric_configurations) { [] }
         before :each do
-          kalibro_configuration.expects(:metric_configurations).twice.returns(metric_configurations)
+          kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
           KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
 
         get :metric_configurations, id: kalibro_configuration.id, format: :json
