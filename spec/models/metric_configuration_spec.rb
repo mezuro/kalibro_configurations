@@ -8,14 +8,16 @@ RSpec.describe MetricConfiguration, :type => :model do
   end
 
   describe 'validations' do
-    let!(:kalibro_configuration) {FactoryGirl.build(:kalibro_configuration)}
-    before :each do
-      KalibroConfiguration.expects(:find).twice.returns(kalibro_configuration)
-    end
+    subject { FactoryGirl.build(:metric_configuration) }
     it { is_expected.to validate_presence_of(:aggregation_form) }
     it { is_expected.to validate_presence_of(:weight) }
     it { is_expected.to validate_presence_of(:kalibro_configuration) }
     it { is_expected.to validate_presence_of(:metric_snapshot) }
+    it 'is pending' do
+      pending 'waiting for bug fix on shoulda-matchers (https://github.com/thoughtbot/shoulda-matchers/issues/535)'
+      is_expected.to validate_uniqueness_of(:metric_snapshot).
+        scoped_to(:kalibro_configuration_id).with_message("Should be unique within a Kalibro Configuration")
+    end
   end
 
   describe 'destroy' do

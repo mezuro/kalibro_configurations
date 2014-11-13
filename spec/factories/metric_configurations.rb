@@ -7,5 +7,4 @@ FactoryGirl.define do
     metric_snapshot { FactoryGirl.build(:metric_snapshot) }
     kalibro_configuration { FactoryGirl.build(:kalibro_configuration) }
   end
-
 end
