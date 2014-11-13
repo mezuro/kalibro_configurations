@@ -18,6 +18,7 @@ RSpec.describe MetricConfiguration, :type => :model do
       is_expected.to validate_uniqueness_of(:metric_snapshot).
         scoped_to(:kalibro_configuration_id).with_message("Should be unique within a Kalibro Configuration")
     end
+    it { is_expected.to accept_nested_attributes_for(:metric_snapshot) }
   end
 
   describe 'destroy' do

@@ -6,4 +6,6 @@ class MetricConfiguration < ActiveRecord::Base
   validates :aggregation_form, :weight, :kalibro_configuration, :metric_snapshot, presence: true
   validates :metric_snapshot, uniqueness: { scope: :kalibro_configuration_id,
     message: "Should be unique within a Kalibro Configuration" }
+
+  accepts_nested_attributes_for :metric_snapshot
 end
