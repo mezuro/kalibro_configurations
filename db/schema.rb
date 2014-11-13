@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031155238) do
+ActiveRecord::Schema.define(version: 20141105151903) do
 
   create_table "kalibro_configurations", force: true do |t|
     t.string   "name"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20141031155238) do
   add_index "kalibro_ranges", ["reading_id"], name: "index_kalibro_ranges_on_reading_id"
 
   create_table "metric_configurations", force: true do |t|
-    t.integer  "metric_id"
+    t.integer  "metric_snapshot_id"
     t.float    "weight"
     t.string   "aggregation_form"
     t.integer  "reading_group_id"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20141031155238) do
     t.datetime "updated_at",               null: false
   end
 
-  create_table "metrics", force: true do |t|
+  create_table "metric_snapshots", force: true do |t|
     t.string   "type"
     t.string   "name"
     t.text     "description"

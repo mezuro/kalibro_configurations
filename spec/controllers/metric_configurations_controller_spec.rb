@@ -6,7 +6,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
   describe "create" do
     let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration,
       kalibro_configuration_id: metric_configuration.kalibro_configuration.id,
-      metric_id: metric_configuration.metric.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+      metric_snapshot_id: metric_configuration.metric_snapshot.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
     describe "with valid params" do
       before :each do
         MetricConfiguration.any_instance.expects(:save).returns(true)
@@ -41,7 +41,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
   describe "update" do
     let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration,
       kalibro_configuration_id: metric_configuration.kalibro_configuration.id,
-      metric_id: metric_configuration.metric.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+      metric_snapshot_id: metric_configuration.metric_snapshot.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
 
     before :each do
       MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
@@ -88,40 +88,33 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     it { is_expected.to respond_with(:no_content)}
   end
 
-  describe 'ranges_of' do
-    context 'with at least 1 range' do
-      let!(:kalibro_range) { FactoryGirl.build(:kalibro_range) }
-      let!(:kalibro_ranges) { [kalibro_range] }
+  describe 'show' do
+    context 'when the MetricConfiguration exists' do
       before :each do
-        metric_configuration.expects(:kalibro_ranges).returns(kalibro_ranges)
         MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
 
-        get :ranges_of, id: metric_configuration.id, format: :json
+        get :show, id: metric_configuration.id, format: :json
       end
 
       it { is_expected.to respond_with(:success) }
 
-      it 'should return an array of readings' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_ranges:   kalibro_ranges}.to_json))
+      it 'is expected to return the list of metric_configurations converted to JSON' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configuration: metric_configuration}.to_json))
       end
     end
 
-    context 'without ranges' do
-      let!(:kalibro_ranges) { [] }
-
+    context 'when the MetricConfiguration does not exist' do
       before :each do
-        metric_configuration.kalibro_ranges = kalibro_ranges
-        MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
+        MetricConfiguration.expects(:find).with(metric_configuration.id).raises(ActiveRecord::RecordNotFound)
 
-        get :ranges_of, id: metric_configuration.id, format: :json
+        get :show, id: metric_configuration.id, format: :json
       end
 
-      it { is_expected.to respond_with(:success) }
+      it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return an empty array' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_ranges: kalibro_ranges}.to_json))
+      it 'should return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({error: 'RecordNotFound'}.to_json))
       end
     end
   end
-
 end

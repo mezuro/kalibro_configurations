@@ -6,13 +6,13 @@ RSpec.describe KalibroConfigurationsController, :type => :routing do
     it "routes to #all" do
       expect(:get => "/kalibro_configurations").to route_to("kalibro_configurations#all")
     end
-    
+
     it "routes to #exists" do
       expect(:get => "/kalibro_configurations/1/exists").to route_to("kalibro_configurations#exists", :id => "1")
     end
 
-    it "routes to #metric_configurations_of" do
-      expect(:get => "/kalibro_configurations/1/metric_configurations_of").to route_to("kalibro_configurations#metric_configurations_of", :id => "1")
+    it "routes to #metric_configurations" do
+      expect(:get => "/kalibro_configurations/1/metric_configurations").to route_to("kalibro_configurations#metric_configurations", :id => "1")
     end
 
     it "routes to #show" do

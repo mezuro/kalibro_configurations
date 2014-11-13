@@ -1,5 +1,5 @@
 class ReadingGroupsController < ApplicationController
-  before_action :set_reading_group,  only: [:update, :destroy, :readings_of]
+  before_action :set_reading_group,  only: [:update, :destroy]
 
   def all
     reading_groups = {reading_groups: ReadingGroup.all}
@@ -56,12 +56,6 @@ class ReadingGroupsController < ApplicationController
     @reading_group.destroy
     respond_to do |format|
       format.json { render json: {}, status: :ok }
-    end
-  end
-
-  def readings_of
-    respond_to do |format|
-      format.json { render json: {readings: @reading_group.readings} }
     end
   end
 

@@ -3,23 +3,21 @@ Rails.application.routes.draw do
   # Acceptance tests route
   post 'tests/clean_database' => 'tests#clean_database'
 
-  resources :metric_configurations, except: [:index, :show, :new, :edit] do
-    resources :kalibro_ranges, except: [:index, :show, :new, :edit]
+  resources :metric_configurations, except: [:index, :new, :edit] do
+    resources :kalibro_ranges, except: [:show, :new, :edit]
   end
-  get 'metric_configurations/:id/ranges_of' => 'metric_configurations#ranges_of'
 
   # Routes for Kalibro Configuration
   resources :kalibro_configurations, except: [:index, :new, :edit]
   get 'kalibro_configurations' => 'kalibro_configurations#all'
   get 'kalibro_configurations/:id/exists' => 'kalibro_configurations#exists'
-  get 'kalibro_configurations/:id/metric_configurations_of' => 'kalibro_configurations#metric_configurations_of'
+  get 'kalibro_configurations/:id/metric_configurations' => 'kalibro_configurations#metric_configurations'
 
   resources :reading_groups, except: [:index, :new, :edit] do
-    resources :readings, except: [:index, :new, :edit]
+    resources :readings, except: [:new, :edit]
   end
   get 'reading_groups' => 'reading_groups#all'
   get 'reading_groups/:id/exists' => 'reading_groups#exists'
-  get 'reading_groups/:id/readings_of' => 'reading_groups#readings_of'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

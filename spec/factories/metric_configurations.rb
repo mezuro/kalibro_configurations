@@ -4,8 +4,7 @@ FactoryGirl.define do
     weight 1.5
     aggregation_form "MyString"
     reading_group_id 1
-    metric { FactoryGirl.build(:metric) }
+    metric_snapshot { FactoryGirl.build(:metric_snapshot) }
     kalibro_configuration { FactoryGirl.build(:kalibro_configuration) }
   end
-
 end

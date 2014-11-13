@@ -151,7 +151,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
     end
   end
 
-  describe 'metric_configurations_of' do
+  describe 'metric_configurations' do
       context 'with at least 1 metric configuration' do
         let!(:metric_configuration) { FactoryGirl.build(:metric_configuration, id: 1, kalibro_configuration: kalibro_configuration) }
         let!(:metric_configurations) { [metric_configuration] }
@@ -159,29 +159,29 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
           kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
           KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
 
-          get :metric_configurations_of, id: kalibro_configuration.id, format: :json
+          get :metric_configurations, id: kalibro_configuration.id, format: :json
         end
 
         it { is_expected.to respond_with(:success) }
 
         it 'should return an array of metric_configurations' do
-          expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: metric_configurations}.to_json))
+          expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: [metric_configuration]}.to_json))
         end
       end
 
       context 'without metric configurations' do
         let!(:metric_configurations) { [] }
         before :each do
-          kalibro_configuration.metric_configurations = metric_configurations
+          kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
           KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
 
-        get :metric_configurations_of, id: kalibro_configuration.id, format: :json
+        get :metric_configurations, id: kalibro_configuration.id, format: :json
       end
 
       it { is_expected.to respond_with(:success) }
 
       it 'should return an empty array' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: metric_configurations}.to_json))
+        expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: []}.to_json))
       end
     end
   end

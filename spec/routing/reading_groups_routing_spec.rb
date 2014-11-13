@@ -27,8 +27,5 @@ RSpec.describe ReadingGroupsController, :type => :routing do
       expect(:delete => "/reading_groups/1").to route_to("reading_groups#destroy", :id => "1")
     end
 
-    it "routes to #readings_of" do
-      expect(:get => "/reading_groups/1/readings_of").to route_to("reading_groups#readings_of", :id => "1")
-    end
   end
 end

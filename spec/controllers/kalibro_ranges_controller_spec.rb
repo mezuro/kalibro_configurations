@@ -6,6 +6,43 @@ RSpec.describe KalibroRangesController, :type => :controller do
   let!(:reading) { FactoryGirl.create(:reading) }
   let!(:range) { FactoryGirl.build(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id) }
 
+  describe 'index' do
+    context 'with at least one range' do
+      let!(:ranges) {[range]}
+
+      before :each do
+        metric_configuration.expects(:kalibro_ranges).returns(ranges)
+        MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
+
+        get :index, metric_configuration_id: metric_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return an array of ranges' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_ranges: [range]}.to_json))
+      end
+    end
+
+    context 'without ranges' do
+      let!(:ranges) { [] }
+
+      before :each do
+        metric_configuration.expects(:kalibro_ranges).returns(ranges)
+        MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
+
+        get :index, metric_configuration_id: metric_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return an empty array' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_ranges: []}.to_json))
+      end
+
+    end
+  end
+
   describe 'create' do
     let!(:range_params) { Hash[FactoryGirl.attributes_for(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
     context 'successfully saved' do
@@ -114,4 +151,3 @@ RSpec.describe KalibroRangesController, :type => :controller do
     end
   end
 end
-

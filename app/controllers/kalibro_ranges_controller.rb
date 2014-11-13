@@ -1,5 +1,12 @@
 class KalibroRangesController < ApplicationController
   before_action :set_kalibro_range, only: [:destroy, :update]
+  before_action :set_metric_configuration, only: [:index]
+
+  def index
+    respond_to do |format|
+      format.json { render json: {kalibro_ranges: @metric_configuration.kalibro_ranges}}
+    end
+  end
 
   def create
     range = KalibroRange.new(kalibro_range_params)
@@ -32,6 +39,11 @@ class KalibroRangesController < ApplicationController
   end
 
   private
+
+  def set_metric_configuration
+    @metric_configuration = MetricConfiguration.find(params[:metric_configuration_id].to_i)
+  end
+
   def set_kalibro_range
     @kalibro_range = KalibroRange.find(params[:id].to_i)
   end
