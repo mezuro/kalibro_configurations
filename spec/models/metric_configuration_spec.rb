@@ -20,17 +20,4 @@ RSpec.describe MetricConfiguration, :type => :model do
     end
     it { is_expected.to accept_nested_attributes_for(:metric_snapshot) }
   end
-
-  describe 'destroy' do
-    context 'it refers to a CompoundMetric' do
-      let!(:compound_metric){ FactoryGirl.build(:compound_metric) }
-      subject { FactoryGirl.build(:metric_configuration, metric_snapshot: compound_metric) }
-
-      it 'is expected to destroy that metric as well' do
-        compound_metric.expects(:destroy).returns(true)
-
-        subject.destroy
-      end
-    end
-  end
 end
