@@ -1,5 +1,5 @@
 class MetricSnapshotsController < ApplicationController
-  before_action :set_metric_snapshot, only: [:update, :destroy]
+  before_action :set_metric_snapshot, only: [:update, :destroy, :metric_configuration]
 
   def index
     respond_to do |format|
@@ -48,6 +48,12 @@ class MetricSnapshotsController < ApplicationController
     @metric_snapshot.destroy
     respond_to do |format|
       format.json { head :no_content }
+    end
+  end
+
+  def metric_configuration
+    respond_to do |format|
+      format.json { render json: {metric_configuration: @metric_snapshot.metric_configuration}, status: :ok }
     end
   end
 

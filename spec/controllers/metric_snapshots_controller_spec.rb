@@ -135,4 +135,21 @@ RSpec.describe MetricSnapshotsController, :type => :controller do
 
     it { is_expected.to respond_with(:no_content) }
   end
+
+  describe 'metric_configuration' do
+    let! (:metric_configuration) { FactoryGirl.build(:metric_configuration) }
+
+    before :each do
+      MetricSnapshot.expects(:find).with(metric_snapshot.id).returns(metric_snapshot)
+      metric_snapshot.expects(:metric_configuration).returns(metric_configuration)
+
+      get :metric_configuration, id: metric_snapshot.id, format: :json
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'is expected to return the list of metric_snapshots converted to JSON' do
+      expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configuration: metric_configuration}.to_json))
+    end
+  end
 end

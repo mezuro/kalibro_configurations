@@ -19,6 +19,10 @@ RSpec.describe MetricSnapshotsController, :type => :routing do
       expect(:get => "/metric_snapshots/1/edit").to_not route_to("metric_snapshots#edit", :id => "1")
     end
 
+    it "routes to #metric_configuration" do
+      expect(:get => "/metric_snapshots/1/metric_configuration").to route_to("metric_snapshots#metric_configuration", :id => "1")
+    end
+
     it "routes to #create" do
       expect(:post => "/metric_snapshots").to route_to("metric_snapshots#create")
     end
