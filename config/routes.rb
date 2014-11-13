@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :metric_snapshots, except: [:new, :edit]
+
   # Acceptance tests route
   post 'tests/clean_database' => 'tests#clean_database'
 

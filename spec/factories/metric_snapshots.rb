@@ -1,11 +1,11 @@
 FactoryGirl.define do
   factory :metric_snapshot do
+    id 1
     type "NativeMetricSnapshot"
-    name "MyString"
-    description "MyString"
-    code "MyString"
-    metric_collector_name "MyString"
-    scope "MyString"
+    name "Lines of Code"
+    description ""
+    code "loc"
+    metric_collector_name "Analizo"
+    scope "CLASS"
   end
-
 end
