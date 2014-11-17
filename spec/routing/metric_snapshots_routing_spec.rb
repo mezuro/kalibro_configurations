@@ -24,15 +24,15 @@ RSpec.describe MetricSnapshotsController, :type => :routing do
     end
 
     it "routes to #create" do
-      expect(:post => "/metric_snapshots").to route_to("metric_snapshots#create")
+      expect(:post => "/metric_snapshots").to_not route_to("metric_snapshots#create")
     end
 
     it "routes to #update" do
-      expect(:put => "/metric_snapshots/1").to route_to("metric_snapshots#update", :id => "1")
+      expect(:put => "/metric_snapshots/1").to_not route_to("metric_snapshots#update", :id => "1")
     end
 
     it "routes to #destroy" do
-      expect(:delete => "/metric_snapshots/1").to route_to("metric_snapshots#destroy", :id => "1")
+      expect(:delete => "/metric_snapshots/1").to_not route_to("metric_snapshots#destroy", :id => "1")
     end
   end
 end

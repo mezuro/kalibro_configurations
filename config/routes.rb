@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :metric_snapshots, except: [:new, :edit]
+  resources :metric_snapshots, only: [:index, :show]
   get 'metric_snapshots/:id/metric_configuration' => 'metric_snapshots#metric_configuration'
 
   # Acceptance tests route
