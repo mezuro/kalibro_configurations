@@ -4,6 +4,7 @@ class MetricConfiguration < ActiveRecord::Base
   has_many :kalibro_ranges, dependent: :destroy
 
   validates :aggregation_form, :weight, :kalibro_configuration, :metric_snapshot, presence: true
+  validates :weight, numericality: { greater_than: 0 }
   validates :metric_snapshot, uniqueness: { scope: :kalibro_configuration_id,
     message: "Should be unique within a Kalibro Configuration" }
 

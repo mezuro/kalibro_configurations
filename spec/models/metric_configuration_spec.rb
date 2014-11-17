@@ -11,6 +11,7 @@ RSpec.describe MetricConfiguration, :type => :model do
     subject { FactoryGirl.build(:metric_configuration) }
     it { is_expected.to validate_presence_of(:aggregation_form) }
     it { is_expected.to validate_presence_of(:weight) }
+    it { is_expected.to validate_numericality_of(:weight) }
     it { is_expected.to validate_presence_of(:kalibro_configuration) }
     it { is_expected.to validate_presence_of(:metric_snapshot) }
     it 'is pending' do
