@@ -1,6 +1,7 @@
 class KalibroRangesController < ApplicationController
   before_action :set_kalibro_range, only: [:destroy, :update]
   before_action :set_metric_configuration, only: [:index]
+  before_action :set_interval_params, only: [:create, :update]
 
   def index
     respond_to do |format|
@@ -50,5 +51,19 @@ class KalibroRangesController < ApplicationController
 
   def kalibro_range_params
     params.require(:kalibro_range).permit(:beginning, :end, :comments, :reading_id, :metric_configuration_id)
+  end
+
+  def convert(value)
+    if value == "INF"
+      return 1.0/0
+    elsif value == "-INF"
+      return -1.0/0
+    end
+    return value
+  end
+
+  def set_interval_params
+    params[:beginning] = convert(params[:beginning])
+    params[:end] = convert(params[:end])
   end
 end
