@@ -7,5 +7,5 @@ class KalibroRange < ActiveRecord::Base
   validates :beginning, :end, :reading, :metric_configuration, presence: true
   validates :beginning, uniqueness: {scope: :metric_configuration_id, message: "Should be unique within a Metric Configuration"}
   validates :beginning, :end, numericality: true
-  validates_with IntervalValidator
+  validates_with IntervalValidator, fields: [:beginning, :end], if: "beginning && self.end"
 end
