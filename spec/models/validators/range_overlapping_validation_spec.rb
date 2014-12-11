@@ -12,7 +12,6 @@ RSpec.describe RangeOverlappingValidator, :type => :model do
           subject.metric_configuration.expects(:kalibro_ranges).returns([subject, not_overlapping_range])
         end
         it 'is expected to not return errors' do
-          p subject
           subject.save
           expect(subject.errors).to be_empty
         end
