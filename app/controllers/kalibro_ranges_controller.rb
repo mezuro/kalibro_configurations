@@ -12,21 +12,25 @@ class KalibroRangesController < ApplicationController
   def create
     range = KalibroRange.new(kalibro_range_params)
 
+    json = json_conversion(range)
     respond_to do |format|
       if range.save
-        format.json { render json: {kalibro_range: range}, status: :created }
+        json["id"] = range.id
+        format.json { render json: {kalibro_range: json}, status: :created }
       else
-        format.json { render json: {kalibro_range: range}, status: :unprocessable_entity }
+        format.json { render json: {kalibro_range: json}, status: :unprocessable_entity }
       end
     end
   end
 
   def update
     respond_to do |format|
-      if @kalibro_range.update(kalibro_range_params)
-        format.json { render json: {kalibro_range: @kalibro_range}, status: :created }
+      successful_update = @kalibro_range.update(kalibro_range_params)
+      json = json_conversion(@kalibro_range)
+      if successful_update
+        format.json { render json: {kalibro_range: json}, status: :created }
       else
-        format.json { render json: {kalibro_range: @kalibro_range}, status: :unprocessable_entity }
+        format.json { render json: {kalibro_range: json}, status: :unprocessable_entity }
       end
     end
   end
@@ -54,16 +58,24 @@ class KalibroRangesController < ApplicationController
   end
 
   def convert(value)
-    if value == "INF"
-      return 1.0/0
-    elsif value == "-INF"
-      return -1.0/0
+    if value == Float::INFINITY.to_s
+      return Float::INFINITY
+    elsif value == (-Float::INFINITY).to_s
+      return -Float::INFINITY
     end
     return value
   end
 
   def set_interval_params
-    params[:beginning] = convert(params[:beginning])
-    params[:end] = convert(params[:end])
+    params[:kalibro_range][:beginning] = convert(params[:kalibro_range][:beginning])
+    params[:kalibro_range][:end] = convert(params[:kalibro_range][:end])
+  end
+
+  def json_conversion(range)
+    # JSON does not understand Infinity. That's why we have to make this series of conversions.
+    hash = range.attributes
+    hash["beginning"] = range.beginning.to_s if range.beginning == -Float::INFINITY
+    hash["end"] = range.end.to_s if range.end == Float::INFINITY
+    return hash
   end
 end
