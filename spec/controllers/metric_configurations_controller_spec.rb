@@ -10,6 +10,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     describe "with valid params" do
       before :each do
         MetricConfiguration.any_instance.expects(:save).returns(true)
+        MetricSnapshot.expects(:create).with(metric_configuration_params[:metric_snapshot]).returns(metric_configuration.metric_snapshot)
 
         post :create, metric_configuration: metric_configuration_params, format: :json
       end
@@ -25,6 +26,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     describe "with invalid params" do
       before :each do
         MetricConfiguration.any_instance.expects(:save).returns(false)
+        MetricSnapshot.expects(:create).with(metric_configuration_params[:metric_snapshot]).returns(metric_configuration.metric_snapshot)
 
         post :create, metric_configuration: metric_configuration_params, format: :json
       end

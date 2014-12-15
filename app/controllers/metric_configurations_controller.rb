@@ -2,7 +2,9 @@ class MetricConfigurationsController < ApplicationController
   before_action :set_metric_configuration, only: [:edit, :update, :destroy]
 
   def create
+    metric_snapshot = MetricSnapshot.create(params[:metric_configuration][:metric_snapshot])
     @metric_configuration = MetricConfiguration.new(all_params)
+    @metric_configuration.metric_snapshot_id = metric_snapshot.id
 
     respond_to do |format|
       if @metric_configuration.save
@@ -13,6 +15,7 @@ class MetricConfigurationsController < ApplicationController
     end
   end
 
+  # We are not letting users to update a Metric Snapshot. Currently, only the parameters of a Metric Configuration can be edited.
   def update
     respond_to do |format|
       if @metric_configuration.update(all_params)
