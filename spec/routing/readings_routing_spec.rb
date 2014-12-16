@@ -8,7 +8,7 @@ RSpec.describe ReadingsController, :type => :routing do
     end
 
     it "routes to #show" do
-      expect(:get => "reading_groups/1/readings/1").to route_to("readings#show", :reading_group_id => "1", :id => "1")
+      expect(:get => "readings/1").to route_to("readings#show", :id => "1")
     end
 
     it "routes to #create" do
