@@ -2,7 +2,7 @@ class MetricConfigurationsController < ApplicationController
   before_action :set_metric_configuration, only: [:edit, :update, :destroy]
 
   def create
-    metric_snapshot = MetricSnapshot.create(params[:metric_configuration][:metric_snapshot])
+    metric_snapshot = MetricSnapshot.create(metric_snapshot_params)
     @metric_configuration = MetricConfiguration.new(all_params)
     @metric_configuration.metric_snapshot_id = metric_snapshot.id
 
@@ -52,6 +52,11 @@ class MetricConfigurationsController < ApplicationController
 
   def set_metric_configuration
     @metric_configuration = MetricConfiguration.find(params[:id].to_i)
+  end
+
+  def metric_snapshot_params
+    params.require(:metric_snapshot)
+    params[:metric_snapshot].permit(:script, :description, :scope, :name, :type, :metric_collector_name, :code)
   end
 
   def all_params
