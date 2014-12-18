@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :metric_snapshot do
-    id 1
     type "NativeMetricSnapshot"
     name "Lines of Code"
     description ""

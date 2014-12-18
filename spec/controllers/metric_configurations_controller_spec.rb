@@ -4,15 +4,16 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
   let(:metric_configuration) { FactoryGirl.build(:metric_configuration) }
 
   describe "create" do
-    let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration,
-      kalibro_configuration_id: metric_configuration.kalibro_configuration.id,
-      metric_snapshot_id: metric_configuration.metric_snapshot.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+    let!(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration,
+      kalibro_configuration_id: metric_configuration.kalibro_configuration.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+    let!(:metric_snapshot_params) { Hash[FactoryGirl.attributes_for(:metric_snapshot).map { |k,v| [k.to_s, v.to_s] }] }
     describe "with valid params" do
       before :each do
+        metric_configuration_params.delete('metric_snapshot')
         MetricConfiguration.any_instance.expects(:save).returns(true)
-        MetricSnapshot.expects(:create).with(metric_configuration_params[:metric_snapshot]).returns(metric_configuration.metric_snapshot)
+        MetricSnapshot.expects(:create).with(metric_snapshot_params).returns(metric_configuration.metric_snapshot)
 
-        post :create, metric_configuration: metric_configuration_params, format: :json
+        post :create, metric_configuration: metric_configuration_params, metric_snapshot: metric_snapshot_params, format: :json
       end
 
       it { is_expected.to respond_with(:created) }
@@ -26,9 +27,9 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     describe "with invalid params" do
       before :each do
         MetricConfiguration.any_instance.expects(:save).returns(false)
-        MetricSnapshot.expects(:create).with(metric_configuration_params[:metric_snapshot]).returns(metric_configuration.metric_snapshot)
+        MetricSnapshot.expects(:create).with(metric_snapshot_params).returns(metric_configuration.metric_snapshot)
 
-        post :create, metric_configuration: metric_configuration_params, format: :json
+        post :create, metric_configuration: metric_configuration_params, metric_snapshot: metric_snapshot_params, format: :json
       end
 
       it { is_expected.to respond_with(:unprocessable_entity) }
