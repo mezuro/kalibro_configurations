@@ -88,6 +88,6 @@ class MetricConfigurationsController < ApplicationController
   end
 
   def all_params
-    params.require(:metric_configuration).permit(:weight, :aggregation_form, :reading_group_id, :kalibro_configuration_id, metric: [:script, :description, :scope, :name, :type, :metric_collector_name, :code])
+    params.require(:metric_configuration).permit(:weight, :aggregation_form, :reading_group_id, :kalibro_configuration_id, metric: [:script, :description, :scope, :name, :type, :metric_collector_name, :code, :languages])
   end
 end
