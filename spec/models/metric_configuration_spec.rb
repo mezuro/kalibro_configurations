@@ -21,4 +21,38 @@ RSpec.describe MetricConfiguration, :type => :model do
     end
     it { is_expected.to accept_nested_attributes_for(:metric_snapshot) }
   end
+
+  describe 'methods' do
+    describe 'as_json' do
+      subject { FactoryGirl.build(:metric_configuration) }
+
+      context 'with a NativeMetricSnapshot' do
+        let!(:metric_snapshot) { FactoryGirl.build(:native_metric_snapshot) }
+
+        before do
+          subject.metric_snapshot = metric_snapshot
+        end
+
+        it 'is expected to set the metric attribute from hash' do
+          metric_snapshot_json = metric_snapshot.as_json(except: [:id, :created_at, :updated_at])
+          metric_snapshot_json['type'] = 'NativeMetricSnapshot'
+          expect(subject.as_json['metric']).to eq(metric_snapshot_json)
+        end
+      end
+
+      context 'with a CompoundMetricSnapshot' do
+        let!(:metric_snapshot) { FactoryGirl.build(:compound_metric_snapshot) }
+
+        before do
+          subject.metric_snapshot = metric_snapshot
+        end
+
+        it 'is expected to set the metric attribute from hash' do
+          metric_snapshot_json = metric_snapshot.as_json(except: [:id, :created_at, :updated_at])
+          metric_snapshot_json['type'] = 'CompoundMetricSnapshot'
+          expect(subject.as_json['metric']).to eq(metric_snapshot_json)
+        end
+      end
+    end
+  end
 end
