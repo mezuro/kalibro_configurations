@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # Acceptance tests route
   post 'tests/clean_database' => 'tests#clean_database'
 
+  get 'kalibro_ranges/:id/exists' => 'kalibro_ranges#exists'
   resources :metric_configurations, except: [:index, :new, :edit] do
     resources :kalibro_ranges, except: [:show, :new, :edit]
   end

@@ -43,6 +43,12 @@ class KalibroRangesController < ApplicationController
     end
   end
 
+  def exists
+    respond_to do |format|
+      format.json { render json: {exists: KalibroRange.exists?(params[:id].to_i)} }
+    end
+  end
+
   private
 
   def set_metric_configuration
