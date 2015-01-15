@@ -23,6 +23,12 @@ class ReadingsController < ApplicationController
     end
   end
 
+  def exists
+    respond_to do |format|
+      format.json { render json: {exists: Reading.exists?(params[:id].to_i)} }
+    end
+  end
+
   def create
     reading = Reading.new(reading_params)
     reading.reading_group_id = params[:reading_group_id]
