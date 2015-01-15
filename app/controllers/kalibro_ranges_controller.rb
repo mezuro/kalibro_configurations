@@ -9,6 +9,21 @@ class KalibroRangesController < ApplicationController
     end
   end
 
+  def show
+    begin
+      set_kalibro_range
+      response = {kalibro_range: @kalibro_range}
+      status = :ok
+    rescue ActiveRecord::RecordNotFound
+      response = {error: 'RecordNotFound'}
+      status = :unprocessable_entity
+    end
+
+    respond_to do |format|
+      format.json { render json: response, status: status }
+    end
+  end
+
   def create
     range = KalibroRange.new(kalibro_range_params)
 

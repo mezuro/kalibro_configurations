@@ -43,6 +43,36 @@ RSpec.describe KalibroRangesController, :type => :controller do
     end
   end
 
+  describe 'show' do
+    context 'when the KalibroRange exists' do
+      before :each do
+        KalibroRange.expects(:find).with(range.id).returns(range)
+
+        get :show, id: range.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'is expected to return the kalibro_range converted to JSON' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_range: range}.to_json))
+      end
+    end
+
+    context 'when the KalibroRange does not exist' do
+      before :each do
+        KalibroRange.expects(:find).with(range.id).raises(ActiveRecord::RecordNotFound)
+
+        get :show, id: range.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:unprocessable_entity) }
+
+      it 'should return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({error: 'RecordNotFound'}.to_json))
+      end
+    end
+  end
+
   describe 'create' do
     let!(:range_params) { Hash[FactoryGirl.attributes_for(:kalibro_range,
                           metric_configuration_id: metric_configuration.id, reading_id: reading.id,
