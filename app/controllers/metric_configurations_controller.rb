@@ -1,6 +1,12 @@
 class MetricConfigurationsController < ApplicationController
   before_action :set_metric_configuration, only: [:edit, :update, :destroy]
 
+  def exists
+    respond_to do |format|
+      format.json { render json: {exists: MetricConfiguration.exists?(params[:id].to_i)} }
+    end
+  end
+
   def create
     metric_configuration_params = all_params
 

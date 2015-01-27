@@ -147,6 +147,36 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     it { is_expected.to respond_with(:no_content)}
   end
 
+  describe 'exists' do
+    context 'when the metric configuration exists' do
+      before :each do
+        MetricConfiguration.expects(:exists?).with(metric_configuration.id).returns(true)
+
+        get :exists, id: metric_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return true' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({exists: true}.to_json))
+      end
+    end
+
+    context 'when the metric configuration does not exist' do
+      before :each do
+        MetricConfiguration.expects(:exists?).with(metric_configuration.id).returns(false)
+
+        get :exists, id: metric_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return false' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({exists: false}.to_json))
+      end
+    end
+  end
+
   describe 'show' do
     context 'when the MetricConfiguration exists' do
       before :each do

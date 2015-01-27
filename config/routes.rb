@@ -8,9 +8,11 @@ Rails.application.routes.draw do
 
   get 'kalibro_ranges/:id/exists' => 'kalibro_ranges#exists'
   get 'kalibro_ranges/:id' => 'kalibro_ranges#show'
+
   resources :metric_configurations, except: [:index, :new, :edit] do
     resources :kalibro_ranges, except: [:show, :new, :edit]
   end
+  get 'metric_configurations/:id/exists' => 'metric_configurations#exists'
 
   # Routes for Kalibro Configuration
   resources :kalibro_configurations, except: [:index, :new, :edit]

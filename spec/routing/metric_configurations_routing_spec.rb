@@ -18,5 +18,9 @@ RSpec.describe MetricConfigurationsController, :type => :routing do
     it "routes to #show" do
       expect(:get => "/metric_configurations/1").to route_to("metric_configurations#show", :id => "1")
     end
+
+    it "routes to #exists" do
+      expect(:get => "/metric_configurations/1/exists").to route_to("metric_configurations#exists", :id => "1")
+    end
   end
 end
