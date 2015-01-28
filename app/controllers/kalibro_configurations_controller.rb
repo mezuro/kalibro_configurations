@@ -20,9 +20,9 @@ class KalibroConfigurationsController < ApplicationController
 
     respond_to do |format|
       if kalibro_configuration.save
-        format.json { render json: {kalibro_configuration: kalibro_configuration} , status: :created }
+        format.json { render json: {kalibro_configuration: kalibro_configuration}, status: :created }
       else
-        format.json { render json: {errors: kalibro_configuration.errors.full_messages} , status: :unprocessable_entity }
+        format.json { render json: {errors: kalibro_configuration.errors.full_messages}, status: :unprocessable_entity }
       end
     end
   end
@@ -31,9 +31,9 @@ class KalibroConfigurationsController < ApplicationController
     if set_kalibro_configuration
       respond_to do |format|
         if @kalibro_configuration.update(kalibro_configuration_params)
-          format.json { render json: {kalibro_configuration: @kalibro_configuration} , status: :created }
+          format.json { render json: {kalibro_configuration: @kalibro_configuration}, status: :created }
         else
-          format.json { render json: {errors: @kalibro_configuration.errors.full_messages} , status: :unprocessable_entity }
+          format.json { render json: {errors: @kalibro_configuration.errors.full_messages}, status: :unprocessable_entity }
         end
       end
     end
