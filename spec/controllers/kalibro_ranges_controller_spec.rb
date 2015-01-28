@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe KalibroRangesController, :type => :controller do
 
   let!(:metric_configuration) { FactoryGirl.build(:metric_configuration) }
-  let!(:reading) { FactoryGirl.create(:reading) }
+  let!(:reading) { FactoryGirl.build(:reading) }
   let!(:range) { FactoryGirl.build(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id) }
 
   describe 'index' do
@@ -43,8 +43,41 @@ RSpec.describe KalibroRangesController, :type => :controller do
     end
   end
 
+  describe 'show' do
+    context 'when the KalibroRange exists' do
+      before :each do
+        KalibroRange.expects(:find).with(range.id).returns(range)
+
+        get :show, id: range.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'is expected to return the kalibro_range converted to JSON' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_range: range}.to_json))
+      end
+    end
+
+    context 'when the KalibroRange does not exist' do
+      before :each do
+        KalibroRange.expects(:find).with(range.id).raises(ActiveRecord::RecordNotFound)
+
+        get :show, id: range.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:unprocessable_entity) }
+
+      it 'should return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({error: 'RecordNotFound'}.to_json))
+      end
+    end
+  end
+
   describe 'create' do
-    let!(:range_params) { Hash[FactoryGirl.attributes_for(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+    let!(:range_params) { Hash[FactoryGirl.attributes_for(:kalibro_range,
+                          metric_configuration_id: metric_configuration.id, reading_id: reading.id,
+                          beginning: -Float::INFINITY, end: Float::INFINITY).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+
     context 'successfully saved' do
       before :each do
         KalibroRange.any_instance.expects(:save).returns(true)
@@ -58,13 +91,20 @@ RSpec.describe KalibroRangesController, :type => :controller do
         it { is_expected.to respond_with(:created) }
 
         it 'returns the range' do
-          range.id = nil
-          expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_range: range}.to_json))
+          range_params["id"] = nil
+          range_params["created_at"] = nil
+          range_params["updated_at"] = nil
+          range_params["metric_configuration_id"] = metric_configuration.id
+          range_params["reading_id"] = reading.id
+          range_params["beginning"] = (-Float::INFINITY).to_s
+          range_params["end"] = (Float::INFINITY).to_s
+          expect(JSON.parse(response.body)).to eq({"kalibro_range" => range_params})
         end
       end
     end
 
     context 'failed to save' do
+      let!(:range_params) { Hash[FactoryGirl.attributes_for(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
       before :each do
         KalibroRange.any_instance.expects(:save).returns(false)
       end
@@ -126,6 +166,36 @@ RSpec.describe KalibroRangesController, :type => :controller do
         it 'returns range' do
           expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_range: range}.to_json))
         end
+      end
+    end
+  end
+
+   describe 'exists' do
+    context 'when the kalibro_range exists' do
+      before :each do
+        KalibroRange.expects(:exists?).with(range.id).returns(true)
+
+        get :exists, id: range.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return true' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({exists: true}.to_json))
+      end
+    end
+
+    context 'when the kalibro_range does not exist' do
+      before :each do
+        KalibroRange.expects(:exists?).with(range.id).returns(false)
+
+        get :exists, id: range.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return false' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({exists: false}.to_json))
       end
     end
   end

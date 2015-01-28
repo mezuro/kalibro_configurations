@@ -1,10 +1,10 @@
 FactoryGirl.define do
-  factory :metric_snapshot do
-    type "NativeMetricSnapshot"
+  factory :compound_metric_snapshot do
+    type "CompoundMetricSnapshot"
     name "Lines of Code"
     description ""
     code "loc"
-    metric_collector_name "Analizo"
     scope "CLASS"
+    script "return 0;"
   end
 end

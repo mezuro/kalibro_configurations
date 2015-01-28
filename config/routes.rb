@@ -6,9 +6,13 @@ Rails.application.routes.draw do
   # Acceptance tests route
   post 'tests/clean_database' => 'tests#clean_database'
 
+  get 'kalibro_ranges/:id/exists' => 'kalibro_ranges#exists'
+  get 'kalibro_ranges/:id' => 'kalibro_ranges#show'
+
   resources :metric_configurations, except: [:index, :new, :edit] do
     resources :kalibro_ranges, except: [:show, :new, :edit]
   end
+  get 'metric_configurations/:id/exists' => 'metric_configurations#exists'
 
   # Routes for Kalibro Configuration
   resources :kalibro_configurations, except: [:index, :new, :edit]
@@ -16,8 +20,10 @@ Rails.application.routes.draw do
   get 'kalibro_configurations/:id/exists' => 'kalibro_configurations#exists'
   get 'kalibro_configurations/:id/metric_configurations' => 'kalibro_configurations#metric_configurations'
 
+  get 'readings/:id' => 'readings#show'
+  get 'readings/:id/exists' => 'readings#exists'
   resources :reading_groups, except: [:index, :new, :edit] do
-    resources :readings, except: [:new, :edit]
+    resources :readings, except: [:new, :edit, :show]
   end
   get 'reading_groups' => 'reading_groups#all'
   get 'reading_groups/:id/exists' => 'reading_groups#exists'

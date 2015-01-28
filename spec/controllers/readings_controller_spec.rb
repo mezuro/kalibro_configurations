@@ -72,6 +72,36 @@ RSpec.describe ReadingsController, :type => :controller do
     end
   end
 
+  describe 'exists' do
+    context 'when the reading exists' do
+      before :each do
+        Reading.expects(:exists?).with(reading.id).returns(true)
+
+        get :exists, id: reading.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return true' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({exists: true}.to_json))
+      end
+    end
+
+    context 'when the reading does not exist' do
+      before :each do
+        Reading.expects(:exists?).with(reading.id).returns(false)
+
+        get :exists, id: reading.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'should return false' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({exists: false}.to_json))
+      end
+    end
+  end
+
   describe "create" do
     let!(:reading_params) { Hash[FactoryGirl.attributes_for(:reading, reading_group_id: reading.reading_group.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with sybols and integers
 

@@ -1,6 +1,7 @@
 class KalibroRangesController < ApplicationController
   before_action :set_kalibro_range, only: [:destroy, :update]
   before_action :set_metric_configuration, only: [:index]
+  before_action :set_interval_params, only: [:create, :update]
 
   def index
     respond_to do |format|
@@ -8,24 +9,43 @@ class KalibroRangesController < ApplicationController
     end
   end
 
+  def show
+    begin
+      set_kalibro_range
+      response = {kalibro_range: @kalibro_range}
+      status = :ok
+    rescue ActiveRecord::RecordNotFound
+      response = {error: 'RecordNotFound'}
+      status = :unprocessable_entity
+    end
+
+    respond_to do |format|
+      format.json { render json: response, status: status }
+    end
+  end
+
   def create
     range = KalibroRange.new(kalibro_range_params)
 
+    json = json_conversion(range)
     respond_to do |format|
       if range.save
-        format.json { render json: {kalibro_range: range}, status: :created }
+        json["id"] = range.id
+        format.json { render json: {kalibro_range: json}, status: :created }
       else
-        format.json { render json: {kalibro_range: range}, status: :unprocessable_entity }
+        format.json { render json: {kalibro_range: json}, status: :unprocessable_entity }
       end
     end
   end
 
   def update
     respond_to do |format|
-      if @kalibro_range.update(kalibro_range_params)
-        format.json { render json: {kalibro_range: @kalibro_range}, status: :created }
+      successful_update = @kalibro_range.update(kalibro_range_params)
+      json = json_conversion(@kalibro_range)
+      if successful_update
+        format.json { render json: {kalibro_range: json}, status: :created }
       else
-        format.json { render json: {kalibro_range: @kalibro_range}, status: :unprocessable_entity }
+        format.json { render json: {kalibro_range: json}, status: :unprocessable_entity }
       end
     end
   end
@@ -35,6 +55,12 @@ class KalibroRangesController < ApplicationController
 
     respond_to do |format|
       format.json { render json: {}, status: :ok }
+    end
+  end
+
+  def exists
+    respond_to do |format|
+      format.json { render json: {exists: KalibroRange.exists?(params[:id].to_i)} }
     end
   end
 
@@ -50,5 +76,27 @@ class KalibroRangesController < ApplicationController
 
   def kalibro_range_params
     params.require(:kalibro_range).permit(:beginning, :end, :comments, :reading_id, :metric_configuration_id)
+  end
+
+  def convert(value)
+    if value == Float::INFINITY.to_s
+      return Float::INFINITY
+    elsif value == (-Float::INFINITY).to_s
+      return -Float::INFINITY
+    end
+    return value
+  end
+
+  def set_interval_params
+    params[:kalibro_range][:beginning] = convert(params[:kalibro_range][:beginning])
+    params[:kalibro_range][:end] = convert(params[:kalibro_range][:end])
+  end
+
+  def json_conversion(range)
+    # JSON does not understand Infinity. That's why we have to make this series of conversions.
+    hash = range.attributes
+    hash["beginning"] = range.beginning.to_s if range.beginning == -Float::INFINITY
+    hash["end"] = range.end.to_s if range.end == Float::INFINITY
+    return hash
   end
 end
