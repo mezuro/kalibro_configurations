@@ -44,7 +44,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
       it { is_expected.to respond_with(:unprocessable_entity) }
 
       it 'should return the error description' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({error: 'RecordNotFound'}.to_json))
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: ['ActiveRecord::RecordNotFound']}.to_json))
       end
     end
   end
@@ -76,9 +76,8 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return the error description with the kalibro_configuration' do
-        kalibro_configuration.id = nil
-        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_configuration: kalibro_configuration}.to_json))
+      it 'should return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
       end
     end
   end
@@ -115,8 +114,8 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return the error description with the kalibro_configuration' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_configuration: kalibro_configuration}.to_json))
+      it 'should return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
       end
     end
   end
