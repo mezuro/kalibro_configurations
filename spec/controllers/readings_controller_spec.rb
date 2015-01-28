@@ -7,37 +7,53 @@ RSpec.describe ReadingsController, :type => :controller do
   describe 'index' do
     let!(:reading_group) {FactoryGirl.build(:reading_group)}
 
-    context 'with at least 1 reading' do
-      let!(:readings) { [reading] }
+    context 'with a valid reading group' do
+      context 'with at least 1 reading' do
+        let!(:readings) { [reading] }
 
-      before :each do
-        reading_group.expects(:readings).returns(readings)
-        ReadingGroup.expects(:find).with(reading_group.id).returns(reading_group)
+        before :each do
+          ReadingGroup.expects(:find).with(reading_group.id).returns(reading_group)
+          reading_group.expects(:readings).returns(readings)
 
-        get :index, reading_group_id: reading_group.id, format: :json
+          get :index, reading_group_id: reading_group.id, format: :json
+        end
+
+        it { is_expected.to respond_with(:success) }
+
+        it 'should return an array of readings' do
+          expect(JSON.parse(response.body)).to eq(JSON.parse({readings: [reading]}.to_json))
+        end
       end
 
-      it { is_expected.to respond_with(:success) }
+      context 'without readings' do
+        let!(:readings) { [] }
 
-      it 'should return an array of readings' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({readings: [reading]}.to_json))
+        before :each do
+          ReadingGroup.expects(:find).with(reading_group.id).returns(reading_group)
+          reading_group.expects(:readings).returns(readings)
+
+          get :index, reading_group_id: reading_group.id, format: :json
+        end
+
+        it { is_expected.to respond_with(:success) }
+
+        it 'should return an empty array' do
+          expect(JSON.parse(response.body)).to eq(JSON.parse({readings: []}.to_json))
+        end
       end
     end
 
-    context 'without readings' do
-      let!(:readings) { [] }
-
+    context 'with an invalid reading group' do
       before :each do
-        reading_group.expects(:readings).returns(readings)
-        ReadingGroup.expects(:find).with(reading_group.id).returns(reading_group)
+        ReadingGroup.expects(:find).with(reading_group.id).raises(ActiveRecord::RecordNotFound)
 
         get :index, reading_group_id: reading_group.id, format: :json
       end
 
-      it { is_expected.to respond_with(:success) }
+      it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return an empty array' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({readings: []}.to_json))
+      it 'should return an error' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: ['ActiveRecord::RecordNotFound']}.to_json))
       end
     end
   end
@@ -67,7 +83,7 @@ RSpec.describe ReadingsController, :type => :controller do
       it { is_expected.to respond_with(:unprocessable_entity) }
 
       it 'should return the error description' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({error: 'RecordNotFound'}.to_json))
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: ['ActiveRecord::RecordNotFound']}.to_json))
       end
     end
   end
@@ -129,9 +145,8 @@ RSpec.describe ReadingsController, :type => :controller do
 
       it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return the error description with the reading' do
-        reading.id = nil
-        expect(JSON.parse(response.body)).to eq(JSON.parse({reading: reading}.to_json))
+      it 'should return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
       end
     end
   end
@@ -168,16 +183,16 @@ RSpec.describe ReadingsController, :type => :controller do
 
       it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return the error description with the reading' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({reading: reading}.to_json))
+      it 'should return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
       end
     end
   end
 
   describe "destroy" do
     before :each do
-      reading.expects(:destroy).returns(true)
       Reading.expects(:find).with(reading.id).returns(reading)
+      reading.expects(:destroy).returns(true)
 
       delete :destroy, reading_group_id: reading.reading_group.id, id: reading.id, format: :json
     end
