@@ -108,7 +108,6 @@ RSpec.describe ReadingGroupsController, :type => :controller do
       it { is_expected.to respond_with(:unprocessable_entity) }
 
       it 'should return the error description' do
-        reading_group.id = nil
         expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
       end
     end
