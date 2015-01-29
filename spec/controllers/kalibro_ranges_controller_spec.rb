@@ -41,6 +41,19 @@ RSpec.describe KalibroRangesController, :type => :controller do
       end
 
     end
+
+    context 'without a metric configuration' do
+      before :each do
+        MetricConfiguration.expects(:find).with(metric_configuration.id).raises(ActiveRecord::RecordNotFound)
+        get :index, metric_configuration_id: metric_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:unprocessable_entity) }
+
+      it 'should return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: ['ActiveRecord::RecordNotFound']}.to_json))
+      end
+    end
   end
 
   describe 'show' do
@@ -200,7 +213,7 @@ RSpec.describe KalibroRangesController, :type => :controller do
   end
 
   describe 'destroy' do
-    context 'with and existent range' do
+    context 'with an existent range' do
       before :each do
         KalibroRange.expects(:find).with(range.id).returns(range)
       end
