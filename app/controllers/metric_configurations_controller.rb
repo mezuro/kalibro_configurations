@@ -1,6 +1,5 @@
 class MetricConfigurationsController < ApplicationController
-  before_action :set_metric_configuration, only: [:edit, :update, :destroy]
-
+  
   def exists
     respond_to do |format|
       format.json { render json: {exists: MetricConfiguration.exists?(params[:id].to_i)} }
@@ -31,50 +30,56 @@ class MetricConfigurationsController < ApplicationController
   end
 
   def update
-    metric_configuration_params = all_params
+    if set_metric_configuration
+      metric_configuration_params = all_params
 
-    if !metric_configuration_params['metric'].nil? && (metric_configuration_params['metric']['type'] == 'compound' || metric_configuration_params['metric']['type'] == 'CompoundMetricSnashot')
-      @metric_configuration.metric_snapshot.destroy
-      @metric_configuration.metric_snapshot = build_metric_snapshot
-      @metric_configuration.save
-      metric_configuration_params.delete('metric')
-    end
+      if !metric_configuration_params['metric'].nil? && (metric_configuration_params['metric']['type'] == 'compound' || metric_configuration_params['metric']['type'] == 'CompoundMetricSnashot')
+        @metric_configuration.metric_snapshot.destroy
+        @metric_configuration.metric_snapshot = build_metric_snapshot
+        @metric_configuration.save
+        metric_configuration_params.delete('metric')
+      end
 
-    respond_to do |format|
-      if @metric_configuration.update(metric_configuration_params)
-        format.json { render json: {metric_configuration: @metric_configuration}, status: :created}
-      else
-        format.json { render json: {metric_configuration: @metric_configuration}, status: :unprocessable_entity }
+      respond_to do |format|
+        if @metric_configuration.update(metric_configuration_params)
+          format.json { render json: {metric_configuration: @metric_configuration}, status: :created}
+        else
+          format.json { render json: {errors: @metric_configuration.errors.full_messages}, status: :unprocessable_entity }
+        end
       end
     end
   end
 
   def destroy
-    @metric_configuration.destroy
-    respond_to do |format|
-      format.json { head :no_content }
+    if set_metric_configuration
+      @metric_configuration.destroy
+
+      respond_to do |format|
+        format.json { render json: {}, status: :ok}
+      end
     end
   end
 
   def show
-    begin
-      set_metric_configuration
-      response = {metric_configuration: @metric_configuration}
-      status = :ok
-    rescue ActiveRecord::RecordNotFound
-      response = {error: 'RecordNotFound'}
-      status = :unprocessable_entity
-    end
-
-    respond_to do |format|
-      format.json { render json: response, status: status }
+    if set_metric_configuration
+      respond_to do |format|
+        format.json { render json: {metric_configuration: @metric_configuration}, status: :ok}
+      end
     end
   end
 
   private
 
   def set_metric_configuration
-    @metric_configuration = MetricConfiguration.find(params[:id].to_i)
+    begin
+      @metric_configuration = MetricConfiguration.find(params[:id].to_i)
+      true
+    rescue ActiveRecord::RecordNotFound => exception
+      respond_to do |format|
+        format.json { render json: { errors: [exception.message] }, status: :unprocessable_entity }
+      end
+      false
+    end
   end
 
   def build_metric_snapshot
