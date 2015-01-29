@@ -1,25 +1,17 @@
 class ReadingsController < ApplicationController
-  before_action :set_reading, only: [:update, :destroy]
-  before_action :set_reading_group, only: [:index]
-
   def index
-    respond_to do |format|
-      format.json { render json: {readings: @reading_group.readings} }
+    if set_reading_group
+      respond_to do |format|
+        format.json { render json: {readings: @reading_group.readings} }
+      end
     end
   end
 
   def show
-    begin
-      set_reading
-      response = {reading: @reading}
-      status = :ok
-    rescue ActiveRecord::RecordNotFound
-      response = {error: 'RecordNotFound'}
-      status = :unprocessable_entity
-    end
-
-    respond_to do |format|
-      format.json { render json: response, status: status }
+    if set_reading
+      respond_to do |format|
+        format.json { render json: {reading: @reading}, status: :ok }
+      end
     end
   end
 
@@ -37,36 +29,56 @@ class ReadingsController < ApplicationController
       if reading.save
         format.json { render json: {reading: reading}, status: :created }
       else
-        format.json { render json: {reading: reading}, status: :unprocessable_entity }
+        format.json { render json: {errors: reading.errors.full_messages}, status: :unprocessable_entity }
       end
     end
   end
 
   def update
-    respond_to do |format|
-      if @reading.update(reading_params)
-        format.json { render json: {reading: @reading}, status: :created }
-      else
-        format.json { render json: {reading: @reading}, status: :unprocessable_entity }
+    if set_reading
+      respond_to do |format|
+        if @reading.update(reading_params)
+          format.json { render json: {reading: @reading}, status: :created }
+        else
+          format.json { render json: {errors: @reading.errors.full_messages}, status: :unprocessable_entity }
+        end
       end
     end
   end
 
   def destroy
-    @reading.destroy
-    respond_to do |format|
-      format.json { render json: {}, status: :ok }
+    if set_reading
+      @reading.destroy
+      respond_to do |format|
+        format.json { render json: {}, status: :ok }
+      end
     end
   end
 
   private
 
   def set_reading_group
-    @reading_group = ReadingGroup.find(params[:reading_group_id].to_i)
+    begin
+      @reading_group = ReadingGroup.find(params[:reading_group_id].to_i)
+      true
+    rescue ActiveRecord::RecordNotFound => exception
+      respond_to do |format|
+        format.json { render json: {errors: [exception.message]}, status: :unprocessable_entity }
+      end
+      false
+    end
   end
 
   def set_reading
-    @reading = Reading.find(params[:id].to_i)
+    begin
+      @reading = Reading.find(params[:id].to_i)
+      true
+    rescue ActiveRecord::RecordNotFound => exception
+      respond_to do |format|
+        format.json { render json: {errors: [exception.message]}, status: :unprocessable_entity }
+      end
+      false
+    end
   end
 
   def reading_params

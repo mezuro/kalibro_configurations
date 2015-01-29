@@ -44,7 +44,7 @@ RSpec.describe MetricSnapshotsController, :type => :controller do
       it { is_expected.to respond_with(:unprocessable_entity) }
 
       it 'should return the error description' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({error: 'RecordNotFound'}.to_json))
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: ['ActiveRecord::RecordNotFound']}.to_json))
       end
     end
   end

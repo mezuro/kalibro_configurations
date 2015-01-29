@@ -1,26 +1,19 @@
 class KalibroRangesController < ApplicationController
-  before_action :set_kalibro_range, only: [:destroy, :update]
-  before_action :set_metric_configuration, only: [:index]
   before_action :set_interval_params, only: [:create, :update]
 
   def index
-    respond_to do |format|
-      format.json { render json: {kalibro_ranges: @metric_configuration.kalibro_ranges}}
+    if set_metric_configuration
+      respond_to do |format|
+        format.json { render json: {kalibro_ranges: @metric_configuration.kalibro_ranges}}
+      end
     end
   end
 
   def show
-    begin
-      set_kalibro_range
-      response = {kalibro_range: @kalibro_range}
-      status = :ok
-    rescue ActiveRecord::RecordNotFound
-      response = {error: 'RecordNotFound'}
-      status = :unprocessable_entity
-    end
-
-    respond_to do |format|
-      format.json { render json: response, status: status }
+    if set_kalibro_range
+      respond_to do |format|
+        format.json { render json: {kalibro_range: @kalibro_range}, status: :ok }
+      end
     end
   end
 
@@ -33,28 +26,32 @@ class KalibroRangesController < ApplicationController
         json["id"] = range.id
         format.json { render json: {kalibro_range: json}, status: :created }
       else
-        format.json { render json: {kalibro_range: json}, status: :unprocessable_entity }
+        format.json { render json: {errors: range.errors.full_messages}, status: :unprocessable_entity }
       end
     end
   end
 
   def update
-    respond_to do |format|
-      successful_update = @kalibro_range.update(kalibro_range_params)
-      json = json_conversion(@kalibro_range)
-      if successful_update
-        format.json { render json: {kalibro_range: json}, status: :created }
-      else
-        format.json { render json: {kalibro_range: json}, status: :unprocessable_entity }
+    if set_kalibro_range
+      respond_to do |format|
+        successful_update = @kalibro_range.update(kalibro_range_params)
+        json = json_conversion(@kalibro_range)
+        if successful_update
+          format.json { render json: {kalibro_range: json}, status: :created }
+        else
+          format.json { render json: {errors: @kalibro_range.errors.full_messages}, status: :unprocessable_entity }
+        end
       end
     end
   end
 
   def destroy
-    @kalibro_range.destroy
+    if set_kalibro_range
+      @kalibro_range.destroy
 
-    respond_to do |format|
-      format.json { render json: {}, status: :ok }
+      respond_to do |format|
+        format.json { render json: {}, status: :ok }
+      end
     end
   end
 
@@ -67,11 +64,27 @@ class KalibroRangesController < ApplicationController
   private
 
   def set_metric_configuration
-    @metric_configuration = MetricConfiguration.find(params[:metric_configuration_id].to_i)
+    begin
+      @metric_configuration = MetricConfiguration.find(params[:metric_configuration_id].to_i)
+      true
+    rescue ActiveRecord::RecordNotFound => exception
+      respond_to do |format|
+        format.json { render json: { errors: [exception.message] }, status: :unprocessable_entity }
+      end
+      false
+    end
   end
 
   def set_kalibro_range
-    @kalibro_range = KalibroRange.find(params[:id].to_i)
+    begin
+      @kalibro_range = KalibroRange.find(params[:id].to_i)
+      true
+    rescue ActiveRecord::RecordNotFound => exception
+      respond_to do |format|
+        format.json { render json: { errors: [exception.message] }, status: :unprocessable_entity }
+      end
+      false
+    end
   end
 
   def kalibro_range_params

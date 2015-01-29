@@ -131,8 +131,8 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return the error description with the metric_configuration' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configuration: metric_configuration}.to_json))
+      it 'should return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
       end
     end
   end
@@ -144,7 +144,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
 
       delete :destroy, id: metric_configuration.id, format: :json
     end
-    it { is_expected.to respond_with(:no_content)}
+    it { is_expected.to respond_with(:success)}
   end
 
   describe 'exists' do
@@ -202,7 +202,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
       it { is_expected.to respond_with(:unprocessable_entity) }
 
       it 'should return the error description' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({error: 'RecordNotFound'}.to_json))
+        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: ['ActiveRecord::RecordNotFound']}.to_json))
       end
     end
   end

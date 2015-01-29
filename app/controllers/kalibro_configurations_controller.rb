@@ -1,6 +1,4 @@
 class KalibroConfigurationsController < ApplicationController
-  before_action :set_kalibro_configuration, except: [:all, :show, :create, :exists]
-
   def all
     kalibro_configurations = {kalibro_configurations: KalibroConfiguration.all}
 
@@ -10,17 +8,10 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   def show
-    begin
-      set_kalibro_configuration
-      response = {kalibro_configuration: @kalibro_configuration}
-      status = :ok
-    rescue ActiveRecord::RecordNotFound
-      response = {error: 'RecordNotFound'}
-      status = :unprocessable_entity
-    end
-
-    respond_to do |format|
-      format.json { render json: response, status: status }
+    if set_kalibro_configuration
+      respond_to do |format|
+        format.json { render json: {kalibro_configuration: @kalibro_configuration}, status: :ok }
+      end
     end
   end
 
@@ -29,19 +20,21 @@ class KalibroConfigurationsController < ApplicationController
 
     respond_to do |format|
       if kalibro_configuration.save
-        format.json { render json: {kalibro_configuration: kalibro_configuration} , status: :created }
+        format.json { render json: {kalibro_configuration: kalibro_configuration}, status: :created }
       else
-        format.json { render json: {kalibro_configuration: kalibro_configuration} , status: :unprocessable_entity }
+        format.json { render json: {errors: kalibro_configuration.errors.full_messages}, status: :unprocessable_entity }
       end
     end
   end
 
   def update
-    respond_to do |format|
-      if @kalibro_configuration.update(kalibro_configuration_params)
-        format.json { render json: {kalibro_configuration: @kalibro_configuration} , status: :created }
-      else
-        format.json { render json: {kalibro_configuration: @kalibro_configuration} , status: :unprocessable_entity }
+    if set_kalibro_configuration
+      respond_to do |format|
+        if @kalibro_configuration.update(kalibro_configuration_params)
+          format.json { render json: {kalibro_configuration: @kalibro_configuration}, status: :created }
+        else
+          format.json { render json: {errors: @kalibro_configuration.errors.full_messages}, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -53,22 +46,34 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   def metric_configurations
-    respond_to do |format|
-      format.json { render json: {metric_configurations: @kalibro_configuration.metric_configurations} }
+    if set_kalibro_configuration
+      respond_to do |format|
+        format.json { render json: {metric_configurations: @kalibro_configuration.metric_configurations} }
+      end
     end
   end
 
   def destroy
-    @kalibro_configuration.destroy
-    respond_to do |format|
-      format.json { render json: {}, status: :ok }
+    if set_kalibro_configuration
+      @kalibro_configuration.destroy
+      respond_to do |format|
+        format.json { render json: {}, status: :ok }
+      end
     end
   end
 
   private
 
   def set_kalibro_configuration
-    @kalibro_configuration = KalibroConfiguration.find(params[:id].to_i)
+    begin
+      @kalibro_configuration = KalibroConfiguration.find(params[:id].to_i)
+      true
+    rescue ActiveRecord::RecordNotFound => exception
+      respond_to do |format|
+        format.json { render json: {errors: [exception.message]}, status: :unprocessable_entity }
+      end
+      false
+    end
   end
 
   def kalibro_configuration_params
