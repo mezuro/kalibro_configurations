@@ -63,7 +63,9 @@ end
 
 group :development, :test, :cucumber do
   # cleans the database
-  gem 'database_cleaner'
+  # Version fixed at 1.3. See:
+  # https://github.com/DatabaseCleaner/database_cleaner/issues/317
+  gem 'database_cleaner', '~> 1.3.0'
 end
 
 # Acceptance tests
