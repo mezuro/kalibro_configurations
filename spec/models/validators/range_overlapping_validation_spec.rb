@@ -27,38 +27,30 @@ RSpec.describe RangeOverlappingValidator, :type => :model do
 
       context 'equal intervals' do
         let!(:overlapping_range) { FactoryGirl.build(:kalibro_range, id: 2, metric_configuration: metric_configuration) }
-        before :each do
-        end
         it 'is expected to return errors' do
           range.save
           expect(range.errors[:beginning]).to eq(["There is already a #{range.class} within these boundaries! Please, choose another interval."])
         end
       end
-      
+
       context 'contained intervals' do
         let!(:overlapping_range) { FactoryGirl.build(:kalibro_range, id: 2, metric_configuration: metric_configuration, beginning: 1.0, end: 1.4) }
-        before :each do
-        end
         it 'is expected to return errors' do
           range.save
           expect(range.errors[:beginning]).to eq(["There is already a #{range.class} within these boundaries! Please, choose another interval."])
         end
       end
-      
+
       context 'intervals with intersection' do
         let!(:overlapping_range) { FactoryGirl.build(:kalibro_range, id: 2, metric_configuration: metric_configuration, beginning: 0.4, end: 1.0) }
-        before :each do
-        end
         it 'is expected to return errors' do
           range.save
           expect(range.errors[:beginning]).to eq(["There is already a #{range.class} within these boundaries! Please, choose another interval."])
         end
       end
-      
+
       context 'boundary contained interval' do
         let!(:overlapping_range) { FactoryGirl.build(:kalibro_range, id: 2, metric_configuration: metric_configuration, beginning: 0.5, end: 1.4) }
-        before :each do
-        end
         it 'is expected to return errors' do
           range.save
           expect(range.errors[:beginning]).to eq(["There is already a #{range.class} within these boundaries! Please, choose another interval."])
