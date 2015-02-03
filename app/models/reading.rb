@@ -5,4 +5,5 @@ class Reading < ActiveRecord::Base
   validates :label, :grade, :color, :reading_group, presence: true
   validates :label, uniqueness: { scope: :reading_group_id,
     message: "Should be unique within a Reading Group" }
+  validates :grade, numericality: true
 end
