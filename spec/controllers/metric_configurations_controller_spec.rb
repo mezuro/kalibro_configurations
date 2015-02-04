@@ -12,7 +12,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
       before :each do
         metric_configuration_params.delete('metric_snapshot')
         metric_configuration_params['metric'] = metric_snapshot_params.clone
-        metric_configuration_params['metric']['type'] = 'native'
+        metric_configuration_params['metric']['type'] = 'NativeMetricSnapshot'
         MetricConfiguration.any_instance.expects(:save).returns(true)
         metric_configuration.metric_snapshot.id = 1
         MetricSnapshot.expects(:create).with(metric_snapshot_params).returns(metric_configuration.metric_snapshot)
@@ -106,7 +106,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
           metric_configuration_params.delete('metric_snapshot_id')
           MetricConfiguration.any_instance.expects(:update).with(metric_configuration_params.clone).returns(true)
           metric_configuration_params['metric'] = metric_snapshot_params.clone
-          metric_configuration_params['metric']['type'] = 'compound'
+          metric_configuration_params['metric']['type'] = 'CompoundMetricSnapshot'
           MetricSnapshot.expects(:create).with(metric_snapshot_params).returns(metric_configuration.metric_snapshot)
 
           put :update, metric_configuration: metric_configuration_params, id: metric_configuration.id, format: :json
