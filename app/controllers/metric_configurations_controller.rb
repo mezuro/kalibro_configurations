@@ -1,5 +1,5 @@
 class MetricConfigurationsController < ApplicationController
-  
+
   def exists
     respond_to do |format|
       format.json { render json: {exists: MetricConfiguration.exists?(params[:id].to_i)} }
@@ -33,12 +33,13 @@ class MetricConfigurationsController < ApplicationController
     if set_metric_configuration
       metric_configuration_params = all_params
 
-      if !metric_configuration_params['metric'].nil? && (metric_configuration_params['metric']['type'] == 'compound' || metric_configuration_params['metric']['type'] == 'CompoundMetricSnashot')
+      if !metric_configuration_params['metric'].nil? && metric_configuration_params['metric']['type'] == 'CompoundMetricSnapshot'
         @metric_configuration.metric_snapshot.destroy
         @metric_configuration.metric_snapshot = build_metric_snapshot
         @metric_configuration.save
-        metric_configuration_params.delete('metric')
       end
+
+      metric_configuration_params.delete('metric')
 
       respond_to do |format|
         if @metric_configuration.update(metric_configuration_params)
@@ -83,15 +84,7 @@ class MetricConfigurationsController < ApplicationController
   end
 
   def build_metric_snapshot
-    metric_snapshot_params = metric_params
-
-    if metric_snapshot_params['type'] == 'native'
-      metric_snapshot_params['type'] = 'NativeMetricSnapshot'
-    elsif metric_snapshot_params['type'] == 'compound'
-      metric_snapshot_params['type'] = 'CompoundMetricSnapshot'
-    end
-
-    return MetricSnapshot.create(metric_snapshot_params)
+    MetricSnapshot.create(metric_params)
   end
 
   def metric_params
