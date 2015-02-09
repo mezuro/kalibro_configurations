@@ -32,11 +32,15 @@ class MetricConfigurationsController < ApplicationController
   def update
     if set_metric_configuration
       metric_configuration_params = all_params
+      metric_snapshot = @metric_configuration.metric_snapshot
 
       if !metric_configuration_params['metric'].nil? && metric_configuration_params['metric']['type'] == 'CompoundMetricSnapshot'
-        @metric_configuration.metric_snapshot.destroy
-        @metric_configuration.metric_snapshot = build_metric_snapshot
-        @metric_configuration.save
+        metric_snapshot = build_metric_snapshot
+        if metric_snapshot.errors.empty?
+          @metric_configuration.metric_snapshot.destroy
+          @metric_configuration.metric_snapshot = metric_snapshot
+          @metric_configuration.save
+        end
       end
 
       metric_configuration_params.delete('metric')
@@ -45,7 +49,7 @@ class MetricConfigurationsController < ApplicationController
         if @metric_configuration.update(metric_configuration_params)
           format.json { render json: {metric_configuration: @metric_configuration}, status: :created}
         else
-          format.json { render json: {errors: @metric_configuration.errors.full_messages}, status: :unprocessable_entity }
+          format.json { render json: {errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages}, status: :unprocessable_entity }
         end
       end
     end
