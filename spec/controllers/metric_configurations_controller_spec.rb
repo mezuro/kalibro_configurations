@@ -10,6 +10,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
 
     context "with valid params" do
       before :each do
+        KalibroConfiguration.expects(:find).with(metric_configuration.kalibro_configuration_id).returns(metric_configuration.kalibro_configuration)
         metric_configuration_params.delete('metric_snapshot')
         metric_configuration_params['metric'] = metric_snapshot_params.clone
         metric_configuration_params['metric']['type'] = 'NativeMetricSnapshot'
@@ -31,6 +32,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     context "with invalid params" do
       context 'for MetricConfiguration' do
         before :each do
+          KalibroConfiguration.expects(:find).with(metric_configuration.kalibro_configuration_id).returns(metric_configuration.kalibro_configuration)
           MetricConfiguration.any_instance.expects(:save).returns(false)
           metric_configuration.metric_snapshot.id = 1
           MetricSnapshot.expects(:create).with(metric_snapshot_params).returns(metric_configuration.metric_snapshot)
@@ -61,6 +63,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
           expected_response = {'metric_configuration' => metric_configuration_params}
           expected_response['metric_configuration'].delete('id')
           expected_response['metric_configuration'].delete('metric_snapshot')
+          expected_response['metric_configuration'].delete('metric')
           expect(JSON.parse(response.body)).to eq(expected_response)
         end
       end
@@ -96,6 +99,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
 
       context 'with a CompoundMetricSnapshot' do
         let!(:metric_snapshot_params) { Hash[FactoryGirl.attributes_for(:compound_metric_snapshot).map { |k,v| [k.to_s, v.to_s] }] }
+        let(:kalibro_configuration) { FactoryGirl.build(:kalibro_configuration) }
 
         before :each do
           metric_configuration.metric_snapshot = FactoryGirl.build(:compound_metric_snapshot)
@@ -104,6 +108,8 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
 
           metric_configuration_params.delete('id')
           metric_configuration_params.delete('metric_snapshot_id')
+          KalibroConfiguration.expects(:find).with(metric_configuration.kalibro_configuration_id).returns(kalibro_configuration)
+          kalibro_configuration.expects(:metric_configurations).returns([metric_configuration])
           MetricConfiguration.any_instance.expects(:update).with(metric_configuration_params.clone).returns(true)
           metric_configuration_params['metric'] = metric_snapshot_params.clone
           metric_configuration_params['metric']['type'] = 'CompoundMetricSnapshot'

@@ -14,11 +14,6 @@ RSpec.describe MetricConfiguration, :type => :model do
     it { is_expected.to validate_numericality_of(:weight) }
     it { is_expected.to validate_presence_of(:kalibro_configuration) }
     it { is_expected.to validate_presence_of(:metric_snapshot) }
-    it 'is pending' do
-      pending 'waiting for bug fix on shoulda-matchers (https://github.com/thoughtbot/shoulda-matchers/issues/535)'
-      is_expected.to validate_uniqueness_of(:metric_snapshot).
-        scoped_to(:kalibro_configuration_id).with_message("Should be unique within a Kalibro Configuration")
-    end
     it { is_expected.to accept_nested_attributes_for(:metric_snapshot) }
   end
 
@@ -51,6 +46,44 @@ RSpec.describe MetricConfiguration, :type => :model do
           metric_snapshot_json = metric_snapshot.as_json(except: [:id, :created_at, :updated_at])
           metric_snapshot_json['type'] = 'CompoundMetricSnapshot'
           expect(subject.as_json['metric']).to eq(metric_snapshot_json)
+        end
+      end
+    end
+
+    describe 'valid_metric_snapshot_code?' do
+      let(:kalibro_configuration) { FactoryGirl.build(:kalibro_configuration) }
+      let(:metric_configuration) { FactoryGirl.build(:metric_configuration, kalibro_configuration_id: kalibro_configuration.id, id: 52) }
+      let(:metric_configuration_2) { FactoryGirl.build(:metric_configuration, kalibro_configuration_id: kalibro_configuration.id, id: 51) }
+
+      context 'with a valid code' do
+        before :each do
+          KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+          kalibro_configuration.expects(:metric_configurations).returns([metric_configuration])
+        end
+
+        it 'should return true' do
+          expect(metric_configuration.valid_metric_snapshot_code? metric_configuration.metric_snapshot.code).to be_truthy
+        end
+
+        it 'should not fill the errors array' do
+          metric_configuration.valid_metric_snapshot_code? metric_configuration.metric_snapshot.code
+          expect(metric_configuration.errors).to be_empty
+        end
+      end
+
+      context 'with an invalid code' do
+        before :each do
+          KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+          kalibro_configuration.expects(:metric_configurations).returns([metric_configuration, metric_configuration_2])
+        end
+
+        it 'should return false' do
+          expect(metric_configuration.valid_metric_snapshot_code? metric_configuration.metric_snapshot.code).to be_falsey
+        end
+
+        it 'should fill the errors array' do
+          metric_configuration.valid_metric_snapshot_code? metric_configuration.metric_snapshot.code
+          expect(metric_configuration.errors[:code]).to include("must be unique within a kalibro configuration")
         end
       end
     end

@@ -10,13 +10,14 @@ class MetricConfigurationsController < ApplicationController
     metric_configuration_params = all_params
 
     metric_snapshot = build_metric_snapshot
-    if !metric_snapshot.id.nil?
-      metric_configuration_params.delete('metric')
-      @metric_configuration = MetricConfiguration.new(metric_configuration_params)
+    metric_configuration_params.delete('metric')
+    @metric_configuration = MetricConfiguration.new(metric_configuration_params)
+    if !metric_snapshot.id.nil? && @metric_configuration.valid_metric_snapshot_code?(metric_snapshot.code)
+
       @metric_configuration.metric_snapshot = metric_snapshot
 
       respond_to do |format|
-        if @metric_configuration.save
+        if @metric_configuration.errors.empty? && @metric_configuration.save
           format.json { render json: {metric_configuration: @metric_configuration}, status: :created}
         else
           format.json { render json: {metric_configuration: @metric_configuration}, status: :unprocessable_entity }
@@ -36,7 +37,7 @@ class MetricConfigurationsController < ApplicationController
 
       if !metric_configuration_params['metric'].nil? && metric_configuration_params['metric']['type'] == 'CompoundMetricSnapshot'
         metric_snapshot = build_metric_snapshot
-        if metric_snapshot.errors.empty?
+        if metric_snapshot.errors.empty? && @metric_configuration.valid_metric_snapshot_code?(metric_snapshot.code)
           @metric_configuration.metric_snapshot.destroy
           @metric_configuration.metric_snapshot = metric_snapshot
           @metric_configuration.save
@@ -46,7 +47,7 @@ class MetricConfigurationsController < ApplicationController
       metric_configuration_params.delete('metric')
 
       respond_to do |format|
-        if @metric_configuration.update(metric_configuration_params)
+        if @metric_configuration.errors.empty? && @metric_configuration.update(metric_configuration_params)
           format.json { render json: {metric_configuration: @metric_configuration}, status: :created}
         else
           format.json { render json: {errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages}, status: :unprocessable_entity }

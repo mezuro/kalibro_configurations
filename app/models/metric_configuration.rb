@@ -5,8 +5,6 @@ class MetricConfiguration < ActiveRecord::Base
 
   validates :weight, :kalibro_configuration, :metric_snapshot, presence: true
   validates :weight, numericality: { greater_than: 0 }
-  validates :metric_snapshot, uniqueness: { scope: :kalibro_configuration_id,
-    message: "Should be unique within a Kalibro Configuration" }
   validates :aggregation_form, presence: true, if: "native_metric_snapshot?"
 
   accepts_nested_attributes_for :metric_snapshot
@@ -29,5 +27,16 @@ class MetricConfiguration < ActiveRecord::Base
 
   def native_metric_snapshot?
     !metric_snapshot.nil? && metric_snapshot.type == "NativeMetricSnapshot"
+  end
+
+  def valid_metric_snapshot_code?(code)
+    kalibro_configuration = KalibroConfiguration.find self.kalibro_configuration_id
+    kalibro_configuration.metric_configurations.each do |metric_configuration|
+      if metric_configuration.id != self.id && code == metric_configuration.metric_snapshot.code
+        self.errors[:code] << "must be unique within a kalibro configuration"
+        return false
+      end
+    end
+    return true
   end
 end
