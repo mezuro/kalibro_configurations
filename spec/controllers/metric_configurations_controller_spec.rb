@@ -45,7 +45,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
 
         it 'should return the error description with the metric_configuration' do
           metric_configuration.id = nil
-          expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configuration: metric_configuration}.to_json))
+          expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
         end
       end
 
@@ -60,11 +60,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
         it { is_expected.to respond_with(:unprocessable_entity) }
 
         it 'should return the error description with the metric_configuration' do
-          expected_response = {'metric_configuration' => metric_configuration_params}
-          expected_response['metric_configuration'].delete('id')
-          expected_response['metric_configuration'].delete('metric_snapshot')
-          expected_response['metric_configuration'].delete('metric')
-          expect(JSON.parse(response.body)).to eq(expected_response)
+          expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
         end
       end
     end

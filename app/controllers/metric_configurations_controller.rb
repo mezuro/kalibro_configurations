@@ -20,12 +20,12 @@ class MetricConfigurationsController < ApplicationController
         if @metric_configuration.errors.empty? && @metric_configuration.save
           format.json { render json: {metric_configuration: @metric_configuration}, status: :created}
         else
-          format.json { render json: {metric_configuration: @metric_configuration}, status: :unprocessable_entity }
+          format.json { render json: {errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages}, status: :unprocessable_entity }
         end
       end
     else
       respond_to do |format|
-        format.json { render json: {metric_configuration: metric_configuration_params}, status: :unprocessable_entity }
+        format.json { render json: {errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages}, status: :unprocessable_entity }
       end
     end
   end
