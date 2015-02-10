@@ -11,4 +11,13 @@ class KalibroRange < ActiveRecord::Base
   validates_with IntervalValidator, fields: [:beginning, :end], if: "beginning && self.end"
   validates_with RangeOverlappingValidator, fields: [:beginning, :end], if: "beginning && self.end"
 
+  def as_json(options={})
+    options[:except] = [:beginning, :end]
+    json = super(options)
+    json['beginning'] = (beginning == -Float::INFINITY ? "-INF" : (beginning == Float::INFINITY ? "INF" : beginning))
+    json['end'] = (self.end == -Float::INFINITY ? "-INF" : (self.end == Float::INFINITY ? "INF" : self.end))
+
+    return json
+  end
+
 end

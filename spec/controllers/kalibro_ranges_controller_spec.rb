@@ -88,8 +88,9 @@ RSpec.describe KalibroRangesController, :type => :controller do
 
   describe 'create' do
     let!(:range_params) { Hash[FactoryGirl.attributes_for(:kalibro_range,
-                          metric_configuration_id: metric_configuration.id, reading_id: reading.id,
-                          beginning: -Float::INFINITY, end: Float::INFINITY).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+                                                          metric_configuration_id: metric_configuration.id, reading_id: reading.id,
+                                                          beginning: "-INF",
+                                                          end: "INF").map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
 
     context 'successfully saved' do
       before :each do
@@ -182,7 +183,7 @@ RSpec.describe KalibroRangesController, :type => :controller do
     end
   end
 
-   describe 'exists' do
+  describe 'exists' do
     context 'when the kalibro_range exists' do
       before :each do
         KalibroRange.expects(:exists?).with(range.id).returns(true)

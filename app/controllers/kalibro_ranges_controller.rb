@@ -92,9 +92,9 @@ class KalibroRangesController < ApplicationController
   end
 
   def convert(value)
-    if value == Float::INFINITY.to_s
+    if value == "INF"
       return Float::INFINITY
-    elsif value == (-Float::INFINITY).to_s
+    elsif value == "-INF"
       return -Float::INFINITY
     end
     return value

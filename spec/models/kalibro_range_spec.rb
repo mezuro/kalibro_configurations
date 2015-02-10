@@ -17,4 +17,56 @@ RSpec.describe KalibroRange, :type => :model do
     it { is_expected.to validate_uniqueness_of(:beginning).
          scoped_to(:metric_configuration_id).with_message("Should be unique within a Metric Configuration") }
   end
+
+  describe 'methods' do
+    describe 'as_json' do
+      subject { FactoryGirl.build(:kalibro_range) }
+
+      context 'with numbers' do
+        it 'is expected to convert the numbers to strings' do
+          expect(KalibroRange.new(subject.as_json)).to eq(subject)
+        end
+      end
+
+      context 'with positive infinity beginning' do
+        before do
+          subject.beginning = Float::INFINITY
+        end
+
+        it 'is expected to convert to INF' do
+          expect(subject.as_json["beginning"]).to eq("INF")
+        end
+      end
+
+      context 'with negative infinity beginning' do
+        before do
+          subject.beginning = -Float::INFINITY
+        end
+
+        it 'is expected to convert to -INF' do
+          expect(subject.as_json["beginning"]).to eq("-INF")
+        end
+      end
+
+      context 'with positive infinity end' do
+        before do
+          subject.end = Float::INFINITY
+        end
+
+        it 'is expected to convert to INF' do
+          expect(subject.as_json["end"]).to eq("INF")
+        end
+      end
+
+      context 'with negative infinity end' do
+        before do
+          subject.end = -Float::INFINITY
+        end
+
+        it 'is expected to convert to -INF' do
+          expect(subject.as_json["end"]).to eq("-INF")
+        end
+      end
+    end
+  end
 end
