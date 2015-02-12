@@ -3,7 +3,7 @@
 
 # TEAM
 
-    Copyright 2014
+    Copyright 2014-2015
     --------------
 
       Daniel Paulino Alves (danpaulalves at gmail.com)

@@ -31,11 +31,11 @@ Please, have a look at the wiki pages about development workflow and code standa
 
 * Ruby version
 
-  2.1.3
+  2.2.0
 
   You can easily install it through the Ruby Version Manager - RVM. Instructions on how to do it can be found at http://rvm.io
 
-  *NOTE:* If you are using the gnome-shell, or any derivate like terminator, you have to mark on your profile the option to use a "login bash".
+  *NOTE:* If you are using the gnome-shell, or any derivative like terminator, you have to mark on your profile the option to use a "login bash".
 
 
 * Configuration
@@ -52,7 +52,7 @@ Please, have a look at the wiki pages about development workflow and code standa
 
 * Deployment instructions
 
-  Deployment is made through Capistano (https://github.com/capistrano/capistrano)
+  Deployment is made through Capistrano (https://github.com/capistrano/capistrano)
 
     cap production deploy
 
@@ -78,7 +78,7 @@ Please, have a look at the wiki pages about development workflow and code standa
 
 === License
 
-Copyright (c) 2014 The Authors.
+Copyright (c) 2014-2015 The Authors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
