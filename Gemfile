@@ -75,7 +75,7 @@ end
 group :cucumber do
   gem 'cucumber', '~> 1.3.16'
   gem 'cucumber-rails'
-  gem 'poltergeist', '~> 1.5.0'
+  gem 'poltergeist', '~> 1.6.0'
 end
 
 # Use ActiveModel has_secure_password
