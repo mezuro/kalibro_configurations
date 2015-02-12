@@ -35,7 +35,7 @@ gem 'rails-html-sanitizer', '~> 1.0'
 
 group :test do
   # Easier test writing
-  gem "shoulda-matchers", "~> 2.7.0"
+  gem "shoulda-matchers", "~> 2.8.0"
 
   # Test coverage
   gem 'simplecov', require: false
