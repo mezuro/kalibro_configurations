@@ -35,7 +35,7 @@ gem 'rails-html-sanitizer', '~> 1.0'
 
 group :test do
   # Easier test writing
-  gem "shoulda-matchers", "~> 2.7.0"
+  gem "shoulda-matchers", "~> 2.8.0"
 
   # Test coverage
   gem 'simplecov', require: false
@@ -55,7 +55,7 @@ group :development, :test do
   gem 'spring'
 
   # Test framework
-  gem 'rspec-rails', '~> 3.1.0'
+  gem 'rspec-rails', '~> 3.2.0'
 
   # Mock framework
   gem 'mocha', '~> 1.1.0'
@@ -75,7 +75,7 @@ end
 group :cucumber do
   gem 'cucumber', '~> 1.3.16'
   gem 'cucumber-rails'
-  gem 'poltergeist', '~> 1.5.0'
+  gem 'poltergeist', '~> 1.6.0'
 end
 
 # Use ActiveModel has_secure_password
