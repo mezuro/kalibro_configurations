@@ -33,6 +33,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Rails Html Sanitizer for HTML sanitization
 gem 'rails-html-sanitizer', '~> 1.0'
 
+# Deployment
+gem 'capistrano', "~>3.3.5", require: false
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+gem 'capistrano-rvm', "~>0.1.0"
+
 group :test do
   # Easier test writing
   gem "shoulda-matchers", "~> 2.8.0"
