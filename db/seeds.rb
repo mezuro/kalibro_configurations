@@ -52,7 +52,7 @@ KalibroRange.create([
 
 ###############################################################################
 
-metric_snapshot = NativeMetricSnapshot.create(name: "Average Method LOC", description: "", code: "amloc", metric_collector_name: "Analizo", scope: "CLASS")
+metric_snapshot = NativeMetricSnapshot.create(name: "Average Method Lines of Code", description: "", code: "amloc", metric_collector_name: "Analizo", scope: "CLASS")
 
 metric_configuration = MetricConfiguration.create(metric_snapshot_id: metric_snapshot.id, weight: 1.0, aggregation_form: "AVERAGE", reading_group_id: reading_group.id, kalibro_configuration_id: kalibro_configuration.id)
 
@@ -117,7 +117,7 @@ KalibroRange.create([
 
 ###############################################################################
 
-metric_snapshot = NativeMetricSnapshot.create(name: "Structural Complexity (CBO X LCOM4)", description: "", code: "sc", metric_collector_name: "Analizo", scope: "CLASS")
+metric_snapshot = NativeMetricSnapshot.create(name: "Structural Complexity", description: "", code: "sc", metric_collector_name: "Analizo", scope: "CLASS")
 
 metric_configuration = MetricConfiguration.create(metric_snapshot_id: metric_snapshot.id, weight: 4.0, aggregation_form: "AVERAGE", reading_group_id: reading_group.id, kalibro_configuration_id: kalibro_configuration.id)
 
