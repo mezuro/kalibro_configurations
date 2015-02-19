@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ReadingsController, :type => :controller do
 
-  let(:reading) { FactoryGirl.build(:reading) }
+  let(:reading) { FactoryGirl.build(:reading_with_id) }
 
   describe 'index' do
     let!(:reading_group) {FactoryGirl.build(:reading_group)}

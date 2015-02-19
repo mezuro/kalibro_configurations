@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe KalibroConfigurationsController, :type => :controller do
-  let(:kalibro_configuration) { FactoryGirl.build(:kalibro_configuration) }
+  let(:kalibro_configuration) { FactoryGirl.build(:kalibro_configuration_with_id) }
 
   describe 'all' do
     let!(:kalibro_configurations) { [kalibro_configuration] }
