@@ -20,7 +20,7 @@ RSpec.describe KalibroRange, :type => :model do
 
   describe 'methods' do
     describe 'as_json' do
-      subject { FactoryGirl.build(:kalibro_range) }
+      subject { FactoryGirl.build(:kalibro_range_with_id) }
 
       context 'with numbers' do
         it 'is expected to convert the numbers to strings' do

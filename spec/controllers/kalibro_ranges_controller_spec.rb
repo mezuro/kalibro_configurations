@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe KalibroRangesController, :type => :controller do
 
-  let!(:metric_configuration) { FactoryGirl.build(:metric_configuration) }
-  let!(:reading) { FactoryGirl.build(:reading) }
-  let!(:range) { FactoryGirl.build(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id) }
+  let!(:metric_configuration) { FactoryGirl.build(:metric_configuration_with_id) }
+  let!(:reading) { FactoryGirl.build(:reading_with_id) }
+  let!(:range) { FactoryGirl.build(:kalibro_range_with_id, metric_configuration_id: metric_configuration.id, reading_id: reading.id) }
 
   describe 'index' do
     context 'with at least one range' do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe MetricConfigurationsController, :type => :controller do
-  let(:metric_configuration) { FactoryGirl.build(:metric_configuration) }
+  let(:metric_configuration) { FactoryGirl.build(:metric_configuration_with_id) }
 
   describe "create" do
     let!(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration,

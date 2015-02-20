@@ -5,9 +5,9 @@ RSpec.describe RangeOverlappingValidator, :type => :model do
   describe 'methods' do
     describe 'validate' do
       let(:metric_configuration) { FactoryGirl.build(:metric_configuration) }
-      subject { FactoryGirl.build(:kalibro_range, beginning: 0.0, end: Float::INFINITY) }
+      subject { FactoryGirl.build(:kalibro_range, beginning: 100.0, end: Float::INFINITY) }
       context 'not overlapping' do
-        let!(:not_overlapping_range) { FactoryGirl.build(:kalibro_range, id: 2, beginning: -Float::INFINITY, end: 0.0, metric_configuration_id: metric_configuration.id) }
+        let!(:not_overlapping_range) { FactoryGirl.build(:kalibro_range, id: 2, beginning: -Float::INFINITY, end: -190.0, metric_configuration_id: metric_configuration.id) }
         before :each do
           subject.metric_configuration.expects(:kalibro_ranges).returns([subject, not_overlapping_range])
         end
