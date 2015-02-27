@@ -13,14 +13,17 @@
 
 ActiveRecord::Schema.define(version: 20141105151903) do
 
-  create_table "kalibro_configurations", force: true do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "kalibro_configurations", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
-  create_table "kalibro_ranges", force: true do |t|
+  create_table "kalibro_ranges", force: :cascade do |t|
     t.float    "beginning"
     t.float    "end"
     t.string   "comments"
@@ -30,10 +33,10 @@ ActiveRecord::Schema.define(version: 20141105151903) do
     t.datetime "updated_at",              null: false
   end
 
-  add_index "kalibro_ranges", ["metric_configuration_id"], name: "index_kalibro_ranges_on_metric_configuration_id"
-  add_index "kalibro_ranges", ["reading_id"], name: "index_kalibro_ranges_on_reading_id"
+  add_index "kalibro_ranges", ["metric_configuration_id"], name: "index_kalibro_ranges_on_metric_configuration_id", using: :btree
+  add_index "kalibro_ranges", ["reading_id"], name: "index_kalibro_ranges_on_reading_id", using: :btree
 
-  create_table "metric_configurations", force: true do |t|
+  create_table "metric_configurations", force: :cascade do |t|
     t.integer  "metric_snapshot_id"
     t.float    "weight"
     t.string   "aggregation_form"
@@ -43,7 +46,7 @@ ActiveRecord::Schema.define(version: 20141105151903) do
     t.datetime "updated_at",               null: false
   end
 
-  create_table "metric_snapshots", force: true do |t|
+  create_table "metric_snapshots", force: :cascade do |t|
     t.string   "type"
     t.string   "name"
     t.text     "description"
@@ -55,14 +58,14 @@ ActiveRecord::Schema.define(version: 20141105151903) do
     t.datetime "updated_at",            null: false
   end
 
-  create_table "reading_groups", force: true do |t|
+  create_table "reading_groups", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
-  create_table "readings", force: true do |t|
+  create_table "readings", force: :cascade do |t|
     t.string   "label"
     t.float    "grade"
     t.string   "color"
@@ -71,6 +74,6 @@ ActiveRecord::Schema.define(version: 20141105151903) do
     t.datetime "updated_at",       null: false
   end
 
-  add_index "readings", ["reading_group_id"], name: "index_readings_on_reading_group_id"
+  add_index "readings", ["reading_group_id"], name: "index_readings_on_reading_group_id", using: :btree
 
 end

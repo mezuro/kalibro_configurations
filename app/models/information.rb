@@ -1,5 +1,5 @@
 class Information
-  VERSION="0.0.1.beta1"
+  VERSION="0.0.4"
   LICENSE="AGPLv3"
   REPOSITORY_URL="https://github.com/mezuro/kalibro_configurations"
 
