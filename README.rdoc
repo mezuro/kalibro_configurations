@@ -25,7 +25,7 @@ Please, have a look at the wiki pages about development workflow and code standa
 
   * curl
 
-  * postgresql-server-dev-9.1
+  * postgresql-server-dev-9.3
 
   *NOTE:* The version of postgresql may vary accordingly with your system version
 
