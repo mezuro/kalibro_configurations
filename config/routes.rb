@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'statistics/count_metric_configuration' => 'statistics#count_metric_configuration'
+
   resources :metric_snapshots, only: [:index, :show]
   get 'metric_snapshots/:id/metric_configuration' => 'metric_snapshots#metric_configuration'
 
