@@ -34,7 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rails-html-sanitizer', '~> 1.0'
 
 # Deployment
-gem 'capistrano', "~>3.3.5", require: false
+gem 'capistrano', "~>3.4.0", require: false
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
 gem 'capistrano-rvm', "~>0.1.0"
