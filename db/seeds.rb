@@ -6,25 +6,29 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-kalibro_configuration = KalibroConfiguration.create(name: "First Configuration", description: "Configuration proposed as starting point for C, C++ and Java. From Morais' master text.")
+###############################################################################
+########################### Reading Group & Readings ##########################
+###############################################################################
 
 reading_group = ReadingGroup.create(name: "Scholar", description: "This group imitates school grades and attributes generic labels from 'Terrible' (grade 0) to 'Excellent' (grade 10).\nThe colors vary in wave length with the grades, ranging from red to green (between them are tones of orange and yellow).")
 
 readings = Reading.create([
-  { label: "Terrible", grade: 0.0, color: "FF0000", reading_group_id: reading_group.id },  
-  { label: "Bad", grade: 1.25, color: "FF4000", reading_group_id: reading_group.id },  
-  { label: "Worrying", grade: 2.5, color: "FF8000", reading_group_id: reading_group.id },  
-  { label: "Unsatisfactory", grade: 3.75, color: "FFC000", reading_group_id: reading_group.id },  
-  { label: "Regular", grade: 5, color: "FFFF00", reading_group_id: reading_group.id },  
-  { label: "Satisfactory", grade: 6.25, color: "C0FF00", reading_group_id: reading_group.id },  
-  { label: "Good", grade: 7.5, color: "80FF00", reading_group_id: reading_group.id },  
-  { label: "Very Good", grade: 8.75, color: "40FF00", reading_group_id: reading_group.id },  
+  { label: "Terrible", grade: 0.0, color: "FF0000", reading_group_id: reading_group.id },
+  { label: "Bad", grade: 1.25, color: "FF4000", reading_group_id: reading_group.id },
+  { label: "Worrying", grade: 2.5, color: "FF8000", reading_group_id: reading_group.id },
+  { label: "Unsatisfactory", grade: 3.75, color: "FFC000", reading_group_id: reading_group.id },
+  { label: "Regular", grade: 5, color: "FFFF00", reading_group_id: reading_group.id },
+  { label: "Satisfactory", grade: 6.25, color: "C0FF00", reading_group_id: reading_group.id },
+  { label: "Good", grade: 7.5, color: "80FF00", reading_group_id: reading_group.id },
+  { label: "Very Good", grade: 8.75, color: "40FF00", reading_group_id: reading_group.id },
   { label: "Excellent", grade: 10, color: "00FF00", reading_group_id: reading_group.id }
 ])
 
 ###############################################################################
-############################ Metric Configurations ############################
+########################### Java/C/C++ Configuration ##########################
 ###############################################################################
+
+kalibro_configuration = KalibroConfiguration.create(name: "First Configuration", description: "Configuration proposed as starting point for C, C++ and Java. From Morais' master text.")
 
 metric_snapshot = NativeMetricSnapshot.create(name: "Afferent Connections per Class (used to calculate COF - Coupling Factor)", description: "", code: "acc", metric_collector_name: "Analizo", scope: "CLASS")
 
@@ -128,3 +132,23 @@ KalibroRange.create([
   { beginning: 51, end: Float::INFINITY, comments: "Complexidade estrutural é um fator de risco. Verifique se a classe pode ser dividida em classes menores e mais coesas. Classes frutos dessa divisão tendem a ser menos acopladas.", reading_id: readings[-7].id, metric_configuration_id: metric_configuration.id }
 ])
 
+###############################################################################
+############################## Ruby Configuration #############################
+###############################################################################
+
+ruby_configuration = KalibroConfiguration.create(name: "Ruby Configuration", description: "Example Ruby Configuration")
+
+metric_snapshot = NativeMetricSnapshot.create(name: "Pain", description: "Flog mede a tortuosidade do código-fonte. Quanto mais doloroso e difícil de testar, maior a pontuação, baseando-se na métrica ABC e boas práticas de Ruby. Extraído do blog do autor da métrica: http://jakescruggs.blogspot.com.br/2008/08/whats-good-flog-score.html", code: "flog", metric_collector_name: "MetricFu", scope: "METHOD")
+
+metric_configuration = MetricConfiguration.create(metric_snapshot_id: metric_snapshot.id, weight: 3.0, aggregation_form: "AVERAGE", reading_group_id: reading_group.id, kalibro_configuration_id: ruby_configuration.id)
+
+KalibroRange.create([
+  { beginning: 0, end: 10, comments: "", reading_id: readings.last.id, metric_configuration_id: metric_configuration.id },
+  { beginning: 10, end: 20, comments: "", reading_id: readings[-3].id, metric_configuration_id: metric_configuration.id },
+  { beginning: 20, end: 40, comments: "", reading_id: readings[-4].id, metric_configuration_id: metric_configuration.id },
+  { beginning: 40, end: 60, comments: "", reading_id: readings[-5].id, metric_configuration_id: metric_configuration.id },
+  { beginning: 60, end: 100, comments: "", reading_id: readings[-7].id, metric_configuration_id: metric_configuration.id },
+  { beginning: 100, end: Float::INFINITY, comments: "", reading_id: readings[-9].id, metric_configuration_id: metric_configuration.id }
+])
+
+###############################################################################
