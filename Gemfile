@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.0'
+gem 'rails', '4.2.1'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -34,7 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rails-html-sanitizer', '~> 1.0'
 
 # Deployment
-gem 'capistrano', "~>3.3.5", require: false
+gem 'capistrano', "~>3.4.0", require: false
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
 gem 'capistrano-rvm', "~>0.1.0"
@@ -51,10 +51,10 @@ group :test do
 end
 
 group :development, :test do
-  # Call 'debugger' anywhere in the code to stop execution and get a debugger console
+  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
-  # Access an IRB console on exceptions page and /console in development
+  # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -72,9 +72,9 @@ end
 
 group :development, :test, :cucumber do
   # cleans the database
-  # Version fixed at 1.3. See:
+  # Version fixed for >= 1.4.1, since 1.4.0 is broken. See:
   # https://github.com/DatabaseCleaner/database_cleaner/issues/317
-  gem 'database_cleaner', '~> 1.3.0'
+  gem 'database_cleaner', '>= 1.4.1'
 end
 
 # Acceptance tests
