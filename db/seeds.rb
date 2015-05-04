@@ -6,6 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# Adds the method create_ranges to Ruby's super class
 class Array
   def create_ranges(metric_configuration_id)
     self.each do |range_hash|
