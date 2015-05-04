@@ -1,6 +1,7 @@
 class MetricConfiguration < ActiveRecord::Base
   belongs_to :kalibro_configuration
   belongs_to :metric_snapshot, dependent: :destroy
+  belongs_to :reading_group
   has_many :kalibro_ranges, dependent: :destroy
 
   validates :weight, :kalibro_configuration, :metric_snapshot, presence: true
