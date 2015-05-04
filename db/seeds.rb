@@ -201,13 +201,13 @@ sc_metric_configuration = MetricConfiguration.create(
 
 ruby_configuration = KalibroConfiguration.create(name: "Ruby Configuration", description: "Example Ruby Configuration")
 
-pain = NativeMetricSnapshot.create(
+flog = NativeMetricSnapshot.create(
   name: "Pain", code: "flog", metric_collector_name: "MetricFu", scope: "METHOD",
   description: "Flog mede a tortuosidade do código-fonte. Quanto mais doloroso e difícil de testar, maior a pontuação, baseando-se na métrica ABC e boas práticas de Ruby. Extraído do blog do autor da métrica: http://jakescruggs.blogspot.com.br/2008/08/whats-good-flog-score.html"
 )
 
-pain_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: pain.id, weight: 3.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+flog_metric_configuration = MetricConfiguration.create(
+  metric_snapshot_id: flog.id, weight: 3.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
   kalibro_configuration_id: ruby_configuration.id)
 
 [
@@ -217,6 +217,6 @@ pain_metric_configuration = MetricConfiguration.create(
   { beginning: 40, end: 60, comments: "", reading_id: readings[:regular].id },
   { beginning: 60, end: 100, comments: "", reading_id: readings[:worrying].id },
   { beginning: 100, end: Float::INFINITY, comments: "", reading_id: readings[:terrible].id }
-].create_ranges(pain_metric_configuration.id)
+].create_ranges(flog_metric_configuration.id)
 
 ###############################################################################
