@@ -1,14 +1,17 @@
 class StatisticsController < ApplicationController
-  def count_metric_configuration
-  	metric_configuration = MetricConfiguration.all
-  	
-  	count_metric_name = Hash.new(0)
-  	metric_configuration.each { |x|  count_metric_name[x.metric_snapshot.name]+=1 }
+  def count_metric
+    count_metric_snapshot = MetricSnapshot.where(code: params[:metric_code]).count
+  	total_configuration = MetricConfiguration.all.count
+
+    if(total_configuration == 0)
+      metric_percentage = 0
+    else
+      metric_percentage = (count_metric_snapshot.to_f / total_configuration.to_f) * 100
+    end
 
     respond_to do |format|
-     	format.json {render json: {count_metric_name: count_metric_name}
-     end
+		  format.json {render json: {metric_percentage: metric_percentage.round(2)}}
+    end
   end
-
 end
 
