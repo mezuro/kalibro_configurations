@@ -1,8 +1,9 @@
 class StatisticsController < ApplicationController
-  def count_metric
+  def metric_percentage
     count_metric_snapshot = MetricSnapshot.where(code: params[:metric_code]).count
-  	total_configuration = MetricConfiguration.all.count
+    total_configuration = MetricConfiguration.all.count
 
+    #This comparision is to avoid division by zero
     if(total_configuration == 0)
       metric_percentage = 0
     else
@@ -10,7 +11,7 @@ class StatisticsController < ApplicationController
     end
 
     respond_to do |format|
-		  format.json {render json: {metric_percentage: metric_percentage.round(2)}}
+      format.json {render json: {metric_percentage: metric_percentage.round(2)}}
     end
   end
 end
