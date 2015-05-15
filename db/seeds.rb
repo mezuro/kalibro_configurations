@@ -55,7 +55,7 @@ acc = NativeMetricSnapshot.create(
   scope: "CLASS")
 
 acc_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: acc.id, weight: 2.0, aggregation_form: "AVERAGE",
+  metric_snapshot_id: acc.id, weight: 2.0, aggregation_form: "MEAN",
   reading_group_id: scholar.id, kalibro_configuration_id: first_configuration.id)
 
 [
@@ -74,7 +74,7 @@ accm = NativeMetricSnapshot.create(
   code: "accm", metric_collector_name: "Analizo", scope: "CLASS")
 
 accm_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: accm.id, weight: 2.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+  metric_snapshot_id: accm.id, weight: 2.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
 [
@@ -93,7 +93,7 @@ amloc = NativeMetricSnapshot.create(
   scope: "CLASS")
 
 amloc_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: amloc.id, weight: 1.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+  metric_snapshot_id: amloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
 [
@@ -112,7 +112,7 @@ anpm = NativeMetricSnapshot.create(
   scope: "CLASS")
 
 anpm_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: anpm.id, weight: 1.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+  metric_snapshot_id: anpm.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
 [
@@ -130,7 +130,7 @@ dit = NativeMetricSnapshot.create(
   name: "Depth of Inheritance Tree", description: "", code: "dit", metric_collector_name: "Analizo", scope: "CLASS")
 
 dit_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: dit.id, weight: 1.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+  metric_snapshot_id: dit.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
 [
@@ -148,7 +148,7 @@ nom = NativeMetricSnapshot.create(
   name: "Number of Methods", description: "", code: "nom", metric_collector_name: "Analizo", scope: "CLASS")
 
 nom_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: nom.id, weight: 1.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+  metric_snapshot_id: nom.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
 [
@@ -166,7 +166,7 @@ npa = NativeMetricSnapshot.create(
   name: "Number of Public Attributes", description: "", code: "npa", metric_collector_name: "Analizo", scope: "CLASS")
 
 npa_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: npa.id, weight: 1.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+  metric_snapshot_id: npa.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
 [
@@ -184,7 +184,7 @@ sc = NativeMetricSnapshot.create(
   name: "Structural Complexity", description: "", code: "sc", metric_collector_name: "Analizo", scope: "CLASS")
 
 sc_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: sc.id, weight: 4.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+  metric_snapshot_id: sc.id, weight: 4.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
 [
@@ -208,7 +208,7 @@ flog = NativeMetricSnapshot.create(
 )
 
 flog_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: flog.id, weight: 3.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+  metric_snapshot_id: flog.id, weight: 3.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: ruby_configuration.id)
 
 [
@@ -228,7 +228,7 @@ saikuro = NativeMetricSnapshot.create(
 )
 
 saikuro_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: saikuro.id, weight: 1.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+  metric_snapshot_id: saikuro.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: ruby_configuration.id)
 
 [
