@@ -221,3 +221,21 @@ flog_metric_configuration = MetricConfiguration.create(
 ].create_ranges(flog_metric_configuration.id)
 
 ###############################################################################
+
+saikuro = NativeMetricSnapshot.create(
+  name: "Cyclomatic Complexity", code: "saikuro", metric_collector_name: "MetricFu", scope: "METHOD",
+  description: "Cyclomatic complexity is a graphical measurement of the number of possible paths through the normal flow of a program"
+)
+
+saikuro_metric_configuration = MetricConfiguration.create(
+  metric_snapshot_id: saikuro.id, weight: 1.0, aggregation_form: "AVERAGE", reading_group_id: scholar.id,
+  kalibro_configuration_id: ruby_configuration.id)
+
+[
+  { beginning: 0, end: 3, comments: "", reading_id: readings[:excellent].id },
+  { beginning: 3, end: 5, comments: "", reading_id: readings[:good].id },
+  { beginning: 5, end: 7, comments: "", reading_id: readings[:regular].id },
+  { beginning: 7, end: Float::INFINITY, comments: "", reading_id: readings[:worrying].id }
+].create_ranges(saikuro_metric_configuration.id)
+
+###############################################################################
