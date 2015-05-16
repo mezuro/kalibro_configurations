@@ -15,7 +15,7 @@ RSpec.describe StatisticsController, type: :controller do
         get :metric_percentage, metric_code: 'loc', format: :json
       end
 
-      it {should respond_with(:success)}
+      it { is_expected.to respond_with(:success) }
 
       it "returns use percentage of the selected metric" do
         expect(JSON.parse(response.body)).to eq(JSON.parse({ metric_percentage: 33.33 }.to_json))
@@ -29,7 +29,7 @@ RSpec.describe StatisticsController, type: :controller do
         get :metric_percentage, metric_code: 'loc', format: :json
       end
 
-      it {should respond_with(:success)}
+      it { is_expected.to respond_with(:success) }
 
       it "returns zero percentage" do
         expect(JSON.parse(response.body)).to eq(JSON.parse({ metric_percentage: 0.0 }.to_json))
@@ -43,7 +43,7 @@ RSpec.describe StatisticsController, type: :controller do
         get :metric_percentage, metric_code: 'loc', format: :json
       end
 
-      it {should respond_with(:success)}
+      it { is_expected.to respond_with(:success) }
 
       it "returns zero percentage" do
         expect(JSON.parse(response.body)).to eq(JSON.parse({ metric_percentage: 0.0 }.to_json))
