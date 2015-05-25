@@ -1,7 +1,7 @@
 class StatisticsController < ApplicationController
   def metric_percentage
     count_metric_snapshot = MetricSnapshot.where(code: params[:metric_code]).count
-    total_configuration = MetricConfiguration.all.count
+    total_configuration = MetricConfiguration.count
 
     #This comparision is to avoid division by zero
     if(total_configuration == 0)
