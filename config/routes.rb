@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'statistics/metric_percentage' => 'statistics#metric_percentage'
+
   resources :metric_snapshots, only: [:index, :show]
   get 'metric_snapshots/:id/metric_configuration' => 'metric_snapshots#metric_configuration'
 
