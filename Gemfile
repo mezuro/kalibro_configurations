@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.2'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -61,7 +61,7 @@ group :development, :test do
   gem 'spring'
 
   # Test framework
-  gem 'rspec-rails', '~> 3.2.0'
+  gem 'rspec-rails', '~> 3.3.2'
 
   # Mock framework
   gem 'mocha', '~> 1.1.0'
