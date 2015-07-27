@@ -15,14 +15,6 @@ class MetricConfiguration < ActiveRecord::Base
     json = super(options)
     json['metric'] = metric_snapshot.as_json(except: [:id, :created_at, :updated_at])
 
-    # Type is considered by ActiveRecord as an implementation detail and so it is ignored by as_json
-    # Here we set it, since it is important in our case
-    if metric_snapshot.is_a?(NativeMetricSnapshot)
-      json['metric']['type'] = 'NativeMetricSnapshot'
-    elsif metric_snapshot.is_a?(CompoundMetricSnapshot)
-      json['metric']['type'] = 'CompoundMetricSnapshot'
-    end
-
     return json
   end
 

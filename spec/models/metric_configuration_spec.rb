@@ -20,33 +20,14 @@ RSpec.describe MetricConfiguration, :type => :model do
 
   describe 'methods' do
     describe 'as_json' do
-      subject { FactoryGirl.build(:metric_configuration) }
+      subject { FactoryGirl.build(:metric_configuration, metric_snapshot: FactoryGirl.build(:native_metric_snapshot)) }
 
-      context 'with a NativeMetricSnapshot' do
-        let!(:metric_snapshot) { FactoryGirl.build(:native_metric_snapshot) }
-
-        before do
-          subject.metric_snapshot = metric_snapshot
-        end
-
-        it 'is expected to set the metric attribute from hash' do
-          metric_snapshot_json = metric_snapshot.as_json(except: [:id, :created_at, :updated_at])
-          metric_snapshot_json['type'] = 'NativeMetricSnapshot'
-          expect(subject.as_json['metric']).to eq(metric_snapshot_json)
-        end
-      end
-
-      context 'with a CompoundMetricSnapshot' do
-        let!(:metric_snapshot) { FactoryGirl.build(:compound_metric_snapshot) }
-
-        before do
-          subject.metric_snapshot = metric_snapshot
-        end
-
-        it 'is expected to set the metric attribute from hash' do
-          metric_snapshot_json = metric_snapshot.as_json(except: [:id, :created_at, :updated_at])
-          metric_snapshot_json['type'] = 'CompoundMetricSnapshot'
-          expect(subject.as_json['metric']).to eq(metric_snapshot_json)
+      context 'with a generic Metric Snapshot' do
+        it 'is expected to add the metric snapshot value to the hash' do
+          subject.metric_snapshot.expects(:as_json).returns({})
+          subject_json_hash = subject.as_json
+          expect(subject_json_hash).to include("metric")
+          expect(subject_json_hash["metric"]).to eq({})
         end
       end
     end
