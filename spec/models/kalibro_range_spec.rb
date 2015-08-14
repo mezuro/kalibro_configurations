@@ -16,6 +16,26 @@ RSpec.describe KalibroRange, :type => :model do
     it { is_expected.to validate_numericality_of(:end) }
     it { is_expected.to validate_uniqueness_of(:beginning).
          scoped_to(:metric_configuration_id).with_message("Should be unique within a Metric Configuration") }
+
+    context 'with invalid beginning or end' do
+      subject { FactoryGirl.build(:kalibro_range_with_id) }
+
+      @cases = [
+          [Float::INFINITY, Float::INFINITY],
+          [Float::INFINITY, -Float::INFINITY],
+          [-Float::INFINITY, -Float::INFINITY]
+      ]
+
+      @cases.each do |beginning, end_|
+        context "with beggining #{beginning} and end #{end_}" do
+          it 'should fail to validate' do
+            subject.beginning = beginning
+            subject.end = end_
+            expect(subject.valid?).to be_falsy
+          end
+        end
+      end
+    end
   end
 
   describe 'methods' do
@@ -25,16 +45,6 @@ RSpec.describe KalibroRange, :type => :model do
       context 'with numbers' do
         it 'is expected to convert the numbers to strings' do
           expect(KalibroRange.new(subject.as_json)).to eq(subject)
-        end
-      end
-
-      context 'with positive infinity beginning' do
-        before do
-          subject.beginning = Float::INFINITY
-        end
-
-        it 'is expected to convert to INF' do
-          expect(subject.as_json["beginning"]).to eq("INF")
         end
       end
 
@@ -57,15 +67,37 @@ RSpec.describe KalibroRange, :type => :model do
           expect(subject.as_json["end"]).to eq("INF")
         end
       end
+    end
+  end
 
-      context 'with negative infinity end' do
-        before do
-          subject.end = -Float::INFINITY
-        end
+  describe 'setters' do
+    subject { FactoryGirl.build(:kalibro_range) }
 
-        it 'is expected to convert to -INF' do
-          expect(subject.as_json["end"]).to eq("-INF")
-        end
+    describe 'beginning' do
+      xit 'should convert "-INF" to -Float::INFINITY' do
+        subject.beginning = '-INF'
+
+        expect(subject.beginning).to eq(-Float::INFINITY)
+      end
+
+      xit 'should convert "INF" to Float::INFINITY' do
+        subject.beginning = 'INF'
+
+        expect(subject.beginning).to eq(Float::INFINITY)
+      end
+    end
+
+    describe 'end' do
+      xit 'should convert "-INF" to -Float::INFINITY' do
+        subject.end = '-INF'
+
+        expect(subject.end).to eq(-Float::INFINITY)
+      end
+
+      xit 'should convert "INF" to Float::INFINITY' do
+        subject.end = 'INF'
+
+        expect(subject.end).to eq(Float::INFINITY)
       end
     end
   end
