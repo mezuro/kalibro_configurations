@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'mocha/test_unit'
 
 RSpec.describe KalibroRange, :type => :model do
 
@@ -19,6 +20,12 @@ RSpec.describe KalibroRange, :type => :model do
 
     context 'with invalid beginning or end' do
       subject { FactoryGirl.build(:kalibro_range_with_id) }
+
+      before :each do
+        # Make sure the uniqueness in the Metric Configuration scope isn't triggered, since
+        # we only want to test validations that deal exclusively with the range values
+        ActiveRecord::Validations::UniquenessValidator.any_instance.stubs(:validate_each)
+      end
 
       @cases = [
           [Float::INFINITY, Float::INFINITY],
