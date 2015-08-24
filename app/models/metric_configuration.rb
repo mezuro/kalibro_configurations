@@ -1,12 +1,8 @@
 class MetricConfiguration < ActiveRecord::Base
   belongs_to :kalibro_configuration
   belongs_to :metric_snapshot, dependent: :destroy
-  belongs_to :reading_group
-  has_many :kalibro_ranges, dependent: :destroy
 
-  validates :weight, :kalibro_configuration, :metric_snapshot, presence: true
-  validates :weight, numericality: { greater_than: 0 }
-  validates :aggregation_form, presence: true, if: "native_metric_snapshot?"
+  validates :kalibro_configuration, :metric_snapshot, presence: true
 
   accepts_nested_attributes_for :metric_snapshot
 

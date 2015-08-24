@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ReadingGroup, :type => :model do
   describe 'associations' do
     it { is_expected.to have_many(:readings).dependent(:destroy) }
-    it { is_expected.to have_many(:metric_configurations) }
+    it { is_expected.to have_many(:metric_configurations).class_name('TreeMetricConfiguration') }
   end
 
   describe 'validations' do
