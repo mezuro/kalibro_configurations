@@ -4,8 +4,8 @@ FactoryGirl.define do
     self.end 1.5
     comments "Range comments"
     reading { FactoryGirl.build(:reading) }
-    metric_configuration { FactoryGirl.build(:tree_metric_configuration) }
-
+    metric_configuration { FactoryGirl.build(:metric_configuration) }
+    
     trait :with_id do
       id 32
     end

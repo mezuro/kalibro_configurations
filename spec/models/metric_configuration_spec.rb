@@ -4,11 +4,15 @@ RSpec.describe MetricConfiguration, :type => :model do
   describe 'associations' do
     it { is_expected.to belong_to(:kalibro_configuration) }
     it { is_expected.to belong_to(:metric_snapshot).dependent(:destroy) }
+    it { is_expected.to belong_to(:reading_group) }
+    it { is_expected.to have_many(:kalibro_ranges).dependent(:destroy) }
   end
 
   describe 'validations' do
     subject { FactoryGirl.build(:metric_configuration) }
-
+    it { is_expected.to validate_presence_of(:aggregation_form) }
+    it { is_expected.to validate_presence_of(:weight) }
+    it { is_expected.to validate_numericality_of(:weight) }
     it { is_expected.to validate_presence_of(:kalibro_configuration) }
     it { is_expected.to validate_presence_of(:metric_snapshot) }
     it { is_expected.to accept_nested_attributes_for(:metric_snapshot) }
