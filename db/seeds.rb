@@ -54,7 +54,7 @@ acc = NativeMetricSnapshot.create(
   description: "", code: "acc", metric_collector_name: "Analizo",
   scope: "CLASS")
 
-acc_metric_configuration = TreeMetricConfiguration.create(
+acc_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: acc.id, weight: 2.0, aggregation_form: "MEAN",
   reading_group_id: scholar.id, kalibro_configuration_id: first_configuration.id)
 
@@ -73,7 +73,7 @@ accm = NativeMetricSnapshot.create(
   name: "Average Cyclomatic Complexity per Method", description: "",
   code: "accm", metric_collector_name: "Analizo", scope: "CLASS")
 
-accm_metric_configuration = TreeMetricConfiguration.create(
+accm_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: accm.id, weight: 2.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
@@ -92,7 +92,7 @@ amloc = NativeMetricSnapshot.create(
   name: "Average Method Lines of Code", description: "", code: "amloc", metric_collector_name: "Analizo",
   scope: "CLASS")
 
-amloc_metric_configuration = TreeMetricConfiguration.create(
+amloc_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: amloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
@@ -111,7 +111,7 @@ anpm = NativeMetricSnapshot.create(
   name: "Average Number of Parameters per Method", description: "", code: "anpm", metric_collector_name: "Analizo",
   scope: "CLASS")
 
-anpm_metric_configuration = TreeMetricConfiguration.create(
+anpm_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: anpm.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
@@ -121,7 +121,7 @@ anpm_metric_configuration = TreeMetricConfiguration.create(
   { beginning: 3, end: 5, comments: "", reading_id: readings[:regular].id },
   { beginning: 5, end: Float::INFINITY, reading_id: readings[:worrying].id,
     comments: "Os métodos estão recebendo muitos parâmetros. Conjuntos de parâmetros parecidos sugerem a criação de uma classe contendo esses dados, e transferência dos métodos para essa classe."
-  }
+  }  
 ].create_ranges(anpm_metric_configuration.id)
 
 ###############################################################################
@@ -129,7 +129,7 @@ anpm_metric_configuration = TreeMetricConfiguration.create(
 dit = NativeMetricSnapshot.create(
   name: "Depth of Inheritance Tree", description: "", code: "dit", metric_collector_name: "Analizo", scope: "CLASS")
 
-dit_metric_configuration = TreeMetricConfiguration.create(
+dit_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: dit.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
@@ -147,7 +147,7 @@ dit_metric_configuration = TreeMetricConfiguration.create(
 nom = NativeMetricSnapshot.create(
   name: "Number of Methods", description: "", code: "nom", metric_collector_name: "Analizo", scope: "CLASS")
 
-nom_metric_configuration = TreeMetricConfiguration.create(
+nom_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: nom.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
@@ -165,7 +165,7 @@ nom_metric_configuration = TreeMetricConfiguration.create(
 npa = NativeMetricSnapshot.create(
   name: "Number of Public Attributes", description: "", code: "npa", metric_collector_name: "Analizo", scope: "CLASS")
 
-npa_metric_configuration = TreeMetricConfiguration.create(
+npa_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: npa.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
@@ -183,7 +183,7 @@ npa_metric_configuration = TreeMetricConfiguration.create(
 sc = NativeMetricSnapshot.create(
   name: "Structural Complexity", description: "", code: "sc", metric_collector_name: "Analizo", scope: "CLASS")
 
-sc_metric_configuration = TreeMetricConfiguration.create(
+sc_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: sc.id, weight: 4.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: first_configuration.id)
 
@@ -207,7 +207,7 @@ flog = NativeMetricSnapshot.create(
   description: "Flog mede a tortuosidade do código-fonte. Quanto mais doloroso e difícil de testar, maior a pontuação, baseando-se na métrica ABC e boas práticas de Ruby. Extraído do blog do autor da métrica: http://jakescruggs.blogspot.com.br/2008/08/whats-good-flog-score.html"
 )
 
-flog_metric_configuration = TreeMetricConfiguration.create(
+flog_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: flog.id, weight: 3.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: ruby_configuration.id)
 
@@ -227,7 +227,7 @@ saikuro = NativeMetricSnapshot.create(
   description: "Cyclomatic complexity is a graphical measurement of the number of possible paths through the normal flow of a program"
 )
 
-saikuro_metric_configuration = TreeMetricConfiguration.create(
+saikuro_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: saikuro.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: ruby_configuration.id)
 
