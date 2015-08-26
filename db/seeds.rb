@@ -121,7 +121,7 @@ anpm_metric_configuration = MetricConfiguration.create(
   { beginning: 3, end: 5, comments: "", reading_id: readings[:regular].id },
   { beginning: 5, end: Float::INFINITY, reading_id: readings[:worrying].id,
     comments: "Os métodos estão recebendo muitos parâmetros. Conjuntos de parâmetros parecidos sugerem a criação de uma classe contendo esses dados, e transferência dos métodos para essa classe."
-  }  
+  }
 ].create_ranges(anpm_metric_configuration.id)
 
 ###############################################################################
@@ -317,7 +317,7 @@ py_lloc = NativeMetricSnapshot.create(
 )
 
 py_lloc_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: py_lloc.id, weight: 1.0, aggregation_form: "SUM", reading_group_id: scholar.id,
+  metric_snapshot_id: py_lloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: python_configuration.id)
 loc_ranges.create_ranges(py_lloc_metric_configuration.id)
 
@@ -328,7 +328,7 @@ py_sloc = NativeMetricSnapshot.create(
     description: "The number of source lines of code - not necessarily corresponding to the LLOC."
 )
 py_sloc_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: py_sloc.id, weight: 1.0, aggregation_form: "SUM", reading_group_id: scholar.id,
+  metric_snapshot_id: py_sloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: python_configuration.id)
 loc_ranges.create_ranges(py_sloc_metric_configuration.id)
 
