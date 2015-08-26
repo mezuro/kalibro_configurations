@@ -121,7 +121,7 @@ anpm_metric_configuration = MetricConfiguration.create(
   { beginning: 3, end: 5, comments: "", reading_id: readings[:regular].id },
   { beginning: 5, end: Float::INFINITY, reading_id: readings[:worrying].id,
     comments: "Os métodos estão recebendo muitos parâmetros. Conjuntos de parâmetros parecidos sugerem a criação de uma classe contendo esses dados, e transferência dos métodos para essa classe."
-  }  
+  }
 ].create_ranges(anpm_metric_configuration.id)
 
 ###############################################################################
@@ -237,5 +237,147 @@ saikuro_metric_configuration = MetricConfiguration.create(
   { beginning: 5, end: 7, comments: "", reading_id: readings[:regular].id },
   { beginning: 7, end: Float::INFINITY, comments: "", reading_id: readings[:worrying].id }
 ].create_ranges(saikuro_metric_configuration.id)
+
+################################################################################
+############################# Python Configuration ###########################
+################################################################################
+
+python_configuration = KalibroConfiguration.create(name: "Python",
+  description: "Example Python Configuration using Radon. See http://radon.readthedocs.org/en/latest/intro.html for more details.")
+
+################################################################################
+
+py_cc = NativeMetricSnapshot.create(
+    name: "Cyclomatic Complexity", code: "cc", metric_collector_name: "Radon", scope: "METHOD",
+    description: "Cyclomatic Complexity corresponds to the number of decisions a block of code contains plus 1."
+)
+
+py_cc_metric_configuration = MetricConfiguration.create(
+  metric_snapshot_id: py_cc.id, weight: 2.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+  kalibro_configuration_id: python_configuration.id)
+
+[
+  { beginning: 0, end: 3, comments: "", reading_id: readings[:excellent].id },
+  { beginning: 3, end: 5, comments: "", reading_id: readings[:good].id },
+  { beginning: 5, end: 7, comments: "", reading_id: readings[:regular].id },
+  { beginning: 7, end: Float::INFINITY, comments: "", reading_id: readings[:worrying].id }
+].create_ranges(py_cc_metric_configuration.id)
+
+################################################################################
+
+py_mi = NativeMetricSnapshot.create(
+    name: "Maintainability Index", code: "mi", metric_collector_name: "Radon", scope: "PACKAGE",
+    description: "Maintainability Index is a software metric which measures how maintainable (easy to support and change) the source code is. The maintainability index is calculated as a factored formula consisting of SLOC (Source Lines Of Code), Cyclomatic Complexity and Halstead volume."
+)
+
+py_mi_metric_configuration = MetricConfiguration.create(
+  metric_snapshot_id: py_mi.id, weight: 2.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+  kalibro_configuration_id: python_configuration.id)
+
+# These ranges were chosen by converting the rangesfrom the original Maintainability Index
+# paper [1] from it's scale of 0 to 171 to the one that Radon uses (0 to 100).
+#
+# The original ranges were:
+# * 0-65: difficult to maintain
+# * 65-85: moderately maintainable
+# * > 85: highly maintainable
+#
+# Converted to 0-100 with simple multiplication yields 0, ~38 and ~50.
+#
+# [1] COLEMAN, Don et al. Using metrics to evaluate software system maintainability. Computer, v. 27, n. 8, p. 44-49, 1994.
+[
+  { beginning: 50, end: Float::INFINITY, comments: "", reading_id: readings[:very_good].id },
+  { beginning: 38, end: 50, comments: "", reading_id: readings[:regular].id },
+  { beginning: 0, end: 38, comments: "", reading_id: readings[:bad].id }
+].create_ranges(py_mi_metric_configuration.id)
+
+################################################################################
+
+# Those ranges are used for all Python metrics that count LOC in some way
+loc_ranges = [
+  { beginning: 0, end: 1000, comments: "", reading_id: readings[:good].id },
+  { beginning: 1000, end: 5000, comments: "", reading_id: readings[:regular].id },
+  { beginning: 5000, end: Float::INFINITY, comments: "", reading_id: readings[:bad].id },
+]
+
+py_loc = NativeMetricSnapshot.create(
+    name: "Lines of Code", code: "loc", metric_collector_name: "Radon", scope: "PACKAGE",
+    description: "The total number of lines of code. It is the sum of the SLOC and the number of blank lines: the equation LOC = SLOC + Blanks should always hold."
+)
+py_loc_metric_configuration = MetricConfiguration.create(
+  metric_snapshot_id: py_loc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+  kalibro_configuration_id: python_configuration.id)
+loc_ranges.create_ranges(py_loc_metric_configuration.id)
+
+################################################################################
+
+py_lloc = NativeMetricSnapshot.create(
+    name: "Logical Lines of Code", code: "lloc", metric_collector_name: "Radon", scope: "PACKAGE",
+    description: "The number of logical lines of code. Every logical line of code contains exactly one statement."
+)
+
+py_lloc_metric_configuration = MetricConfiguration.create(
+  metric_snapshot_id: py_lloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+  kalibro_configuration_id: python_configuration.id)
+loc_ranges.create_ranges(py_lloc_metric_configuration.id)
+
+################################################################################
+
+py_sloc = NativeMetricSnapshot.create(
+    name: "Source Lines of Code", code: "sloc", metric_collector_name: "Radon", scope: "PACKAGE",
+    description: "The number of source lines of code - not necessarily corresponding to the LLOC."
+)
+py_sloc_metric_configuration = MetricConfiguration.create(
+  metric_snapshot_id: py_sloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+  kalibro_configuration_id: python_configuration.id)
+loc_ranges.create_ranges(py_sloc_metric_configuration.id)
+
+################################################################################
+
+# This range is a very generic one, with no meaningful scale and always resulting
+# in a regular rating, to be used for metrics that are mostly informative, but
+# can't be used directly to make judgements about code quality. For example, blank
+# and comment line counts are only meaningful compared to how many lines exist
+# overall.
+
+indifferent_ranges = [
+    { beginning: 0, end: Float::INFINITY, comments: "", reading_id: readings[:regular].id },
+]
+
+py_comments = NativeMetricSnapshot.create(
+    name: "Comment Lines", code: "comments", metric_collector_name: "Radon", scope: "PACKAGE",
+    description: "The number of comment lines. Multi-line strings are not counted as comment since, to the Python interpreter, they are just strings."
+)
+py_comments_metric_configuration = MetricConfiguration.create(
+    metric_snapshot_id: py_comments.id, weight: 0.1, aggregation_form: "SUM", reading_group_id: scholar.id,
+    kalibro_configuration_id: python_configuration.id)
+
+indifferent_ranges.create_ranges(py_comments_metric_configuration.id)
+
+################################################################################
+
+py_multi = NativeMetricSnapshot.create(
+    name: "Multi-line String Lines", code: "multi", metric_collector_name: "Radon", scope: "PACKAGE",
+    description: "The number of lines which represent multi-line strings."
+)
+
+py_multi_metric_configuration = MetricConfiguration.create(
+  metric_snapshot_id: py_multi.id, weight: 0.1, aggregation_form: "SUM", reading_group_id: scholar.id,
+  kalibro_configuration_id: python_configuration.id)
+
+indifferent_ranges.create_ranges(py_multi_metric_configuration.id)
+
+################################################################################
+
+py_blank = NativeMetricSnapshot.create(
+    name: "Blank Lines", code: "blank", metric_collector_name: "Radon", scope: "PACKAGE",
+    description: "The number of blank lines (or whitespace-only ones)."
+)
+
+py_blank_metric_configuration = MetricConfiguration.create(
+  metric_snapshot_id: py_blank.id, weight: 0.1, aggregation_form: "SUM", reading_group_id: scholar.id,
+  kalibro_configuration_id: python_configuration.id)
+
+indifferent_ranges.create_ranges(py_blank_metric_configuration.id)
 
 ###############################################################################
