@@ -10,12 +10,34 @@ RSpec.describe MetricConfiguration, :type => :model do
 
   describe 'validations' do
     subject { FactoryGirl.build(:metric_configuration) }
-    it { is_expected.to validate_presence_of(:aggregation_form) }
-    it { is_expected.to validate_presence_of(:weight) }
-    it { is_expected.to validate_numericality_of(:weight) }
+
     it { is_expected.to validate_presence_of(:kalibro_configuration) }
     it { is_expected.to validate_presence_of(:metric_snapshot) }
     it { is_expected.to accept_nested_attributes_for(:metric_snapshot) }
+
+    context 'with a NativeMetricSnapshot' do
+      it { is_expected.to validate_presence_of(:aggregation_form) }
+      it { is_expected.to validate_presence_of(:weight) }
+      it { is_expected.to validate_numericality_of(:weight) }
+    end
+
+    context 'with a CompoundMetricSnapshot' do
+      before :each do
+        subject.metric_snapshot = FactoryGirl.build(:compound_metric_snapshot)
+      end
+      it { is_expected.to_not validate_presence_of(:aggregation_form) }
+      it { is_expected.to validate_presence_of(:weight) }
+      it { is_expected.to validate_numericality_of(:weight) }
+    end
+
+    context 'with a HotspotMetricSnapshot' do
+      before :each do
+        subject.metric_snapshot = FactoryGirl.build(:hotspot_metric_snapshot)
+      end
+      it { is_expected.to_not validate_presence_of(:aggregation_form) }
+      it { is_expected.to_not validate_presence_of(:weight) }
+      it { is_expected.to_not validate_numericality_of(:weight) }
+    end
   end
 
   describe 'methods' do
@@ -28,6 +50,38 @@ RSpec.describe MetricConfiguration, :type => :model do
           subject_json_hash = subject.as_json
           expect(subject_json_hash).to include("metric")
           expect(subject_json_hash["metric"]).to eq({})
+        end
+      end
+    end
+
+    describe 'native_metric_snapshot?' do
+      context 'when there is a metric snapshot' do
+        subject { FactoryGirl.build(:metric_configuration, metric_snapshot: FactoryGirl.build(:native_metric_snapshot)) }
+        it 'is expected to return true' do
+          expect(subject.native_metric_snapshot?).to be_truthy
+        end
+      end
+
+      context 'when metric snapshot is nil' do
+        subject { FactoryGirl.build(:metric_configuration, metric_snapshot: nil) }
+        it 'is expected to return false' do
+          expect(subject.native_metric_snapshot?).to be_falsey
+        end
+      end
+    end
+
+    describe 'hotspot_metric_snapshot?' do
+      context 'when there is a metric snapshot' do
+        subject { FactoryGirl.build(:metric_configuration, metric_snapshot: FactoryGirl.build(:hotspot_metric_snapshot)) }
+        it 'is expected to return true' do
+          expect(subject.hotspot_metric_snapshot?).to be_truthy
+        end
+      end
+
+      context 'when metric snapshot is nil' do
+        subject { FactoryGirl.build(:metric_configuration, metric_snapshot: nil) }
+        it 'is expected to return false' do
+          expect(subject.hotspot_metric_snapshot?).to be_falsey
         end
       end
     end

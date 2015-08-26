@@ -13,7 +13,6 @@ class MetricConfigurationsController < ApplicationController
     metric_configuration_params.delete('metric')
     @metric_configuration = MetricConfiguration.new(metric_configuration_params)
     if !metric_snapshot.id.nil? && @metric_configuration.valid_metric_snapshot_code?(metric_snapshot.code)
-
       @metric_configuration.metric_snapshot = metric_snapshot
 
       respond_to do |format|
@@ -35,6 +34,7 @@ class MetricConfigurationsController < ApplicationController
       metric_configuration_params = all_params
       metric_snapshot = @metric_configuration.metric_snapshot
 
+      # Instead of updating CompoundMetricSnapshot we delete it and create a new one
       if !metric_configuration_params['metric'].nil? && metric_configuration_params['metric']['type'] == 'CompoundMetricSnapshot'
         metric_snapshot = build_metric_snapshot
         if metric_snapshot.errors.empty? && @metric_configuration.valid_metric_snapshot_code?(metric_snapshot.code)
