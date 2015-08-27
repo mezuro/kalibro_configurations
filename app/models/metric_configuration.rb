@@ -4,9 +4,9 @@ class MetricConfiguration < ActiveRecord::Base
   belongs_to :reading_group
   has_many :kalibro_ranges, dependent: :destroy
 
-  validates :weight, :kalibro_configuration, :metric_snapshot, presence: true
-  validates :weight, numericality: { greater_than: 0 }
-  validates :aggregation_form, presence: true, if: "native_metric_snapshot?"
+  validates :weight, :kalibro_configuration, :metric_snapshot, presence: true, unless: "hotspot_metric_snapshot?"
+  validates :weight, numericality: { greater_than: 0 }, unless: "hotspot_metric_snapshot?"
+  validates :aggregation_form, presence: true, if: "native_metric_snapshot? && !hotspot_metric_snapshot?"
 
   accepts_nested_attributes_for :metric_snapshot
 
@@ -20,6 +20,10 @@ class MetricConfiguration < ActiveRecord::Base
 
   def native_metric_snapshot?
     !metric_snapshot.nil? && metric_snapshot.type == "NativeMetricSnapshot"
+  end
+
+  def hotspot_metric_snapshot?
+    !metric_snapshot.nil? && metric_snapshot.type == "HotspotMetricSnapshot"
   end
 
   def valid_metric_snapshot_code?(code)
