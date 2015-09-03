@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.2.2
+  - 2.0.0-p598
 
 before_script:
   - "cp config/database.yml.sample config/database.yml"
