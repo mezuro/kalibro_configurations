@@ -14,6 +14,14 @@ class Array
         {metric_configuration_id: metric_configuration_id}))
     end
   end
+
+  def to_h
+    result_hash = {}
+    self.each do |label, reading|
+      result_hash[label] = reading
+    end
+    return result_hash
+  end
 end
 
 ###############################################################################
