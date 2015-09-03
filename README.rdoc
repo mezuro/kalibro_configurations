@@ -7,6 +7,10 @@ It was strongly based on the vintage Kalibro (https://github.com/mezuro/kalibro)
 
 ---
 
+=== Notice
+
+  This version is a backport to ruby 2.0.0-p598.
+
 === Contributing
 
 Please, have a look at the wiki pages about development workflow and code standards:
@@ -31,7 +35,7 @@ Please, have a look at the wiki pages about development workflow and code standa
 
 * Ruby version
 
-  2.2.2
+  2.0.0
 
   You can easily install it through the Ruby Version Manager - RVM. Instructions on how to do it can be found at http://rvm.io
 
