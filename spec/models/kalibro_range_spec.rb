@@ -81,13 +81,13 @@ RSpec.describe KalibroRange, :type => :model do
     subject { FactoryGirl.build(:kalibro_range) }
 
     describe 'beginning' do
-      xit 'should convert "-INF" to -Float::INFINITY' do
+      it 'should convert "-INF" to -Float::INFINITY' do
         subject.beginning = '-INF'
 
         expect(subject.beginning).to eq(-Float::INFINITY)
       end
 
-      xit 'should convert "INF" to Float::INFINITY' do
+      it 'should convert "INF" to Float::INFINITY' do
         subject.beginning = 'INF'
 
         expect(subject.beginning).to eq(Float::INFINITY)
@@ -95,13 +95,13 @@ RSpec.describe KalibroRange, :type => :model do
     end
 
     describe 'end' do
-      xit 'should convert "-INF" to -Float::INFINITY' do
+      it 'should convert "-INF" to -Float::INFINITY' do
         subject.end = '-INF'
 
         expect(subject.end).to eq(-Float::INFINITY)
       end
 
-      xit 'should convert "INF" to Float::INFINITY' do
+      it 'should convert "INF" to Float::INFINITY' do
         subject.end = 'INF'
 
         expect(subject.end).to eq(Float::INFINITY)

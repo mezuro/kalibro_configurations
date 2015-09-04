@@ -20,4 +20,23 @@ class KalibroRange < ActiveRecord::Base
     return json
   end
 
+  def beginning=(value)
+    super(extract_infinity value)
+  end
+
+  def end=(value)
+    super(extract_infinity value)
+  end
+
+  private
+
+  def extract_infinity(parameter)
+    if parameter == "INF"
+      Float::INFINITY
+    elsif parameter == "-INF"
+      -Float::INFINITY
+    else
+      parameter
+    end
+  end
 end
