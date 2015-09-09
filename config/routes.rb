@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get 'metric_snapshots/:id/metric_configuration' => 'metric_snapshots#metric_configuration'
 
   # Acceptance tests route
-  post 'tests/clean_database' => 'tests#clean_database'
+  post 'tests/clean_database' => 'tests#clean_database' unless Rails.env == "production"
 
   get 'kalibro_ranges/:id/exists' => 'kalibro_ranges#exists'
   get 'kalibro_ranges/:id' => 'kalibro_ranges#show'
