@@ -86,6 +86,12 @@ RSpec.describe KalibroRange, :type => :model do
 
         expect(subject.beginning).to eq(Float::INFINITY)
       end
+
+      it 'is expected to convert any numerical string to a float instance' do
+        subject.beginning = '123.3'
+
+        expect(subject.beginning).to eq(123.3)
+      end
     end
 
     describe 'end' do
@@ -99,6 +105,12 @@ RSpec.describe KalibroRange, :type => :model do
         subject.end = 'INF'
 
         expect(subject.end).to eq(Float::INFINITY)
+      end
+
+      it 'is expected to convert any numerical string to a float instance' do
+        subject.end = '123.3'
+
+        expect(subject.end).to eq(123.3)
       end
     end
   end
