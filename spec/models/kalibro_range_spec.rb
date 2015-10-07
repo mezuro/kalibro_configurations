@@ -32,7 +32,7 @@ RSpec.describe KalibroRange, :type => :model do
           it 'should fail to validate' do
             subject.beginning = beginning
             subject.end = end_
-            expect(subject.valid?).to be_falsy
+            expect(subject.valid?).to be_falsey
           end
         end
       end
