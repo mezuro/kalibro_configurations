@@ -152,7 +152,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
   describe 'metric_configurations' do
       context 'with at least 1 metric configuration' do
-        let!(:metric_configuration) { FactoryGirl.build(:metric_configuration, id: 1, kalibro_configuration: kalibro_configuration) }
+        let!(:metric_configuration) { FactoryGirl.build(:tree_metric_configuration, id: 1, kalibro_configuration: kalibro_configuration) }
         let!(:metric_configurations) { [metric_configuration] }
         before :each do
           kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
@@ -181,6 +181,78 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it 'should return an empty array' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: []}.to_json))
+      end
+    end
+  end
+
+  describe 'hotspot_metric_configurations' do
+    context 'with at least 1 hotspot_metric configuration' do
+      let!(:hotspot_metric_configuration) { FactoryGirl.build(:hotspot_metric_configuration_with_id, kalibro_configuration: kalibro_configuration) }
+      let!(:hotspot_metric_configurations) { [hotspot_metric_configuration] }
+
+      before :each do
+        kalibro_configuration.expects(:hotspot_metric_configurations).returns(hotspot_metric_configurations)
+        KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+
+        get :hotspot_metric_configurations, id: kalibro_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'returns an array of hotspot_metric_configurations' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({ hotspot_metric_configurations: [hotspot_metric_configuration] }.to_json))
+      end
+    end
+
+    context 'without hotspot metric configurations' do
+      let!(:hotspot_metric_configurations) { [] }
+      before :each do
+        kalibro_configuration.expects(:hotspot_metric_configurations).returns(hotspot_metric_configurations)
+        KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+
+        get :hotspot_metric_configurations, id: kalibro_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'returns an empty array' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({ hotspot_metric_configurations: [] }.to_json))
+      end
+    end
+  end
+
+  describe 'tree_metric_configurations' do
+    context 'with at least 1 tree_metric configuration' do
+      let!(:tree_metric_configuration) { FactoryGirl.build(:tree_metric_configuration_with_id, kalibro_configuration: kalibro_configuration) }
+      let!(:tree_metric_configurations) { [tree_metric_configuration] }
+
+      before :each do
+        kalibro_configuration.expects(:tree_metric_configurations).returns(tree_metric_configurations)
+        KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+
+        get :tree_metric_configurations, id: kalibro_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'returns an array of tree_metric_configurations' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({ tree_metric_configurations: [tree_metric_configuration] }.to_json))
+      end
+    end
+
+    context 'without tree metric configurations' do
+      let!(:tree_metric_configurations) { [] }
+      before :each do
+        kalibro_configuration.expects(:tree_metric_configurations).returns(tree_metric_configurations)
+        KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+
+        get :tree_metric_configurations, id: kalibro_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'returns an empty array' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({ tree_metric_configurations: [] }.to_json))
       end
     end
   end

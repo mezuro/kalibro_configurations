@@ -46,9 +46,29 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   def metric_configurations
-    if set_kalibro_configuration
-      respond_to do |format|
-        format.json { render json: {metric_configurations: @kalibro_configuration.metric_configurations} }
+    return unless set_kalibro_configuration
+    # TODO: refactor this code to a private method
+    respond_to do |format|
+      format.json { render json: { metric_configurations: @kalibro_configuration.metric_configurations } }
+    end
+  end
+
+  def hotspot_metric_configurations
+    return unless set_kalibro_configuration
+    # TODO: refactor this code to a private method
+    respond_to do |format|
+      format.json do
+        render json: { hotspot_metric_configurations: @kalibro_configuration.hotspot_metric_configurations }
+      end
+    end
+  end
+
+  def tree_metric_configurations
+    return unless set_kalibro_configuration
+    # TODO: refactor this code to a private method
+    respond_to do |format|
+      format.json do
+        render json: { tree_metric_configurations: @kalibro_configuration.tree_metric_configurations }
       end
     end
   end
