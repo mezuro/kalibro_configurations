@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   get 'kalibro_configurations' => 'kalibro_configurations#all'
   get 'kalibro_configurations/:id/exists' => 'kalibro_configurations#exists'
   get 'kalibro_configurations/:id/metric_configurations' => 'kalibro_configurations#metric_configurations'
+  get 'kalibro_configurations/:id/hotspot_metric_configurations' => 'kalibro_configurations#hotspot_metric_configurations'
+  get 'kalibro_configurations/:id/tree_metric_configurations' => 'kalibro_configurations#tree_metric_configurations'
 
   get 'readings/:id' => 'readings#show'
   get 'readings/:id/exists' => 'readings#exists'
