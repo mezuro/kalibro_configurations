@@ -8,10 +8,9 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   def show
-    if set_kalibro_configuration
-      respond_to do |format|
-        format.json { render json: {kalibro_configuration: @kalibro_configuration}, status: :ok }
-      end
+    return unless set_kalibro_configuration
+    respond_to do |format|
+      format.json { render json: {kalibro_configuration: @kalibro_configuration}, status: :ok }
     end
   end
 
@@ -28,13 +27,12 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   def update
-    if set_kalibro_configuration
-      respond_to do |format|
-        if @kalibro_configuration.update(kalibro_configuration_params)
-          format.json { render json: {kalibro_configuration: @kalibro_configuration}, status: :created }
-        else
-          format.json { render json: {errors: @kalibro_configuration.errors.full_messages}, status: :unprocessable_entity }
-        end
+    return unless set_kalibro_configuration
+    respond_to do |format|
+      if @kalibro_configuration.update(kalibro_configuration_params)
+        format.json { render json: {kalibro_configuration: @kalibro_configuration}, status: :created }
+      else
+        format.json { render json: {errors: @kalibro_configuration.errors.full_messages}, status: :unprocessable_entity }
       end
     end
   end
@@ -46,31 +44,15 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   def metric_configurations
-    return unless set_kalibro_configuration
-    # TODO: refactor this code to a private method
-    respond_to do |format|
-      format.json { render json: { metric_configurations: @kalibro_configuration.metric_configurations } }
-    end
+    request_metric_configurations :metric_configurations
   end
 
   def hotspot_metric_configurations
-    return unless set_kalibro_configuration
-    # TODO: refactor this code to a private method
-    respond_to do |format|
-      format.json do
-        render json: { hotspot_metric_configurations: @kalibro_configuration.hotspot_metric_configurations }
-      end
-    end
+    request_metric_configurations :hotspot_metric_configurations
   end
 
   def tree_metric_configurations
-    return unless set_kalibro_configuration
-    # TODO: refactor this code to a private method
-    respond_to do |format|
-      format.json do
-        render json: { tree_metric_configurations: @kalibro_configuration.tree_metric_configurations }
-      end
-    end
+    request_metric_configurations :tree_metric_configurations
   end
 
   def destroy
@@ -83,6 +65,15 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   private
+
+  def request_metric_configurations(message)
+    return unless set_kalibro_configuration
+    respond_with_json(message => @kalibro_configuration.send(message))
+  end
+
+  def respond_with_json(response)
+    respond_to { |format| format.json { render json: response } }
+  end
 
   def set_kalibro_configuration
     begin
