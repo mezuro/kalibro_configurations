@@ -21,3 +21,13 @@ Feature: Kalibro Configuration Metric Configuration arraying
     Then I should get the tree metric configurations
     When I ask for the hotspot metric configurations of the sample kalibro configuration
     Then I should not get any metric configuration
+
+  Scenario: A kalibro configuration with hotspot metric configurations
+    Given I have a sample kalibro configuration
+    And the sample kalibro configuration has hotspot metric configurations
+    When I ask for the metric configurations of the sample kalibro configuration
+    Then I should get the hotspot metric configurations
+    When I ask for the tree metric configurations of the sample kalibro configuration
+    Then I should not get any metric configuration
+    When I ask for the hotspot metric configurations of the sample kalibro configuration
+    Then I should get the hotspot metric configurations

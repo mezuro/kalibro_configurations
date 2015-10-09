@@ -9,6 +9,13 @@ Given(/^the sample kalibro configuration has tree metric configurations$/) do
                                                     kalibro_configuration_id: @kalibro_configuration.id)
 end
 
+Given(/^the sample kalibro configuration has hotspot metric configurations$/) do
+  @hotspot_metric_configuration_1 = FactoryGirl.create(:hotspot_metric_configuration,
+                                                       kalibro_configuration_id: @kalibro_configuration.id)
+  @hotspot_metric_configuration_2 = FactoryGirl.create(:hotspot_metric_configuration,
+                                                       kalibro_configuration_id: @kalibro_configuration.id)
+end
+
 When(/^I ask for the metric configurations of the sample kalibro configuration$/) do
   @response = @kalibro_configuration.metric_configurations
 end
@@ -27,4 +34,8 @@ end
 
 Then(/^I should get the tree metric configurations$/) do
   expect(@response).to match_array([@tree_metric_configuration_1, @tree_metric_configuration_2])
+end
+
+Then(/^I should get the hotspot metric configurations$/) do
+  expect(@response).to match_array([@hotspot_metric_configuration_1, @hotspot_metric_configuration_2])
 end
