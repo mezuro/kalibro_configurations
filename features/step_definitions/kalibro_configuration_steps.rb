@@ -33,9 +33,17 @@ Then(/^I should not get any metric configuration$/) do
 end
 
 Then(/^I should get the tree metric configurations$/) do
-  expect(@response).to match_array([@tree_metric_configuration_1, @tree_metric_configuration_2])
+  expect(@response).to include(@tree_metric_configuration_1, @tree_metric_configuration_2)
 end
 
 Then(/^I should get the hotspot metric configurations$/) do
+  expect(@response).to include(@hotspot_metric_configuration_1, @hotspot_metric_configuration_2)
+end
+
+Then(/^I should get only the tree metric configurations$/) do
+  expect(@response).to match_array([@tree_metric_configuration_1, @tree_metric_configuration_2])
+end
+
+Then(/^I should get only the hotspot metric configurations$/) do
   expect(@response).to match_array([@hotspot_metric_configuration_1, @hotspot_metric_configuration_2])
 end
