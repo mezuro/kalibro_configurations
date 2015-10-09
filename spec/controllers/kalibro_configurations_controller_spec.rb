@@ -43,7 +43,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:not_found) }
 
-      it 'returns the error description' do
+      it 'is expected to return the error description' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({ errors: ['ActiveRecord::RecordNotFound'] }.to_json))
       end
     end
