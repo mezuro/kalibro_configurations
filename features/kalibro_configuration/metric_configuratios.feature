@@ -1,0 +1,13 @@
+Feature: Kalibro Configuration Metric Configuration arraying
+  In order to obtain the metric configurations from a kalibo configuration
+  As a developer
+  I should be able to obtain all metric configurations or filtered by type (Hotspot or Tree)
+
+  Scenario: A kalibro configuration with no metric configurations
+    Given I have a sample kalibro configuration
+    When I ask for the metric configurations of the sample kalibro configuration
+    Then I should not get any metric configuration
+    When I ask for the tree metric configurations of the sample kalibro configuration
+    Then I should not get any metric configuration
+    When I ask for the hotspot metric configurations of the sample kalibro configuration
+    Then I should not get any metric configuration
