@@ -5,11 +5,11 @@ class KalibroConfiguration < ActiveRecord::Base
 
   def hotspot_metric_configurations
     MetricConfiguration.joins(:metric_snapshot).where(metric_snapshots: { type: 'HotspotMetricSnapshot' },
-                                                      kalibro_configuration_id: @id)
+                                                      kalibro_configuration_id: id)
   end
 
   def tree_metric_configurations
     MetricConfiguration.joins(:metric_snapshot).where.not(metric_snapshots: { type: 'HotspotMetricSnapshot' })
-      .where(kalibro_configuration_id: @id)
+      .where(kalibro_configuration_id: id)
   end
 end
