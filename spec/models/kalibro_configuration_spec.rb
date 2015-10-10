@@ -24,7 +24,7 @@ RSpec.describe KalibroConfiguration, :type => :model do
           .returns []
       end
 
-      it 'returns an empty array' do
+      it 'is expected to return an empty array' do
         expect(subject.hotspot_metric_configurations).to eq([])
       end
     end
@@ -38,7 +38,7 @@ RSpec.describe KalibroConfiguration, :type => :model do
           .returns [hotspot_metric_configuration]
       end
 
-      it 'returns a list of hotspot metric configurations' do
+      it 'is expected to return a list of hotspot metric configurations' do
         expect(subject.hotspot_metric_configurations).to eq([hotspot_metric_configuration])
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe KalibroConfiguration, :type => :model do
         tree_metric_configurations_mock.expects(:where).with(kalibro_configuration_id: subject.id).returns []
       end
 
-      it 'returns an empty array' do
+      it 'is expected to return an empty array' do
         expect(subject.tree_metric_configurations).to eq([])
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe KalibroConfiguration, :type => :model do
           .returns [tree_metric_configuration]
       end
 
-      it 'returns a list of tree metric configurations' do
+      it 'is expected to return a list of tree metric configurations' do
         expect(subject.tree_metric_configurations).to eq([tree_metric_configuration])
       end
     end

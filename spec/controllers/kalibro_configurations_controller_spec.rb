@@ -76,7 +76,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return the error description' do
+      it 'is expected to return the error description' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
       end
     end
@@ -114,7 +114,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return the error description' do
+      it 'is expected to return the error description' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'should return true' do
+      it 'is expected to return true' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({exists: true}.to_json))
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'should return the error description with the kalibro_configuration' do
+      it 'is expected to return the error description with the kalibro_configuration' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({exists: false}.to_json))
       end
     end
@@ -163,7 +163,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
         it { is_expected.to respond_with(:success) }
 
-        it 'should return an array of metric_configurations' do
+        it 'is expected to return an array of metric_configurations' do
           expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: [metric_configuration]}.to_json))
         end
       end
@@ -179,7 +179,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'should return an empty array' do
+      it 'is expected to return an empty array' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: []}.to_json))
       end
     end
@@ -199,7 +199,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'returns an array of hotspot_metric_configurations' do
+      it 'is expected to return an array of hotspot_metric_configurations' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({ hotspot_metric_configurations: [hotspot_metric_configuration] }.to_json))
       end
     end
@@ -215,7 +215,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'returns an empty array' do
+      it 'is expected to return an empty array' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({ hotspot_metric_configurations: [] }.to_json))
       end
     end
@@ -235,7 +235,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'returns an array of tree_metric_configurations' do
+      it 'is expected to return an array of tree_metric_configurations' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({ tree_metric_configurations: [tree_metric_configuration] }.to_json))
       end
     end
@@ -251,7 +251,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'returns an empty array' do
+      it 'is expected to return an empty array' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({ tree_metric_configurations: [] }.to_json))
       end
     end
