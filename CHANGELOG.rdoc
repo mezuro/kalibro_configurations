@@ -2,6 +2,13 @@
 
 KalibroConfigurations is the configuration storage web service for Mezuro.
 
+== Unreleased
+
+== v1.2.0 - 14/10/2015
+
+* Lists MetricConfigurations by type (Tree or Hotspot)
+* Improved test cases for KalibroRange
+
 == v1.1.1 - 09/09/2015
 
 * Ruby and Gem updates
