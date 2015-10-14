@@ -2,6 +2,11 @@
 
 KalibroConfigurations is the configuration storage web service for Mezuro.
 
+== v1.1.1 - 09/09/2015
+
+* Ruby and Gem updates
+* TestsController does not exist anymore under production
+
 == v1.1.0 - 27/08/2015
 
 * Added support for Python metrics using the Radon collector
