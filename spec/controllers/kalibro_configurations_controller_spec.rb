@@ -41,10 +41,10 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
         get :show, id: kalibro_configuration.id, format: :json
       end
 
-      it { is_expected.to respond_with(:unprocessable_entity) }
+      it { is_expected.to respond_with(:not_found) }
 
-      it 'should return the error description' do
-        expect(JSON.parse(response.body)).to eq(JSON.parse({errors: ['ActiveRecord::RecordNotFound']}.to_json))
+      it 'is expected to return the error description' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({ errors: ['ActiveRecord::RecordNotFound'] }.to_json))
       end
     end
   end
@@ -76,7 +76,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return the error description' do
+      it 'is expected to return the error description' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
       end
     end
@@ -114,7 +114,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:unprocessable_entity) }
 
-      it 'should return the error description' do
+      it 'is expected to return the error description' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({errors: []}.to_json))
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'should return true' do
+      it 'is expected to return true' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({exists: true}.to_json))
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'should return the error description with the kalibro_configuration' do
+      it 'is expected to return the error description with the kalibro_configuration' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({exists: false}.to_json))
       end
     end
@@ -152,7 +152,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
   describe 'metric_configurations' do
       context 'with at least 1 metric configuration' do
-        let!(:metric_configuration) { FactoryGirl.build(:metric_configuration, id: 1, kalibro_configuration: kalibro_configuration) }
+        let!(:metric_configuration) { FactoryGirl.build(:tree_metric_configuration, id: 1, kalibro_configuration: kalibro_configuration) }
         let!(:metric_configurations) { [metric_configuration] }
         before :each do
           kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
@@ -163,7 +163,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
         it { is_expected.to respond_with(:success) }
 
-        it 'should return an array of metric_configurations' do
+        it 'is expected to return an array of metric_configurations' do
           expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: [metric_configuration]}.to_json))
         end
       end
@@ -179,8 +179,80 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'should return an empty array' do
+      it 'is expected to return an empty array' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: []}.to_json))
+      end
+    end
+  end
+
+  describe 'hotspot_metric_configurations' do
+    context 'with at least 1 hotspot_metric configuration' do
+      let!(:hotspot_metric_configuration) { FactoryGirl.build(:hotspot_metric_configuration_with_id, kalibro_configuration: kalibro_configuration) }
+      let!(:hotspot_metric_configurations) { [hotspot_metric_configuration] }
+
+      before :each do
+        kalibro_configuration.expects(:hotspot_metric_configurations).returns(hotspot_metric_configurations)
+        KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+
+        get :hotspot_metric_configurations, id: kalibro_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'is expected to return an array of hotspot_metric_configurations' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({ hotspot_metric_configurations: [hotspot_metric_configuration] }.to_json))
+      end
+    end
+
+    context 'without hotspot metric configurations' do
+      let!(:hotspot_metric_configurations) { [] }
+      before :each do
+        kalibro_configuration.expects(:hotspot_metric_configurations).returns(hotspot_metric_configurations)
+        KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+
+        get :hotspot_metric_configurations, id: kalibro_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'is expected to return an empty array' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({ hotspot_metric_configurations: [] }.to_json))
+      end
+    end
+  end
+
+  describe 'tree_metric_configurations' do
+    context 'with at least 1 tree_metric configuration' do
+      let!(:tree_metric_configuration) { FactoryGirl.build(:tree_metric_configuration_with_id, kalibro_configuration: kalibro_configuration) }
+      let!(:tree_metric_configurations) { [tree_metric_configuration] }
+
+      before :each do
+        kalibro_configuration.expects(:tree_metric_configurations).returns(tree_metric_configurations)
+        KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+
+        get :tree_metric_configurations, id: kalibro_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'is expected to return an array of tree_metric_configurations' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({ tree_metric_configurations: [tree_metric_configuration] }.to_json))
+      end
+    end
+
+    context 'without tree metric configurations' do
+      let!(:tree_metric_configurations) { [] }
+      before :each do
+        kalibro_configuration.expects(:tree_metric_configurations).returns(tree_metric_configurations)
+        KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+
+        get :tree_metric_configurations, id: kalibro_configuration.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'is expected to return an empty array' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({ tree_metric_configurations: [] }.to_json))
       end
     end
   end

@@ -1,79 +1,73 @@
 class KalibroConfigurationsController < ApplicationController
   def all
-    kalibro_configurations = {kalibro_configurations: KalibroConfiguration.all}
-
-    respond_to do |format|
-      format.json { render json: kalibro_configurations }
-    end
+    respond_with_json(kalibro_configurations: KalibroConfiguration.all)
   end
 
   def show
-    if set_kalibro_configuration
-      respond_to do |format|
-        format.json { render json: {kalibro_configuration: @kalibro_configuration}, status: :ok }
-      end
-    end
+    return unless set_kalibro_configuration
+    respond_with_json({ kalibro_configuration: @kalibro_configuration }, :ok)
   end
 
   def create
     kalibro_configuration = KalibroConfiguration.new(kalibro_configuration_params)
 
-    respond_to do |format|
-      if kalibro_configuration.save
-        format.json { render json: {kalibro_configuration: kalibro_configuration}, status: :created }
-      else
-        format.json { render json: {errors: kalibro_configuration.errors.full_messages}, status: :unprocessable_entity }
-      end
+    if kalibro_configuration.save
+      respond_with_json({ kalibro_configuration: kalibro_configuration }, :created)
+    else
+      respond_with_json({ errors: kalibro_configuration.errors.full_messages }, :unprocessable_entity)
     end
   end
 
   def update
-    if set_kalibro_configuration
-      respond_to do |format|
-        if @kalibro_configuration.update(kalibro_configuration_params)
-          format.json { render json: {kalibro_configuration: @kalibro_configuration}, status: :created }
-        else
-          format.json { render json: {errors: @kalibro_configuration.errors.full_messages}, status: :unprocessable_entity }
-        end
-      end
+    return unless set_kalibro_configuration
+    if @kalibro_configuration.update(kalibro_configuration_params)
+      respond_with_json({ kalibro_configuration: @kalibro_configuration }, :created)
+    else
+      respond_with_json({ errors: @kalibro_configuration.errors.full_messages }, :unprocessable_entity)
     end
   end
 
   def exists
-    respond_to do |format|
-      format.json { render json: {exists: KalibroConfiguration.exists?(params[:id].to_i)} }
-    end
+    respond_with_json(exists: KalibroConfiguration.exists?(params[:id].to_i))
   end
 
   def metric_configurations
-    if set_kalibro_configuration
-      respond_to do |format|
-        format.json { render json: {metric_configurations: @kalibro_configuration.metric_configurations} }
-      end
-    end
+    request_metric_configurations :metric_configurations
+  end
+
+  def hotspot_metric_configurations
+    request_metric_configurations :hotspot_metric_configurations
+  end
+
+  def tree_metric_configurations
+    request_metric_configurations :tree_metric_configurations
   end
 
   def destroy
-    if set_kalibro_configuration
-      @kalibro_configuration.destroy
-      respond_to do |format|
-        format.json { render json: {}, status: :ok }
-      end
-    end
+    return unless set_kalibro_configuration
+    @kalibro_configuration.destroy
+    respond_with_json({})
   end
 
   private
 
+  def request_metric_configurations(message)
+    return unless set_kalibro_configuration
+    respond_with_json(message => @kalibro_configuration.send(message))
+  end
+
+  def respond_with_json(response, status = :ok)
+    respond_to { |format| format.json { render json: response, status: status } }
+  end
+
   def set_kalibro_configuration
-    begin
-      @kalibro_configuration = KalibroConfiguration.find(params[:id].to_i)
-      true
-    rescue ActiveRecord::RecordNotFound => exception
-      respond_to do |format|
-        format.json { render json: {errors: [exception.message]}, status: :unprocessable_entity }
-      end
-      false
+    @kalibro_configuration = KalibroConfiguration.find(params[:id].to_i)
+    true
+  rescue ActiveRecord::RecordNotFound => exception
+    respond_to do |format|
+      format.json { render json: { errors: [exception.message] }, status: :not_found }
     end
+    false
   end
 
   def kalibro_configuration_params

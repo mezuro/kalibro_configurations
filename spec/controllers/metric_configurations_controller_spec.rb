@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe MetricConfigurationsController, :type => :controller do
-  let(:metric_configuration) { FactoryGirl.build(:metric_configuration_with_id) }
+  let(:metric_configuration) { FactoryGirl.build(:tree_metric_configuration_with_id) }
 
   describe "create" do
-    let!(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration,
+    let!(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:tree_metric_configuration,
       kalibro_configuration_id: metric_configuration.kalibro_configuration.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
     let!(:metric_snapshot_params) { Hash[FactoryGirl.attributes_for(:metric_snapshot).map { |k,v| [k.to_s, v.to_s] }] }
 
