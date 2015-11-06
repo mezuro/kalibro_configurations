@@ -37,7 +37,7 @@ Please, have a look at the wiki pages about development workflow and code standa
 
   It is expected to work with:
 
-  * 1.9.3 Ubuntu 14.04
+  * 2.1.5 Debian 8
   * 2.0.0 CentOS 7
 
   *NOTE:* If you are using the gnome-shell, or any derivative like terminator, you have to mark on your profile the option to use a "login bash".
