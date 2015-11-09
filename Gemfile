@@ -39,6 +39,9 @@ gem 'capistrano-rails'
 gem 'capistrano-bundler'
 gem 'capistrano-rvm', "~>0.1.0"
 
+# Startup script generation (server process manager)
+gem 'foreman', '~>0.78.0'
+
 group :test do
   # Easier test writing
   gem "shoulda-matchers", "~> 2.8.0"
