@@ -69,7 +69,7 @@ class KalibroRangesController < ApplicationController
       true
     rescue ActiveRecord::RecordNotFound => exception
       respond_to do |format|
-        format.json { render json: { errors: [exception.message] }, status: :unprocessable_entity }
+        format.json { render json: { errors: [exception.message] }, status: :not_found }
       end
       false
     end
@@ -81,7 +81,7 @@ class KalibroRangesController < ApplicationController
       true
     rescue ActiveRecord::RecordNotFound => exception
       respond_to do |format|
-        format.json { render json: { errors: [exception.message] }, status: :unprocessable_entity }
+        format.json { render json: { errors: [exception.message] }, status: :not_found }
       end
       false
     end
