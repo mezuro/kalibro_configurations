@@ -50,7 +50,7 @@ RSpec.describe ReadingsController, :type => :controller do
         get :index, reading_group_id: reading_group.id, format: :json
       end
 
-      it { is_expected.to respond_with(:unprocessable_entity) }
+      it { is_expected.to respond_with(:not_found) }
 
       it 'should return an error' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({errors: ['ActiveRecord::RecordNotFound']}.to_json))
@@ -80,7 +80,7 @@ RSpec.describe ReadingsController, :type => :controller do
         get :show, reading_group_id: reading.reading_group.id, id: reading.id, format: :json
       end
 
-      it { is_expected.to respond_with(:unprocessable_entity) }
+      it { is_expected.to respond_with(:not_found) }
 
       it 'should return the error description' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({errors: ['ActiveRecord::RecordNotFound']}.to_json))
