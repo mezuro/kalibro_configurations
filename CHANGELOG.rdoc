@@ -2,7 +2,24 @@
 
 KalibroConfigurations is the configuration storage web service for Mezuro.
 
-== Unreleased
+== Unrelease
+
+== v1.2.4 - 25/11/2015
+
+* Fix response status code
+
+== v1.2.3 - 09/11/2015
+
+* Fix Procfile
+
+== v1.2.2 - 09/11/2015
+
+* Foreman
+
+== v1.2.1 - 06/11/2015
+
+* Backport for Ruby 2.0.0
+* Fix seeds encoding
 
 == v1.2.0 - 14/10/2015
 
