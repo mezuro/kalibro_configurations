@@ -8,8 +8,8 @@ class KalibroRange < ActiveRecord::Base
   validates :beginning, :end, :reading, :metric_configuration, presence: true
   validates :beginning, uniqueness: {scope: :metric_configuration_id, message: "Should be unique within a Metric Configuration"}
   validates :beginning, :end, numericality: true
-  validates_with IntervalValidator, fields: [:beginning, :end], if: "beginning && self.end"
-  validates_with RangeOverlappingValidator, fields: [:beginning, :end], if: "beginning && self.end"
+  validates_with IntervalValidator, fields: [:beginning, :end], if: "beginning && self.end && beginning.is_a?(Numeric) && self.end.is_a?(Numeric)"
+  validates_with RangeOverlappingValidator, fields: [:beginning, :end], if: "beginning && self.end && beginning.is_a?(Numeric) && self.end.is_a?(Numeric)"
 
   def as_json(options={})
     options[:except] = [:beginning, :end]
