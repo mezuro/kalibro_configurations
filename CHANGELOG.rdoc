@@ -2,7 +2,11 @@
 
 KalibroConfigurations is the configuration storage web service for Mezuro.
 
-== Unrelease
+== Unreleased
+
+== v1.2.5 - 30/11/2015
+
+* Fix Range validators
 
 == v1.2.4 - 25/11/2015
 
