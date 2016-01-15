@@ -5,6 +5,6 @@ FactoryGirl.define do
     description ""
     code "loc"
     metric_collector_name "Analizo"
-    scope "CLASS"
+    scope { {"type" => "CLASS"} }
   end
 end
