@@ -86,10 +86,10 @@ RSpec.describe KalibroRangesController, :type => :controller do
   end
 
   describe 'create' do
-    let!(:range_params) { Hash[FactoryGirl.attributes_for(:kalibro_range,
-                                                          metric_configuration_id: metric_configuration.id, reading_id: reading.id,
-                                                          beginning: "-INF",
-                                                          end: "INF").map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+    let!(:range_params) { FactoryGirl.attributes_for(:kalibro_range,
+                                                     metric_configuration_id: metric_configuration.id, reading_id: reading.id,
+                                                     beginning: "-INF",
+                                                     end: "INF").stringify_keys }
 
     context 'successfully saved' do
       before :each do
@@ -117,7 +117,7 @@ RSpec.describe KalibroRangesController, :type => :controller do
     end
 
     context 'failed to save' do
-      let!(:range_params) { Hash[FactoryGirl.attributes_for(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+      let!(:range_params) { FactoryGirl.attributes_for(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id).stringify_keys }
       before :each do
         KalibroRange.any_instance.expects(:save).returns(false)
       end
@@ -137,7 +137,7 @@ RSpec.describe KalibroRangesController, :type => :controller do
   end
 
   describe 'update' do
-    let!(:range_params) { Hash[FactoryGirl.attributes_for(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+    let!(:range_params) { FactoryGirl.attributes_for(:kalibro_range, metric_configuration_id: metric_configuration.id, reading_id: reading.id).stringify_keys }
 
     before :each do
       KalibroRange.expects(:find).with(range.id).returns(range)

@@ -50,7 +50,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
   end
 
   describe 'create' do
-    let(:kalibro_configuration_params) { Hash[FactoryGirl.attributes_for(:kalibro_configuration).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with sybols and integers
+    let(:kalibro_configuration_params) { FactoryGirl.attributes_for(:kalibro_configuration).stringify_keys }
 
     context 'with valid attributes' do
       before :each do
@@ -83,7 +83,7 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
   end
 
   describe 'update' do
-    let(:kalibro_configuration_params) { Hash[FactoryGirl.attributes_for(:kalibro_configuration).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+    let(:kalibro_configuration_params) { FactoryGirl.attributes_for(:kalibro_configuration).stringify_keys }
 
     before :each do
       KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)

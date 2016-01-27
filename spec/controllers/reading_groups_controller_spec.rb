@@ -81,7 +81,7 @@ RSpec.describe ReadingGroupsController, :type => :controller do
   end
 
   describe 'create' do
-    let(:reading_group_params) { Hash[FactoryGirl.attributes_for(:reading_group).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with sybols and integers
+    let(:reading_group_params) { FactoryGirl.attributes_for(:reading_group).stringify_keys }
 
     context 'with valid attributes' do
       before :each do
@@ -114,7 +114,7 @@ RSpec.describe ReadingGroupsController, :type => :controller do
   end
 
   describe 'update' do
-    let(:reading_group_params) { Hash[FactoryGirl.attributes_for(:reading_group).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with sybols and integers
+    let(:reading_group_params) { FactoryGirl.attributes_for(:reading_group).stringify_keys }
 
     before :each do
       ReadingGroup.expects(:find).with(reading_group.id).returns(reading_group)
