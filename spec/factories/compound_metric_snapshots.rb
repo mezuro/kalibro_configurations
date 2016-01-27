@@ -4,7 +4,7 @@ FactoryGirl.define do
     name "Lines of Code"
     description ""
     code "loc"
-    scope "CLASS"
+    scope { {"type" => "CLASS"} }
     script "return 0;"
   end
 end

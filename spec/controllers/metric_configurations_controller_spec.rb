@@ -4,9 +4,13 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
   let(:metric_configuration) { FactoryGirl.build(:tree_metric_configuration_with_id) }
 
   describe "create" do
-    let!(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:tree_metric_configuration,
-      kalibro_configuration_id: metric_configuration.kalibro_configuration.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
-    let!(:metric_snapshot_params) { Hash[FactoryGirl.attributes_for(:metric_snapshot).map { |k,v| [k.to_s, v.to_s] }] }
+    let!(:metric_configuration_params) { FactoryGirl.attributes_for(:tree_metric_configuration,
+                                                                    kalibro_configuration_id: metric_configuration.kalibro_configuration.id).stringify_keys }
+
+    # The condition is needed for these workaround is not recursive and MetricSnapshot#scope=
+    # requires the scope param to be a Hash, not a String. Otherwise it will add an error
+    # to the created instance.
+    let!(:metric_snapshot_params) { FactoryGirl.attributes_for(:metric_snapshot).stringify_keys }
 
     context "with valid params" do
       before :each do
@@ -67,9 +71,9 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
   end
 
   describe "update" do
-    let(:metric_configuration_params) { Hash[FactoryGirl.attributes_for(:metric_configuration,
-      kalibro_configuration_id: metric_configuration.kalibro_configuration.id,
-      metric_snapshot_id: metric_configuration.metric_snapshot.id).map { |k,v| [k.to_s, v.to_s] }] } #FIXME: Mocha is creating the expectations with strings, but FactoryGirl returns everything with symbols and integers
+    let(:metric_configuration_params) { FactoryGirl.attributes_for(:metric_configuration,
+                                                                   kalibro_configuration_id: metric_configuration.kalibro_configuration.id,
+                                                                   metric_snapshot_id: metric_configuration.metric_snapshot.id).stringify_keys }
 
     before :each do
       metric_configuration.metric_snapshot.id = 1
@@ -94,7 +98,10 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
       end
 
       context 'with a CompoundMetricSnapshot' do
-        let!(:metric_snapshot_params) { Hash[FactoryGirl.attributes_for(:compound_metric_snapshot).map { |k,v| [k.to_s, v.to_s] }] }
+        # The condition is needed for these workaround is not recursive and MetricSnapshot#scope=
+        # requires the scope param to be a Hash, not a String. Otherwise it will add an error
+        # to the created instance.
+        let!(:metric_snapshot_params) { FactoryGirl.attributes_for(:compound_metric_snapshot).stringify_keys }
         let(:kalibro_configuration) { FactoryGirl.build(:kalibro_configuration) }
 
         before :each do

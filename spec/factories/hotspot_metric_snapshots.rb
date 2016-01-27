@@ -5,6 +5,6 @@ FactoryGirl.define do
     description ""
     code "flay"
     metric_collector_name "MetricFu"
-    scope "SOFTWARE"
+    scope { {"type" => "SOFTWARE"} }
   end
 end

@@ -62,7 +62,7 @@ END
 acc = NativeMetricSnapshot.create(
   name: "Afferent Connections per Class (used to calculate COF - Coupling Factor)",
   description: "", code: "acc", metric_collector_name: "Analizo",
-  scope: "CLASS")
+  scope: {'type' => "CLASS"})
 
 acc_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: acc.id, weight: 2.0, aggregation_form: "MEAN",
@@ -81,7 +81,7 @@ acc_metric_configuration = MetricConfiguration.create(
 
 accm = NativeMetricSnapshot.create(
   name: "Average Cyclomatic Complexity per Method", description: "",
-  code: "accm", metric_collector_name: "Analizo", scope: "CLASS")
+  code: "accm", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
 accm_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: accm.id, weight: 2.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
@@ -100,7 +100,7 @@ accm_metric_configuration = MetricConfiguration.create(
 
 amloc = NativeMetricSnapshot.create(
   name: "Average Method Lines of Code", description: "", code: "amloc", metric_collector_name: "Analizo",
-  scope: "CLASS")
+  scope: {'type' => "CLASS"})
 
 amloc_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: amloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
@@ -119,7 +119,7 @@ amloc_metric_configuration = MetricConfiguration.create(
 
 anpm = NativeMetricSnapshot.create(
   name: "Average Number of Parameters per Method", description: "", code: "anpm", metric_collector_name: "Analizo",
-  scope: "CLASS")
+  scope: {'type' => "CLASS"})
 
 anpm_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: anpm.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
@@ -137,7 +137,7 @@ anpm_metric_configuration = MetricConfiguration.create(
 ###############################################################################
 
 dit = NativeMetricSnapshot.create(
-  name: "Depth of Inheritance Tree", description: "", code: "dit", metric_collector_name: "Analizo", scope: "CLASS")
+  name: "Depth of Inheritance Tree", description: "", code: "dit", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
 dit_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: dit.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
@@ -155,7 +155,7 @@ dit_metric_configuration = MetricConfiguration.create(
 ###############################################################################
 
 nom = NativeMetricSnapshot.create(
-  name: "Number of Methods", description: "", code: "nom", metric_collector_name: "Analizo", scope: "CLASS")
+  name: "Number of Methods", description: "", code: "nom", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
 nom_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: nom.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
@@ -173,7 +173,7 @@ nom_metric_configuration = MetricConfiguration.create(
 ###############################################################################
 
 npa = NativeMetricSnapshot.create(
-  name: "Number of Public Attributes", description: "", code: "npa", metric_collector_name: "Analizo", scope: "CLASS")
+  name: "Number of Public Attributes", description: "", code: "npa", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
 npa_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: npa.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
@@ -191,7 +191,7 @@ npa_metric_configuration = MetricConfiguration.create(
 ###############################################################################
 
 sc = NativeMetricSnapshot.create(
-  name: "Structural Complexity", description: "", code: "sc", metric_collector_name: "Analizo", scope: "CLASS")
+  name: "Structural Complexity", description: "", code: "sc", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
 sc_metric_configuration = MetricConfiguration.create(
   metric_snapshot_id: sc.id, weight: 4.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
@@ -213,7 +213,7 @@ sc_metric_configuration = MetricConfiguration.create(
 ruby_configuration = KalibroConfiguration.create(name: "Ruby Configuration", description: "Example Ruby Configuration")
 
 flog = NativeMetricSnapshot.create(
-  name: "Pain", code: "flog", metric_collector_name: "MetricFu", scope: "METHOD",
+  name: "Pain", code: "flog", metric_collector_name: "MetricFu", scope: {'type' => "METHOD"},
   description: "Flog mede a tortuosidade do código-fonte. Quanto mais doloroso e difícil de testar, maior a pontuação, baseando-se na métrica ABC e boas práticas de Ruby. Extraído do blog do autor da métrica: http://jakescruggs.blogspot.com.br/2008/08/whats-good-flog-score.html"
 )
 
@@ -233,7 +233,7 @@ flog_metric_configuration = MetricConfiguration.create(
 ###############################################################################
 
 saikuro = NativeMetricSnapshot.create(
-  name: "Cyclomatic Complexity", code: "saikuro", metric_collector_name: "MetricFu", scope: "METHOD",
+  name: "Cyclomatic Complexity", code: "saikuro", metric_collector_name: "MetricFu", scope: {'type' => "METHOD"},
   description: "Cyclomatic complexity is a graphical measurement of the number of possible paths through the normal flow of a program"
 )
 
@@ -258,7 +258,7 @@ python_configuration = KalibroConfiguration.create(name: "Python",
 ################################################################################
 
 py_cc = NativeMetricSnapshot.create(
-    name: "Cyclomatic Complexity", code: "cc", metric_collector_name: "Radon", scope: "METHOD",
+    name: "Cyclomatic Complexity", code: "cc", metric_collector_name: "Radon", scope: {'type' => "METHOD"},
     description: "Cyclomatic Complexity corresponds to the number of decisions a block of code contains plus 1."
 )
 
@@ -276,7 +276,7 @@ py_cc_metric_configuration = MetricConfiguration.create(
 ################################################################################
 
 py_mi = NativeMetricSnapshot.create(
-    name: "Maintainability Index", code: "mi", metric_collector_name: "Radon", scope: "PACKAGE",
+    name: "Maintainability Index", code: "mi", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "Maintainability Index is a software metric which measures how maintainable (easy to support and change) the source code is. The maintainability index is calculated as a factored formula consisting of SLOC (Source Lines Of Code), Cyclomatic Complexity and Halstead volume."
 )
 
@@ -311,7 +311,7 @@ loc_ranges = [
 ]
 
 py_loc = NativeMetricSnapshot.create(
-    name: "Lines of Code", code: "loc", metric_collector_name: "Radon", scope: "PACKAGE",
+    name: "Lines of Code", code: "loc", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The total number of lines of code. It is the sum of the SLOC and the number of blank lines: the equation LOC = SLOC + Blanks should always hold."
 )
 py_loc_metric_configuration = MetricConfiguration.create(
@@ -322,7 +322,7 @@ loc_ranges.create_ranges(py_loc_metric_configuration.id)
 ################################################################################
 
 py_lloc = NativeMetricSnapshot.create(
-    name: "Logical Lines of Code", code: "lloc", metric_collector_name: "Radon", scope: "PACKAGE",
+    name: "Logical Lines of Code", code: "lloc", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The number of logical lines of code. Every logical line of code contains exactly one statement."
 )
 
@@ -334,7 +334,7 @@ loc_ranges.create_ranges(py_lloc_metric_configuration.id)
 ################################################################################
 
 py_sloc = NativeMetricSnapshot.create(
-    name: "Source Lines of Code", code: "sloc", metric_collector_name: "Radon", scope: "PACKAGE",
+    name: "Source Lines of Code", code: "sloc", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The number of source lines of code - not necessarily corresponding to the LLOC."
 )
 py_sloc_metric_configuration = MetricConfiguration.create(
@@ -355,7 +355,7 @@ indifferent_ranges = [
 ]
 
 py_comments = NativeMetricSnapshot.create(
-    name: "Comment Lines", code: "comments", metric_collector_name: "Radon", scope: "PACKAGE",
+    name: "Comment Lines", code: "comments", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The number of comment lines. Multi-line strings are not counted as comment since, to the Python interpreter, they are just strings."
 )
 py_comments_metric_configuration = MetricConfiguration.create(
@@ -367,7 +367,7 @@ indifferent_ranges.create_ranges(py_comments_metric_configuration.id)
 ################################################################################
 
 py_multi = NativeMetricSnapshot.create(
-    name: "Multi-line String Lines", code: "multi", metric_collector_name: "Radon", scope: "PACKAGE",
+    name: "Multi-line String Lines", code: "multi", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The number of lines which represent multi-line strings."
 )
 
@@ -380,7 +380,7 @@ indifferent_ranges.create_ranges(py_multi_metric_configuration.id)
 ################################################################################
 
 py_blank = NativeMetricSnapshot.create(
-    name: "Blank Lines", code: "blank", metric_collector_name: "Radon", scope: "PACKAGE",
+    name: "Blank Lines", code: "blank", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The number of blank lines (or whitespace-only ones)."
 )
 

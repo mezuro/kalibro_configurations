@@ -21,4 +21,8 @@ class MetricSnapshot < ActiveRecord::Base
     end
     return json
   end
+
+  def scope=(value)
+    value.is_a?(Hash) ? super(value["type"]) : errors.add(:scope, "#{value} invalid")
+  end
 end
