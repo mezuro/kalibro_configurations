@@ -3,11 +3,12 @@
 
 # TEAM
 
-    Copyright 2014-2015
+    Copyright 2014-2016
     --------------
 
       Daniel Paulino Alves (danpaulalves at gmail.com)
       Diego de Araújo Martinez Camarinha (diegoamc90 at gmail.com)
+      Eduardo Silva Araújo (duduktamg at hotmail.com>)
       Heitor Reis Ribeiro (marcheing at gmail.com)
       Paulo Meirelles (paulo at softwarelivre.org)
       Rafael Reggiani Manzo (rr.manzo at gmail.com)
