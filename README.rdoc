@@ -53,7 +53,14 @@ Please, have a look at the wiki pages about development workflow and code standa
 
     rake
 
-  *NOTE:* For this you will need the Kalibro Gatekeeper service up and running as explained below.
+  *NOTE:* For this you will need the Kalibro Processor service up and running as explained below.
+
+* Services (job queues, cache servers, search engines, etc.)
+
+  * Kalibro Processor
+    * You can find it at https://github.com/mezuro/kalibro_processor
+    * By default Mezuro will expect it to be running on port 8082 at localhost.
+    * In order to run it as expected, run on two different terminal instances: ```RAILS_ENV=local rails s -p 8082```.
 
 * Deployment instructions
 
@@ -83,7 +90,7 @@ Please, have a look at the wiki pages about development workflow and code standa
 
 === License
 
-Copyright (c) 2014-2015 The Authors.
+Copyright (c) 2014-2016 The Authors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
