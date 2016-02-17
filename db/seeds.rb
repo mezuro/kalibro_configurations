@@ -37,7 +37,7 @@ END
 )
 
 readings = {
-  terrible:       { label: "Terrible", grade: 0.0, color: "FF0000"},
+  terrible:       { label: "Terrible", grade: 0.0, color: "FF0000" },
   bad:            { label: "Bad", grade: 1.25, color: "FF4000" },
   worrying:       { label: "Worrying", grade: 2.5, color: "FF8000"},
   unsatisfactory: { label: "Unsatisfactory", grade: 3.75, color: "FFC000" },
@@ -247,6 +247,17 @@ saikuro_metric_configuration = MetricConfiguration.create(
   { beginning: 5, end: 7, comments: "", reading_id: readings[:regular].id },
   { beginning: 7, end: Float::INFINITY, comments: "", reading_id: readings[:worrying].id }
 ].create_ranges(saikuro_metric_configuration.id)
+
+###############################################################################
+
+flay = HotspotMetricSnapshot.create(
+  name: "Duplicated Code", code: "flay", metric_collector_name: "MetricFu", scope: {'type' => "SOFTWARE"},
+  description: "Flay analyzes code for structural similarities. Differences in literal values, variable, class, method names, whitespace, programming style, braces vs do/end, etc are all ignored."
+)
+
+MetricConfiguration.create(
+  metric_snapshot_id: flay.id, kalibro_configuration_id: ruby_configuration.id
+)
 
 ################################################################################
 ############################# Python Configuration ###########################
