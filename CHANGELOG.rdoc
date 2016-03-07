@@ -4,6 +4,8 @@ KalibroConfigurations is the configuration storage web service for Mezuro.
 
 == Unreleased
 
+* Set development Ruby version to 2.3.0
+
 == v2.0.1 - 26/02/2016
 
 * Fix default database.yml to avoid encoding conflicts in PostgreSQL
