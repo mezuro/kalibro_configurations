@@ -97,3 +97,6 @@ Style/AlignHash:
 
 Style/TrivialAccessors:
   AllowPredicates: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
