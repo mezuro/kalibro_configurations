@@ -71,6 +71,9 @@ group :development, :test do
 
   # Fixtures made easy
   gem 'factory_girl_rails', '~> 4.5.0'
+
+  # Static code analyzer. Restricting version to be able to parse the newest ruby version
+  gem 'rubocop', '>= 0.36'
 end
 
 group :development, :test, :cucumber do
@@ -89,7 +92,6 @@ end
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
 
 # Use Unicorn as the app server
 # gem 'unicorn'
