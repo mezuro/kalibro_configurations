@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MetricSnapshot, :type => :model do
+RSpec.describe MetricSnapshot, type: :model do
   describe 'associations' do
     it { is_expected.to have_one(:metric_configuration) }
   end
@@ -16,11 +16,11 @@ RSpec.describe MetricSnapshot, :type => :model do
       subject { FactoryGirl.build(:native_metric_snapshot) }
 
       it 'should not include a script value' do
-        expect(subject.as_json).to_not include("script")
+        expect(subject.as_json).to_not include('script')
       end
 
       it 'should include metric_collector_name' do
-        expect(subject.as_json).to include("metric_collector_name")
+        expect(subject.as_json).to include('metric_collector_name')
         expect(subject.metric_collector_name).to eq(subject.as_json['metric_collector_name'])
       end
 
@@ -33,11 +33,11 @@ RSpec.describe MetricSnapshot, :type => :model do
       subject { FactoryGirl.build(:hotspot_metric_snapshot) }
 
       it 'should not include a script value' do
-        expect(subject.as_json).to_not include("script")
+        expect(subject.as_json).to_not include('script')
       end
 
       it 'should include metric_collector_name' do
-        expect(subject.as_json).to include("metric_collector_name")
+        expect(subject.as_json).to include('metric_collector_name')
         expect(subject.metric_collector_name).to eq(subject.as_json['metric_collector_name'])
       end
 

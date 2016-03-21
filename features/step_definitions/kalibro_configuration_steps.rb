@@ -4,16 +4,16 @@ end
 
 Given(/^the sample kalibro configuration has tree metric configurations$/) do
   @tree_metric_configuration_1 = FactoryGirl.create(:tree_metric_configuration,
-                                                    kalibro_configuration_id: @kalibro_configuration.id)
+    kalibro_configuration_id: @kalibro_configuration.id)
   @tree_metric_configuration_2 = FactoryGirl.create(:tree_metric_configuration,
-                                                    kalibro_configuration_id: @kalibro_configuration.id)
+    kalibro_configuration_id: @kalibro_configuration.id)
 end
 
 Given(/^the sample kalibro configuration has hotspot metric configurations$/) do
   @hotspot_metric_configuration_1 = FactoryGirl.create(:hotspot_metric_configuration,
-                                                       kalibro_configuration_id: @kalibro_configuration.id)
+    kalibro_configuration_id: @kalibro_configuration.id)
   @hotspot_metric_configuration_2 = FactoryGirl.create(:hotspot_metric_configuration,
-                                                       kalibro_configuration_id: @kalibro_configuration.id)
+    kalibro_configuration_id: @kalibro_configuration.id)
 end
 
 When(/^I ask for the metric configurations of the sample kalibro configuration$/) do

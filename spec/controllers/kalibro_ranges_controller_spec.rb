@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe KalibroRangesController, :type => :controller do
+RSpec.describe KalibroRangesController, type: :controller do
   let!(:metric_configuration) { FactoryGirl.build(:tree_metric_configuration_with_id) }
   let!(:reading) { FactoryGirl.build(:reading_with_id) }
   let!(:range) { FactoryGirl.build(:kalibro_range_with_id, metric_configuration_id: metric_configuration.id, reading_id: reading.id) }
 
   describe 'index' do
     context 'with at least one range' do
-      let!(:ranges) {[range]}
+      let!(:ranges) { [range] }
 
       before :each do
         metric_configuration.expects(:kalibro_ranges).returns(ranges)
@@ -38,7 +38,6 @@ RSpec.describe KalibroRangesController, :type => :controller do
       it 'should return an empty array' do
         expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_ranges: []}.to_json))
       end
-
     end
 
     context 'without a metric configuration' do
@@ -86,10 +85,12 @@ RSpec.describe KalibroRangesController, :type => :controller do
   end
 
   describe 'create' do
-    let!(:range_params) { FactoryGirl.attributes_for(:kalibro_range,
-                                                     metric_configuration_id: metric_configuration.id, reading_id: reading.id,
-                                                     beginning: "-INF",
-                                                     end: "INF").stringify_keys }
+    let!(:range_params) {
+      FactoryGirl.attributes_for(:kalibro_range,
+        metric_configuration_id: metric_configuration.id, reading_id: reading.id,
+        beginning: '-INF',
+        end: 'INF').stringify_keys
+    }
 
     context 'successfully saved' do
       before :each do
@@ -104,14 +105,14 @@ RSpec.describe KalibroRangesController, :type => :controller do
         it { is_expected.to respond_with(:created) }
 
         it 'returns the range' do
-          range_params["id"] = nil
-          range_params["created_at"] = nil
-          range_params["updated_at"] = nil
-          range_params["metric_configuration_id"] = metric_configuration.id
-          range_params["reading_id"] = reading.id
-          range_params["beginning"] = (-Float::INFINITY).to_s
-          range_params["end"] = (Float::INFINITY).to_s
-          expect(JSON.parse(response.body)).to eq({"kalibro_range" => range_params})
+          range_params['id'] = nil
+          range_params['created_at'] = nil
+          range_params['updated_at'] = nil
+          range_params['metric_configuration_id'] = metric_configuration.id
+          range_params['reading_id'] = reading.id
+          range_params['beginning'] = (-Float::INFINITY).to_s
+          range_params['end'] = Float::INFINITY.to_s
+          expect(JSON.parse(response.body)).to eq({'kalibro_range' => range_params})
         end
       end
     end
@@ -154,7 +155,7 @@ RSpec.describe KalibroRangesController, :type => :controller do
           put :update, metric_configuration_id: metric_configuration.id, kalibro_range: range_params, id: range.id, format: :json
         end
 
-        it { is_expected.to respond_with(:created) } #TODO change :created response
+        it { is_expected.to respond_with(:created) } # TODO: change :created response
 
         it 'returns the range' do
           expect(JSON.parse(response.body)).to eq(JSON.parse({kalibro_range: range}.to_json))

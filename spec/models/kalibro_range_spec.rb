@@ -1,8 +1,7 @@
 require 'rails_helper'
 require 'mocha/test_unit'
 
-RSpec.describe KalibroRange, :type => :model do
-
+RSpec.describe KalibroRange, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:reading) }
     it { is_expected.to belong_to(:metric_configuration) }
@@ -15,16 +14,18 @@ RSpec.describe KalibroRange, :type => :model do
     it { is_expected.to validate_presence_of(:reading) }
     it { is_expected.to validate_numericality_of(:beginning) }
     it { is_expected.to validate_numericality_of(:end) }
-    it { is_expected.to validate_uniqueness_of(:beginning).
-         scoped_to(:metric_configuration_id).with_message("Should be unique within a Metric Configuration") }
+    it {
+      is_expected.to validate_uniqueness_of(:beginning)
+        .scoped_to(:metric_configuration_id).with_message('Should be unique within a Metric Configuration')
+    }
 
     context 'with invalid beginning or end' do
       subject { FactoryGirl.build(:kalibro_range_with_id) }
 
       @cases = [
-          [Float::INFINITY, Float::INFINITY],
-          [Float::INFINITY, -Float::INFINITY],
-          [-Float::INFINITY, -Float::INFINITY]
+        [Float::INFINITY, Float::INFINITY],
+        [Float::INFINITY, -Float::INFINITY],
+        [-Float::INFINITY, -Float::INFINITY]
       ]
 
       @cases.each do |beginning, end_|
@@ -55,7 +56,7 @@ RSpec.describe KalibroRange, :type => :model do
         end
 
         it 'is expected to convert to -INF' do
-          expect(subject.as_json["beginning"]).to eq("-INF")
+          expect(subject.as_json['beginning']).to eq('-INF')
         end
       end
 
@@ -65,7 +66,7 @@ RSpec.describe KalibroRange, :type => :model do
         end
 
         it 'is expected to convert to INF' do
-          expect(subject.as_json["end"]).to eq("INF")
+          expect(subject.as_json['end']).to eq('INF')
         end
       end
     end

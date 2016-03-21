@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MetricSnapshotsController, :type => :controller do
+RSpec.describe MetricSnapshotsController, type: :controller do
   let(:metric_snapshot) { FactoryGirl.build(:metric_snapshot, id: 10) }
 
   describe 'index' do
@@ -50,7 +50,7 @@ RSpec.describe MetricSnapshotsController, :type => :controller do
   end
 
   describe 'metric_configuration' do
-    let! (:metric_configuration) { FactoryGirl.build(:metric_configuration) }
+    let!(:metric_configuration) { FactoryGirl.build(:metric_configuration) }
 
     before :each do
       MetricSnapshot.expects(:find).with(metric_snapshot.id).returns(metric_snapshot)

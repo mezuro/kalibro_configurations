@@ -1,18 +1,20 @@
 require 'rails_helper'
 
-RSpec.describe MetricConfigurationsController, :type => :controller do
+RSpec.describe MetricConfigurationsController, type: :controller do
   let(:metric_configuration) { FactoryGirl.build(:tree_metric_configuration_with_id) }
 
-  describe "create" do
-    let!(:metric_configuration_params) { FactoryGirl.attributes_for(:tree_metric_configuration,
-                                                                    kalibro_configuration_id: metric_configuration.kalibro_configuration.id).stringify_keys }
+  describe 'create' do
+    let!(:metric_configuration_params) {
+      FactoryGirl.attributes_for(:tree_metric_configuration,
+        kalibro_configuration_id: metric_configuration.kalibro_configuration.id).stringify_keys
+    }
 
     # The condition is needed for these workaround is not recursive and MetricSnapshot#scope=
     # requires the scope param to be a Hash, not a String. Otherwise it will add an error
     # to the created instance.
     let!(:metric_snapshot_params) { FactoryGirl.attributes_for(:metric_snapshot).stringify_keys }
 
-    context "with valid params" do
+    context 'with valid params' do
       before :each do
         KalibroConfiguration.expects(:find).with(metric_configuration.kalibro_configuration_id).returns(metric_configuration.kalibro_configuration)
         metric_configuration_params.delete('metric_snapshot')
@@ -33,7 +35,7 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
       end
     end
 
-    context "with invalid params" do
+    context 'with invalid params' do
       context 'for MetricConfiguration' do
         before :each do
           KalibroConfiguration.expects(:find).with(metric_configuration.kalibro_configuration_id).returns(metric_configuration.kalibro_configuration)
@@ -70,10 +72,12 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     end
   end
 
-  describe "update" do
-    let(:metric_configuration_params) { FactoryGirl.attributes_for(:metric_configuration,
-                                                                   kalibro_configuration_id: metric_configuration.kalibro_configuration.id,
-                                                                   metric_snapshot_id: metric_configuration.metric_snapshot.id).stringify_keys }
+  describe 'update' do
+    let(:metric_configuration_params) {
+      FactoryGirl.attributes_for(:metric_configuration,
+        kalibro_configuration_id: metric_configuration.kalibro_configuration.id,
+        metric_snapshot_id: metric_configuration.metric_snapshot.id).stringify_keys
+    }
 
     before :each do
       metric_configuration.metric_snapshot.id = 1
@@ -146,14 +150,14 @@ RSpec.describe MetricConfigurationsController, :type => :controller do
     end
   end
 
-  describe "destroy" do
+  describe 'destroy' do
     before :each do
       metric_configuration.expects(:destroy).returns(true)
       MetricConfiguration.expects(:find).with(metric_configuration.id).returns(metric_configuration)
 
       delete :destroy, id: metric_configuration.id, format: :json
     end
-    it { is_expected.to respond_with(:success)}
+    it { is_expected.to respond_with(:success) }
   end
 
   describe 'exists' do

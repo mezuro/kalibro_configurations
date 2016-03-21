@@ -1,5 +1,4 @@
 class MetricConfigurationsController < ApplicationController
-
   def exists
     respond_to do |format|
       format.json { render json: {exists: MetricConfiguration.exists?(params[:id].to_i)} }
@@ -17,7 +16,7 @@ class MetricConfigurationsController < ApplicationController
 
       respond_to do |format|
         if @metric_configuration.errors.empty? && @metric_configuration.save
-          format.json { render json: {metric_configuration: @metric_configuration}, status: :created}
+          format.json { render json: {metric_configuration: @metric_configuration}, status: :created }
         else
           format.json { render json: {errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages}, status: :unprocessable_entity }
         end
@@ -48,7 +47,7 @@ class MetricConfigurationsController < ApplicationController
 
       respond_to do |format|
         if @metric_configuration.errors.empty? && @metric_configuration.update(metric_configuration_params)
-          format.json { render json: {metric_configuration: @metric_configuration}, status: :created}
+          format.json { render json: {metric_configuration: @metric_configuration}, status: :created }
         else
           format.json { render json: {errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages}, status: :unprocessable_entity }
         end
@@ -61,7 +60,7 @@ class MetricConfigurationsController < ApplicationController
       @metric_configuration.destroy
 
       respond_to do |format|
-        format.json { render json: {}, status: :ok}
+        format.json { render json: {}, status: :ok }
       end
     end
   end
@@ -69,7 +68,7 @@ class MetricConfigurationsController < ApplicationController
   def show
     if set_metric_configuration
       respond_to do |format|
-        format.json { render json: {metric_configuration: @metric_configuration}, status: :ok}
+        format.json { render json: {metric_configuration: @metric_configuration}, status: :ok }
       end
     end
   end
@@ -77,15 +76,13 @@ class MetricConfigurationsController < ApplicationController
   private
 
   def set_metric_configuration
-    begin
-      @metric_configuration = MetricConfiguration.find(params[:id].to_i)
-      true
-    rescue ActiveRecord::RecordNotFound => exception
-      respond_to do |format|
-        format.json { render json: { errors: [exception.message] }, status: :not_found }
-      end
-      false
+    @metric_configuration = MetricConfiguration.find(params[:id].to_i)
+    true
+  rescue ActiveRecord::RecordNotFound => exception
+    respond_to do |format|
+      format.json { render json: { errors: [exception.message] }, status: :not_found }
     end
+    false
   end
 
   def build_metric_snapshot

@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'validators/range_overlapping_validator'
 
-RSpec.describe RangeOverlappingValidator, :type => :model do
+RSpec.describe RangeOverlappingValidator, type: :model do
   describe 'methods' do
     describe 'validate' do
       let(:metric_configuration) { FactoryGirl.build(:metric_configuration) }

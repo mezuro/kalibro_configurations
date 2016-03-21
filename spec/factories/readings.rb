@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :reading do
-    label "Reading"
+    label 'Reading'
     grade 1.5
-    color "FF0000"
+    color 'FF0000'
     reading_group { FactoryGirl.build(:reading_group) }
 
     trait :with_id do

@@ -22,7 +22,7 @@ describe 'TestsController' do
   end
 end
 
-RSpec.describe TestsController, :type => :controller do
+RSpec.describe TestsController, type: :controller do
   context 'outside production environment' do
     describe 'clean_database' do
       before :each do
@@ -36,7 +36,7 @@ RSpec.describe TestsController, :type => :controller do
     end
 
     it 'is expected to exist' do
-      expect(defined?(TestsController)).to eq("constant")
+      expect(defined?(TestsController)).to eq('constant')
     end
   end
 end

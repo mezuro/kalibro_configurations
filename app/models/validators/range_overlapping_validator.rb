@@ -12,6 +12,6 @@ class RangeOverlappingValidator < ActiveModel::Validator
     return true if range1.end > range2.beginning && range1.end <= range2.end
     return true if range1.beginning >= range2.beginning && range1.end <= range2.end
     return true if range1.beginning <= range2.beginning && range1.end >= range2.end
-    return false
+    false
   end
 end
