@@ -1,7 +1,7 @@
 require 'yaml'
 
 desc 'Generate a seeds file from a metrics YAML file'
-task :metrics_seed, [:name, :yml_file] do |t, args|
+task :hotspot_metrics_seed, [:name, :yml_file] do |t, args|
   metrics = YAML.load_file(args[:yml_file])[:metrics]
   file_name = args[:name].tr(' ', '_').downcase
 
@@ -15,8 +15,11 @@ task :metrics_seed, [:name, :yml_file] do |t, args|
 RUBY
 
     metrics.each do |code, metric_info|
-      raise NotImplementedError, "Only implemented for hotspot metrics!" if metric_info[:type] != 'HotspotMetricSnapshot'
-
+      if metric_info[:type] != 'HotspotMetricSnapshot'
+        warn "Could not create #{code}. Only implemented for hotspot metrics!"
+        next
+      end
+      
       file.puts <<RUBY
 #{code} = HotspotMetricSnapshot.create(
   name: #{metric_info[:name].inspect},
