@@ -6,26 +6,21 @@ class MetricConfigurationsController < ApplicationController
   end
 
   def create
-    metric_configuration_params = all_params
-
     metric_snapshot = build_metric_snapshot
-    metric_configuration_params.delete('metric')
-    @metric_configuration = MetricConfiguration.new(metric_configuration_params)
-    if !metric_snapshot.id.nil? && @metric_configuration.valid_metric_snapshot_code?(metric_snapshot.code)
-      @metric_configuration.metric_snapshot = metric_snapshot
-
-      respond_to do |format|
-        if @metric_configuration.errors.empty? && @metric_configuration.save
-          format.json { render json: {metric_configuration: @metric_configuration}, status: :created }
-        else
-          format.json { render json: {errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages}, status: :unprocessable_entity }
-        end
+    @metric_configuration = MetricConfiguration.new(all_params.reject { |key, _| key == 'metric' })
+    if valid_metric_snapshot_for_configuration(metric_snapshot, @metric_configuration)
+      if save_metric_configuration_with_snapshot(@metric_configuration, metric_snapshot)
+        data = { metric_configuration: @metric_configuration }
+        status = :created
+      else
+        data = { errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages }
+        status = :unprocessable_entity
       end
     else
-      respond_to do |format|
-        format.json { render json: {errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages}, status: :unprocessable_entity }
-      end
+      data = { errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages }
+      status = :unprocessable_entity
     end
+    respond_with_json data, status
   end
 
   def update
@@ -74,6 +69,15 @@ class MetricConfigurationsController < ApplicationController
   end
 
   private
+
+  def save_metric_configuration_with_snapshot(metric_configuration, metric_snapshot)
+    metric_configuration.metric_snapshot = metric_snapshot
+    metric_configuration.errors.empty? && metric_configuration.save
+  end
+
+  def valid_metric_snapshot_for_configuration(metric_snapshot, metric_configuration)
+    !metric_snapshot.id.nil? && metric_configuration.valid_metric_snapshot_code?(metric_snapshot.code)
+  end
 
   def set_metric_configuration
     @metric_configuration = MetricConfiguration.find(params[:id].to_i)
