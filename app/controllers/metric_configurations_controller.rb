@@ -27,25 +27,16 @@ class MetricConfigurationsController < ApplicationController
     if set_metric_configuration
       metric_configuration_params = all_params
       metric_snapshot = @metric_configuration.metric_snapshot
-
       # Instead of updating CompoundMetricSnapshot we delete it and create a new one
-      if !metric_configuration_params['metric'].nil? && metric_configuration_params['metric']['type'] == 'CompoundMetricSnapshot'
+      if compound_metric_snapshot_parameter? metric_configuration_params
         metric_snapshot = build_metric_snapshot
-        if metric_snapshot.errors.empty? && @metric_configuration.valid_metric_snapshot_code?(metric_snapshot.code)
-          @metric_configuration.metric_snapshot.destroy
-          @metric_configuration.metric_snapshot = metric_snapshot
-          @metric_configuration.save
-        end
+        replace_metric_snapshot_for_configuration(@metric_configuration, metric_snapshot)
       end
-
       metric_configuration_params.delete('metric')
-
-      respond_to do |format|
-        if @metric_configuration.errors.empty? && @metric_configuration.update(metric_configuration_params)
-          format.json { render json: {metric_configuration: @metric_configuration}, status: :created }
-        else
-          format.json { render json: {errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages}, status: :unprocessable_entity }
-        end
+      if @metric_configuration.errors.empty? && @metric_configuration.update(metric_configuration_params)
+        respond_with_json({ metric_configuration: @metric_configuration }, :created)
+      else
+        respond_with_json({ errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages}, :unprocessable_entity)
       end
     end
   end
@@ -69,6 +60,18 @@ class MetricConfigurationsController < ApplicationController
   end
 
   private
+
+  def replace_metric_snapshot_for_configuration(metric_configuration, metric_snapshot)
+    if metric_snapshot.errors.empty? && metric_configuration.valid_metric_snapshot_code?(metric_snapshot.code)
+      metric_configuration.metric_snapshot.destroy
+      metric_configuration.metric_snapshot = metric_snapshot
+      metric_configuration.save
+    end
+  end
+
+  def compound_metric_snapshot_parameter?(parameters)
+    !parameters['metric'].nil? && parameters['metric']['type'] == 'CompoundMetricSnapshot'
+  end
 
   def save_metric_configuration_with_snapshot(metric_configuration, metric_snapshot)
     metric_configuration.metric_snapshot = metric_snapshot
