@@ -401,4 +401,8 @@ py_blank_metric_configuration = MetricConfiguration.create(
 
 indifferent_ranges.create_ranges(py_blank_metric_configuration.id)
 
-###############################################################################
+################################################################################
+################################ PHP Configuration #############################
+################################################################################
+
+require_relative 'codeclimate_phpmd'
