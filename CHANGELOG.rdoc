@@ -4,7 +4,10 @@ KalibroConfigurations is the configuration storage web service for Mezuro.
 
 == Unreleased
 
+== v2.1.0 - 30/03/2016
+
 * Set development Ruby version to 2.3.0
+* Add seeds for PHPMD configuration
 
 == v2.0.1 - 26/02/2016
 
