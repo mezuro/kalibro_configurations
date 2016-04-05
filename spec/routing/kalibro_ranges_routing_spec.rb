@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe KalibroRangesController, type: :routing do
+RSpec.describe KalibroRangesController do
   describe 'routing' do
     it 'routes to #index' do
       expect(get: '/metric_configurations/3/kalibro_ranges').to route_to('kalibro_ranges#index', metric_configuration_id: '3')

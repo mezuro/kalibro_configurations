@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TestsController, type: :routing do
+describe TestsController do
   describe 'routing' do
     context 'outside production environment' do
       it {

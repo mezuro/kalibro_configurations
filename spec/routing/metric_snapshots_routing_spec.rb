@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MetricSnapshotsController, type: :routing do
+RSpec.describe MetricSnapshotsController do
   describe 'routing' do
     it 'routes to #index' do
       expect(get: '/metric_snapshots').to route_to('metric_snapshots#index')

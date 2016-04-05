@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReadingGroupsController, type: :routing do
+RSpec.describe ReadingGroupsController do
   describe 'routing' do
     it 'routes to #all' do
       expect(get: '/reading_groups').to route_to('reading_groups#all')

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReadingsController, type: :routing do
+RSpec.describe ReadingsController do
   describe 'routing' do
     it 'routes to #index' do
       expect(get: 'reading_groups/1/readings').to route_to('readings#index', reading_group_id: '1')

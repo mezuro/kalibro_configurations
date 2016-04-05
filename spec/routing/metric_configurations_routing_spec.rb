@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MetricConfigurationsController, type: :routing do
+RSpec.describe MetricConfigurationsController do
   describe 'routing' do
     it 'routes to #create' do
       expect(post: '/metric_configurations').to route_to('metric_configurations#create')

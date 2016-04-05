@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe KalibroConfigurationsController, type: :routing do
+RSpec.describe KalibroConfigurationsController do
   describe 'routing' do
     it 'routes to #all' do
       expect(get: '/kalibro_configurations').to route_to('kalibro_configurations#all')
