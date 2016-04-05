@@ -22,7 +22,7 @@ describe 'TestsController' do
   end
 end
 
-RSpec.describe TestsController, type: :controller do
+RSpec.describe TestsController do
   context 'outside production environment' do
     describe 'clean_database' do
       before :each do

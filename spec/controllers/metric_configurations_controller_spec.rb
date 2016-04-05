@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MetricConfigurationsController, type: :controller do
+RSpec.describe MetricConfigurationsController do
   let(:metric_configuration) { FactoryGirl.build(:tree_metric_configuration_with_id) }
 
   describe 'create' do

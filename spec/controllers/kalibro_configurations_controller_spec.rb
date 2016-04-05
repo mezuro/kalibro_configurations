@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe KalibroConfigurationsController, type: :controller do
+RSpec.describe KalibroConfigurationsController do
   let(:kalibro_configuration) { FactoryGirl.build(:kalibro_configuration_with_id) }
 
   describe 'all' do

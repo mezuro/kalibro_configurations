@@ -1,5 +1,6 @@
 require 'rails_helper'
-RSpec.describe StatisticsController, type: :controller do
+
+RSpec.describe StatisticsController do
   describe '#metric_percentage' do
     let(:all_metrics) {
       [FactoryGirl.build(:metric_configuration), FactoryGirl.build(:metric_configuration),

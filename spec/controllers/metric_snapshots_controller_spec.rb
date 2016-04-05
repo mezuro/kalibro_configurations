@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MetricSnapshotsController, type: :controller do
+RSpec.describe MetricSnapshotsController do
   let(:metric_snapshot) { FactoryGirl.build(:metric_snapshot, id: 10) }
 
   describe 'index' do
