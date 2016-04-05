@@ -5,6 +5,7 @@ AllCops:
     - 'db/**/*'
     - 'config/**/*'
     - 'script/**/*'
+    - 'features/support/env.rb'
 
 Rails:
   Enabled: true
