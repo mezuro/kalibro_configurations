@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MetricSnapshot, type: :model do
+RSpec.describe MetricSnapshot do
   describe 'associations' do
     it { is_expected.to have_one(:metric_configuration) }
   end

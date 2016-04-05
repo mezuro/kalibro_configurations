@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'validators/color_validator'
 
-RSpec.describe ColorValidator, type: :model do
+RSpec.describe ColorValidator do
   describe 'methods' do
     describe 'validate' do
       context 'when the color is valid' do

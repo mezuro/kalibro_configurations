@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MetricConfiguration, type: :model do
+RSpec.describe MetricConfiguration do
   describe 'associations' do
     it { is_expected.to belong_to(:kalibro_configuration) }
     it { is_expected.to belong_to(:metric_snapshot).dependent(:destroy) }

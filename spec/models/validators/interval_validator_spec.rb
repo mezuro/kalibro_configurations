@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'validators/interval_validator'
 
-RSpec.describe IntervalValidator, type: :model do
+RSpec.describe IntervalValidator do
   describe 'methods' do
     describe 'validate' do
       context 'when beginning is Infinity or end is -Infinity' do
