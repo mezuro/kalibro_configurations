@@ -1,11 +1,11 @@
 require 'yaml'
 
 desc 'Generate a seeds file from a metrics YAML file'
-task :hotspot_metrics_seed, [:name, :yml_file] do |t, args|
+task :hotspot_metrics_seed, [:name, :yml_file] do |_, args|
   metrics = YAML.load_file(args[:yml_file])[:metrics]
   file_name = args[:name].tr(' ', '_').downcase
 
-  File.open("db/#{file_name}.rb", "w") do |file|
+  File.open("db/#{file_name}.rb", 'w') do |file|
     file.puts <<RUBY
 #{file_name}_configuration = KalibroConfiguration.create(
   name: #{args[:name].inspect},
@@ -19,7 +19,7 @@ RUBY
         warn "Could not create #{code}. Only implemented for hotspot metrics!"
         next
       end
-      
+
       file.puts <<RUBY
 #{code} = HotspotMetricSnapshot.create(
   name: #{metric_info[:name].inspect},
