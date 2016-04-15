@@ -64,23 +64,27 @@ class KalibroRangesController < ApplicationController
   private
 
   def set_metric_configuration
-    @metric_configuration = MetricConfiguration.find(params[:metric_configuration_id].to_i)
-    true
-  rescue ActiveRecord::RecordNotFound => exception
-    respond_to do |format|
-      format.json { render json: { errors: [exception.message] }, status: :not_found }
+    begin
+      @metric_configuration = MetricConfiguration.find(params[:metric_configuration_id].to_i)
+      true
+    rescue ActiveRecord::RecordNotFound => exception
+      respond_to do |format|
+        format.json { render json: { errors: [exception.message] }, status: :not_found }
+      end
+      false
     end
-    false
   end
 
   def set_kalibro_range
-    @kalibro_range = KalibroRange.find(params[:id].to_i)
-    true
-  rescue ActiveRecord::RecordNotFound => exception
-    respond_to do |format|
-      format.json { render json: { errors: [exception.message] }, status: :not_found }
+    begin
+      @kalibro_range = KalibroRange.find(params[:id].to_i)
+      true
+    rescue ActiveRecord::RecordNotFound => exception
+      respond_to do |format|
+        format.json { render json: { errors: [exception.message] }, status: :not_found }
+      end
+      false
     end
-    false
   end
 
   def kalibro_range_params

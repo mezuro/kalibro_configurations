@@ -57,13 +57,15 @@ class ReadingGroupsController < ApplicationController
   private
 
   def set_reading_group
-    @reading_group = ReadingGroup.find(params[:id].to_i)
-    true
-  rescue ActiveRecord::RecordNotFound => exception
-    respond_to do |format|
-      format.json { render json: {errors: [exception.message]}, status: :not_found }
+    begin
+      @reading_group = ReadingGroup.find(params[:id].to_i)
+      true
+    rescue ActiveRecord::RecordNotFound => exception
+      respond_to do |format|
+        format.json { render json: {errors: [exception.message]}, status: :not_found }
+      end
+      false
     end
-    false
   end
 
   def reading_group_params

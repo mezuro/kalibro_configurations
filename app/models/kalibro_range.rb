@@ -14,15 +14,15 @@ class KalibroRange < ActiveRecord::Base
   def as_json(options = {})
     options[:except] = [:beginning, :end]
     json = super(options)
-    json['beginning'] = if beginning == -Float::INFINITY
-      '-INF'
+    if beginning == -Float::INFINITY
+      json['beginning'] = '-INF'
     else
-      beginning == Float::INFINITY ? 'INF' : beginning
+      json['beginning'] = beginning == Float::INFINITY ? 'INF' : beginning
     end
-    json['end'] = if self.end == -Float::INFINITY
-      '-INF'
+    if self.end == -Float::INFINITY
+      json['end'] = '-INF'
     else
-      self.end == Float::INFINITY ? 'INF' : self.end
+      json['end'] = self.end == Float::INFINITY ? 'INF' : self.end
     end
 
     json

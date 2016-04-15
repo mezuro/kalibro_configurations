@@ -24,12 +24,14 @@ class MetricSnapshotsController < ApplicationController
   private
 
   def set_metric_snapshot
-    @metric_snapshot = MetricSnapshot.find(params[:id].to_i)
-    true
-  rescue ActiveRecord::RecordNotFound => exception
-    respond_to do |format|
-      format.json { render json: {errors: [exception.message]}, status: :not_found }
+    begin
+      @metric_snapshot = MetricSnapshot.find(params[:id].to_i)
+      true
+    rescue ActiveRecord::RecordNotFound => exception
+      respond_to do |format|
+        format.json { render json: {errors: [exception.message]}, status: :not_found }
+      end
+      false
     end
-    false
   end
 end
