@@ -6,6 +6,7 @@ AllCops:
     - 'config/**/*'
     - 'script/**/*'
     - 'features/support/env.rb'
+    - 'vendor/**/*'
 
 Rails:
   Enabled: true
