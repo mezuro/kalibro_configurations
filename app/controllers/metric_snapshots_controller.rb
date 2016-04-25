@@ -1,24 +1,14 @@
 class MetricSnapshotsController < ApplicationController
   def index
-    respond_to do |format|
-      format.json { render json: {metric_snapshots: MetricSnapshot.all} }
-    end
+    respond_with_json metric_snapshots: MetricSnapshot.all
   end
 
   def show
-    if set_metric_snapshot
-      respond_to do |format|
-        format.json { render json: {metric_snapshot: @metric_snapshot}, status: :ok }
-      end
-    end
+    respond_with_json(metric_snapshot: @metric_snapshot) if set_metric_snapshot
   end
 
   def metric_configuration
-    if set_metric_snapshot
-      respond_to do |format|
-        format.json { render json: {metric_configuration: @metric_snapshot.metric_configuration}, status: :ok }
-      end
-    end
+    respond_with_json(metric_configuration: @metric_snapshot.metric_configuration) if set_metric_snapshot
   end
 
   private
@@ -28,9 +18,7 @@ class MetricSnapshotsController < ApplicationController
       @metric_snapshot = MetricSnapshot.find(params[:id].to_i)
       true
     rescue ActiveRecord::RecordNotFound => exception
-      respond_to do |format|
-        format.json { render json: {errors: [exception.message]}, status: :not_found }
-      end
+      respond_with_json({ errors: [exception.message]}, :not_found)
       false
     end
   end
