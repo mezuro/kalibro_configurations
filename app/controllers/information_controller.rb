@@ -3,7 +3,6 @@ class InformationController < ApplicationController
     data = Information.data
 
     respond_to do |format|
-      format.html { render json: data }
       format.json { render json: data }
     end
   end
