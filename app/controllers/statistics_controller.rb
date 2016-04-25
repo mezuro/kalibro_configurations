@@ -10,8 +10,6 @@ class StatisticsController < ApplicationController
       metric_percentage = (count_metric_snapshot.to_f / total_configuration.to_f) * 100
     end
 
-    respond_to do |format|
-      format.json { render json: {metric_percentage: metric_percentage.round(2)} }
-    end
+    respond_with_json metric_percentage: metric_percentage.round(2)
   end
 end

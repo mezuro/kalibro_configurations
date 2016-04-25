@@ -1,10 +1,5 @@
 class InformationController < ApplicationController
   def data
-    data = Information.data
-
-    respond_to do |format|
-      format.html { render json: data }
-      format.json { render json: data }
-    end
+    respond_with_json Information.data
   end
 end

@@ -1,56 +1,39 @@
 class ReadingGroupsController < ApplicationController
   def all
-    reading_groups = {reading_groups: ReadingGroup.all}
-
-    respond_to do |format|
-      format.json { render json: reading_groups }
-    end
+    respond_with_json reading_groups: ReadingGroup.all
   end
 
   def show
-    if set_reading_group
-      respond_to do |format|
-        format.json { render json: {reading_group: @reading_group}, status: :ok }
-      end
-    end
+    respond_with_json(reading_group: @reading_group) if set_reading_group
   end
 
   def create
     reading_group = ReadingGroup.new(reading_group_params)
-
-    respond_to do |format|
-      if reading_group.save
-        format.json { render json: {reading_group: reading_group}, status: :created }
-      else
-        format.json { render json: {errors: reading_group.errors.full_messages}, status: :unprocessable_entity }
-      end
+    if reading_group.save
+      respond_with_json({ reading_group: reading_group }, :created)
+    else
+      respond_with_json({ errors: reading_group.errors.full_messages }, :unprocessable_entity)
     end
   end
 
   def update
     if set_reading_group
-      respond_to do |format|
-        if @reading_group.update(reading_group_params)
-          format.json { render json: {reading_group: @reading_group}, status: :created }
-        else
-          format.json { render json: {errors: @reading_group.errors.full_messages}, status: :unprocessable_entity }
-        end
+      if @reading_group.update(reading_group_params)
+        respond_with_json({ reading_group: @reading_group }, :created)
+      else
+        respond_with_json({ errors: @reading_group.errors.full_messages }, :unprocessable_entity)
       end
     end
   end
 
   def exists
-    respond_to do |format|
-      format.json { render json: {exists: ReadingGroup.exists?(params[:id].to_i)} }
-    end
+    respond_with_json exists: ReadingGroup.exists?(params[:id].to_i)
   end
 
   def destroy
     if set_reading_group
       @reading_group.destroy
-      respond_to do |format|
-        format.json { render json: {}, status: :ok }
-      end
+      respond_with_json
     end
   end
 
@@ -61,9 +44,7 @@ class ReadingGroupsController < ApplicationController
       @reading_group = ReadingGroup.find(params[:id].to_i)
       true
     rescue ActiveRecord::RecordNotFound => exception
-      respond_to do |format|
-        format.json { render json: {errors: [exception.message]}, status: :not_found }
-      end
+      respond_with_json({ errors: [exception.message] }, :not_found)
       false
     end
   end

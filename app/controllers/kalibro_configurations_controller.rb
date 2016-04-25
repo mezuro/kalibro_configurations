@@ -56,17 +56,11 @@ class KalibroConfigurationsController < ApplicationController
     respond_with_json(message => @kalibro_configuration.send(message))
   end
 
-  def respond_with_json(response, status = :ok)
-    respond_to { |format| format.json { render json: response, status: status } }
-  end
-
   def set_kalibro_configuration
     @kalibro_configuration = KalibroConfiguration.find(params[:id].to_i)
     true
   rescue ActiveRecord::RecordNotFound => exception
-    respond_to do |format|
-      format.json { render json: { errors: [exception.message] }, status: :not_found }
-    end
+    respond_with_json({ errors: [exception.message] }, :not_found)
     false
   end
 

@@ -10,10 +10,7 @@ unless Rails.env == 'production'
       Rails.cache.clear
       DatabaseCleaner.strategy = :truncation
       DatabaseCleaner.clean
-
-      respond_to do |format|
-        format.json { render json: {}, status: :ok }
-      end
+      respond_with_json
     end
   end
 end
