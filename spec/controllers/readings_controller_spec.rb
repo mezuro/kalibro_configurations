@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe ReadingsController, :type => :controller do
-
+RSpec.describe ReadingsController do
   let(:reading) { FactoryGirl.build(:reading_with_id) }
 
   describe 'index' do
-    let!(:reading_group) {FactoryGirl.build(:reading_group)}
+    let!(:reading_group) { FactoryGirl.build(:reading_group) }
 
     context 'with a valid reading group' do
       context 'with at least 1 reading' do
@@ -58,7 +57,7 @@ RSpec.describe ReadingsController, :type => :controller do
     end
   end
 
-  describe "show" do
+  describe 'show' do
     context 'when the Reading exists' do
       before :each do
         Reading.expects(:find).with(reading.id).returns(reading)
@@ -118,7 +117,7 @@ RSpec.describe ReadingsController, :type => :controller do
     end
   end
 
-  describe "create" do
+  describe 'create' do
     let!(:reading_params) { FactoryGirl.attributes_for(:reading, reading_group_id: reading.reading_group.id).stringify_keys }
 
     context 'with valid attributes' do
@@ -151,7 +150,7 @@ RSpec.describe ReadingsController, :type => :controller do
     end
   end
 
-  describe "update" do
+  describe 'update' do
     let!(:reading_params) { FactoryGirl.attributes_for(:reading, reading_group_id: reading.reading_group.id).stringify_keys }
 
     before :each do
@@ -189,7 +188,7 @@ RSpec.describe ReadingsController, :type => :controller do
     end
   end
 
-  describe "destroy" do
+  describe 'destroy' do
     before :each do
       Reading.expects(:find).with(reading.id).returns(reading)
       reading.expects(:destroy).returns(true)
@@ -199,5 +198,4 @@ RSpec.describe ReadingsController, :type => :controller do
 
     it { is_expected.to respond_with(:success) }
   end
-
 end

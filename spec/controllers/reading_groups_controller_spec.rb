@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReadingGroupsController, :type => :controller do
-
+RSpec.describe ReadingGroupsController do
   let!(:reading_group) { FactoryGirl.build(:reading_group) }
 
   describe 'exists' do
@@ -161,5 +160,4 @@ RSpec.describe ReadingGroupsController, :type => :controller do
 
     it { is_expected.to respond_with(:success) }
   end
-
 end

@@ -4,7 +4,7 @@ class KalibroRangesController < ApplicationController
   def index
     if set_metric_configuration
       respond_to do |format|
-        format.json { render json: {kalibro_ranges: @metric_configuration.kalibro_ranges}}
+        format.json { render json: {kalibro_ranges: @metric_configuration.kalibro_ranges} }
       end
     end
   end
@@ -23,7 +23,7 @@ class KalibroRangesController < ApplicationController
     json = json_conversion(range)
     respond_to do |format|
       if range.save
-        json["id"] = range.id
+        json['id'] = range.id
         format.json { render json: {kalibro_range: json}, status: :created }
       else
         format.json { render json: {errors: range.errors.full_messages}, status: :unprocessable_entity }
@@ -92,12 +92,12 @@ class KalibroRangesController < ApplicationController
   end
 
   def convert(value)
-    if value == "INF"
+    if value == 'INF'
       return Float::INFINITY
-    elsif value == "-INF"
+    elsif value == '-INF'
       return -Float::INFINITY
     end
-    return value
+    value
   end
 
   def set_interval_params
@@ -108,8 +108,8 @@ class KalibroRangesController < ApplicationController
   def json_conversion(range)
     # JSON does not understand Infinity. That's why we have to make this series of conversions.
     hash = range.attributes
-    hash["beginning"] = range.beginning.to_s if range.beginning == -Float::INFINITY
-    hash["end"] = range.end.to_s if range.end == Float::INFINITY
-    return hash
+    hash['beginning'] = range.beginning.to_s if range.beginning == -Float::INFINITY
+    hash['end'] = range.end.to_s if range.end == Float::INFINITY
+    hash
   end
 end

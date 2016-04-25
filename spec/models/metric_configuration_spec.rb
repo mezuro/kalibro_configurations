@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MetricConfiguration, :type => :model do
+RSpec.describe MetricConfiguration do
   describe 'associations' do
     it { is_expected.to belong_to(:kalibro_configuration) }
     it { is_expected.to belong_to(:metric_snapshot).dependent(:destroy) }
@@ -48,8 +48,8 @@ RSpec.describe MetricConfiguration, :type => :model do
         it 'is expected to add the metric snapshot value to the hash' do
           subject.metric_snapshot.expects(:as_json).returns({})
           subject_json_hash = subject.as_json
-          expect(subject_json_hash).to include("metric")
-          expect(subject_json_hash["metric"]).to eq({})
+          expect(subject_json_hash).to include('metric')
+          expect(subject_json_hash['metric']).to eq({})
         end
       end
     end
@@ -98,7 +98,7 @@ RSpec.describe MetricConfiguration, :type => :model do
         end
 
         it 'should return true' do
-          expect(metric_configuration.valid_metric_snapshot_code? metric_configuration.metric_snapshot.code).to be_truthy
+          expect(metric_configuration.valid_metric_snapshot_code?(metric_configuration.metric_snapshot.code)).to be_truthy
         end
 
         it 'should not fill the errors array' do
@@ -114,12 +114,12 @@ RSpec.describe MetricConfiguration, :type => :model do
         end
 
         it 'should return false' do
-          expect(metric_configuration.valid_metric_snapshot_code? metric_configuration.metric_snapshot.code).to be_falsey
+          expect(metric_configuration.valid_metric_snapshot_code?(metric_configuration.metric_snapshot.code)).to be_falsey
         end
 
         it 'should fill the errors array' do
           metric_configuration.valid_metric_snapshot_code? metric_configuration.metric_snapshot.code
-          expect(metric_configuration.errors[:code]).to include("must be unique within a kalibro configuration")
+          expect(metric_configuration.errors[:code]).to include('must be unique within a kalibro configuration')
         end
       end
     end

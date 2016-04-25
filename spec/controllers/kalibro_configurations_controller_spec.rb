@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe KalibroConfigurationsController, :type => :controller do
+RSpec.describe KalibroConfigurationsController do
   let(:kalibro_configuration) { FactoryGirl.build(:kalibro_configuration_with_id) }
 
   describe 'all' do
@@ -151,28 +151,28 @@ RSpec.describe KalibroConfigurationsController, :type => :controller do
   end
 
   describe 'metric_configurations' do
-      context 'with at least 1 metric configuration' do
-        let!(:metric_configuration) { FactoryGirl.build(:tree_metric_configuration, id: 1, kalibro_configuration: kalibro_configuration) }
-        let!(:metric_configurations) { [metric_configuration] }
-        before :each do
-          kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
-          KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+    context 'with at least 1 metric configuration' do
+      let!(:metric_configuration) { FactoryGirl.build(:tree_metric_configuration, id: 1, kalibro_configuration: kalibro_configuration) }
+      let!(:metric_configurations) { [metric_configuration] }
+      before :each do
+        kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
+        KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
 
-          get :metric_configurations, id: kalibro_configuration.id, format: :json
-        end
-
-        it { is_expected.to respond_with(:success) }
-
-        it 'is expected to return an array of metric_configurations' do
-          expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: [metric_configuration]}.to_json))
-        end
+        get :metric_configurations, id: kalibro_configuration.id, format: :json
       end
 
-      context 'without metric configurations' do
-        let!(:metric_configurations) { [] }
-        before :each do
-          kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
-          KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
+      it { is_expected.to respond_with(:success) }
+
+      it 'is expected to return an array of metric_configurations' do
+        expect(JSON.parse(response.body)).to eq(JSON.parse({metric_configurations: [metric_configuration]}.to_json))
+      end
+    end
+
+    context 'without metric configurations' do
+      let!(:metric_configurations) { [] }
+      before :each do
+        kalibro_configuration.expects(:metric_configurations).returns(metric_configurations)
+        KalibroConfiguration.expects(:find).with(kalibro_configuration.id).returns(kalibro_configuration)
 
         get :metric_configurations, id: kalibro_configuration.id, format: :json
       end

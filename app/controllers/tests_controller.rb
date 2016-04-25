@@ -2,7 +2,7 @@
 # See: spec/controllers/tests_controller_spec.rb
 #
 # :nocov:
-unless Rails.env == "production"
+unless Rails.env == 'production'
   require 'database_cleaner'
 
   class TestsController < ApplicationController

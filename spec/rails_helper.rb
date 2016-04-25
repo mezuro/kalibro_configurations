@@ -1,23 +1,23 @@
-#Test coverage report
+# Test coverage report
 require 'simplecov'
 
 SimpleCov.start do
   coverage_dir 'coverage/rspec'
 
-  add_group "Models", "app/models"
-  add_group "Controllers", "app/controllers"
-  add_group "Helpers", "app/helpers"
-  add_group "Mailers", "app/mailers"
+  add_group 'Models', 'app/models'
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Helpers', 'app/helpers'
+  add_group 'Mailers', 'app/mailers'
 
-  add_filter "/spec/"
-  add_filter "/features/"
-  add_filter "/config/"
+  add_filter '/spec/'
+  add_filter '/features/'
+  add_filter '/config/'
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -27,7 +27,7 @@ require 'rspec/rails'
 # run twice. It is recommended that you do not name files matching this glob to
 # end with _spec.rb. You can configure this pattern with with the --pattern
 # option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.

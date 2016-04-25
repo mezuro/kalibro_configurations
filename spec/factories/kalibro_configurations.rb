@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :kalibro_configuration do
-    name "My Configuration"
-    description "Sample description"
+    name 'My Configuration'
+    description 'Sample description'
 
     trait :with_id do
       id 25

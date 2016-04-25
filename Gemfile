@@ -34,23 +34,23 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rails-html-sanitizer', '~> 1.0'
 
 # Deployment
-gem 'capistrano', "~>3.4.0", require: false
+gem 'capistrano', '~>3.4.0', require: false
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
-gem 'capistrano-rvm', "~>0.1.0"
+gem 'capistrano-rvm', '~>0.1.0'
 
 # Startup script generation (server process manager)
 gem 'foreman', '~>0.78.0'
 
 group :test do
   # Easier test writing
-  gem "shoulda-matchers", "~> 2.8.0"
+  gem 'shoulda-matchers', '~> 2.8.0'
 
   # Test coverage
   gem 'simplecov', require: false
 
   # Code climate test coverage
-  gem "codeclimate-test-reporter", group: :test, require: nil
+  gem 'codeclimate-test-reporter', group: :test, require: nil
 end
 
 group :development, :test do
@@ -71,6 +71,9 @@ group :development, :test do
 
   # Fixtures made easy
   gem 'factory_girl_rails', '~> 4.5.0'
+
+  # Static code analyzer. Restricting version to be able to parse the newest ruby version
+  gem 'rubocop', '>= 0.36'
 end
 
 group :development, :test, :cucumber do
@@ -89,7 +92,6 @@ end
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
 
 # Use Unicorn as the app server
 # gem 'unicorn'
