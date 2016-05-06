@@ -8,15 +8,6 @@ It was strongly based on the vintage Kalibro (https://github.com/mezuro/kalibro)
 
 ---
 
-### Contributing
-
-Please, have a look at the wiki pages about development workflow and code standards:
-
-- https://github.com/mezuro/prezento/wiki/Development-workflow
-- https://github.com/mezuro/prezento/wiki/Standards
-
----
-
 ### Development
 
 
