@@ -1,8 +1,6 @@
-== README - Kalibro Configurations
+## README - Kalibro Configurations
 
-{<img src="https://codeclimate.com/github/mezuro/kalibro_configurations/badges/gpa.svg" />}[https://codeclimate.com/github/mezuro/kalibro_configurations]
-{<img src="https://codeclimate.com/github/mezuro/kalibro_configurations/badges/coverage.svg" />}[https://codeclimate.com/github/mezuro/kalibro_configurations/coverage]
-{<img src="https://travis-ci.org/mezuro/kalibro_configurations.svg?branch=master" />}[https://travis-ci.org/mezuro/kalibro_configurations]
+[![Code Climate](https://codeclimate.com/github/mezuro/kalibro_configurations/badges/gpa.svg)](https://codeclimate.com/github/mezuro/kalibro_configurations) [![Test Coverage](https://codeclimate.com/github/mezuro/kalibro_configurations/badges/coverage.svg)](https://codeclimate.com/github/mezuro/kalibro_configurations/coverage) [![Build Status](https://travis-ci.org/mezuro/kalibro_configurations.svg?branch=master)](https://travis-ci.org/mezuro/kalibro_configurations)
 
 Kalibro Configurations is a source code analysis configuration web service which is also part of the Mezuro project. It is free software under the AGPLv3 license.
 
@@ -10,71 +8,66 @@ It was strongly based on the vintage Kalibro (https://github.com/mezuro/kalibro)
 
 ---
 
-=== Contributing
+### Contributing
 
 Please, have a look at the wiki pages about development workflow and code standards:
 
-* https://github.com/mezuro/prezento/wiki/Development-workflow
-* https://github.com/mezuro/prezento/wiki/Standards
+- https://github.com/mezuro/prezento/wiki/Development-workflow
+- https://github.com/mezuro/prezento/wiki/Standards
 
 ---
 
-=== Development
+### Development
 
 
-* System dependencies (Ubuntu package names)
+#### System dependencies (Ubuntu 14.04 package names)
+- build-essential
+- postgresql-server-dev-9.3
 
-  * build-essential
+*NOTE:* The version of postgresql may vary accordingly with your system version
 
-  * curl
+#### Ruby version
+`2.3.0`
 
-  * postgresql-server-dev-9.3
+You can easily install it through the Ruby Version Manager - RVM. Instructions on how to do it can be found at http://rvm.io
 
-  *NOTE:* The version of postgresql may vary accordingly with your system version
+It is expected to work with:
 
-* Ruby version
+- 2.1.5 Debian 8
+- 2.0.0 CentOS 7
 
-  2.3.0
-
-  You can easily install it through the Ruby Version Manager - RVM. Instructions on how to do it can be found at http://rvm.io
-
-  It is expected to work with:
-
-  * 2.1.5 Debian 8
-  * 2.0.0 CentOS 7
-
-  *NOTE:* If you are using the gnome-shell, or any derivative like terminator, you have to mark on your profile the option to use a "login bash".
+*NOTE:* If you are using the gnome-shell, or any derivative like terminator, you have to mark on your profile the option to use a "login bash".
 
 
-* Configuration
+#### Configuration
 
     ./bin/setup
 
-  This will create all the configuration files with defaults for Ubuntu and initialize your database.
+This will create all the configuration files with defaults for Ubuntu and initialize your database.
 
-* How to run the test suite
+#### How to run the test suite
 
     rake
 
-* Deployment instructions
+#### Deployment instructions
 
-  Deployment is made through Capistrano (https://github.com/capistrano/capistrano)
+Deployment is made through Capistrano (https://github.com/capistrano/capistrano)
 
     cap production deploy
 
-  In order to do this, you must have your ssh key set at the target server.
+In order to do this, you must have your ssh key set at the target server.
 
-  Otherwise, you can also modify the deployment file at <tt>config/deploy.rb</tt>.
+Otherwise, you can also modify the deployment file at <tt>config/deploy.rb</tt>.
 
 ---
 
-=== Install
+### Install
 
-* First Deploy
+#### First Deploy
 
   1. Make sure that the deployment files (<tt>config/deploy.rb</tt> <tt>config/deploy/production.rb</tt> are correctly configured to the installation server;
   2. Also, make sure that the installation server already has rvm installed;
-    * It should already have the ruby version installed with the gemset created as well
+    - It should already have the ruby version installed with the gemset created as well
   3. Check if everything is OK for deploy:
       cap production deploy:check
   4. Finally deploy with:
@@ -82,7 +75,7 @@ Please, have a look at the wiki pages about development workflow and code standa
 
 ---
 
-=== License
+### License
 
 Copyright (c) 2014-2016 The Authors.
 
@@ -101,13 +94,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ---
 
-=== Authors
+### Authors
 
 Please see the humans.txt (at the `public` folder) file with the authors
 
 ---
 
-=== Acknowledgments
+### Acknowledgments
 
 The authors have been supported by organizations:
 
