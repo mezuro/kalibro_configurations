@@ -6,6 +6,10 @@ Kalibro Configurations is a source code analysis configuration web service which
 
 It was strongly based on the vintage Kalibro (https://github.com/mezuro/kalibro) written in Java mostly by Carlos Morais (carlos88morais at gmail dot com) on his MSc dissertation (in portuguese http://www.teses.usp.br/teses/disponiveis/45/45134/tde-25092013-142158/en.php)
 
+To know how to contribute and how to setup a working environment, please refer to the [CONTRIBUTING](CONTRIBUTING.md) and [HACKING](HACKING.md) files, respectively.
+
+If you want the service running but do not wish to contribute (yet!), there's packages available for Debian Jessie and CentOS 7. For detailed information on how to install and use them, look [here](http://mezuro.github.io/installation/).
+
 ---
 
 ### License
