@@ -7,11 +7,13 @@ rvm:
 addons:
     postgresql: "9.3"
 
+cache: bundler
+
 before_script:
-  - "cp config/database.yml.postgresql_sample config/database.yml"
+  - cp config/database.yml.postgresql_sample config/database.yml
   - psql -c "create role kalibro_configurations with createdb login password 'kalibro_configurations'" -U postgres
-  - "bundle exec rake db:setup db:migrate RAILS_ENV=test"
-  - "bundle exec rake tmp:create"
+  - bundle exec rake db:setup db:migrate
+  - bundle exec rake tmp:create
   - export BUNDLE_GEMFILE=$PWD/Gemfile
   - export CODECLIMATE_REPO_TOKEN=6bf95f17eb6f76312a655acafc20c446a81f601c2f9a2c5d3771c95712da11d4
 

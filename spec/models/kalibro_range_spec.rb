@@ -69,6 +69,16 @@ RSpec.describe KalibroRange do
           expect(subject.as_json['end']).to eq('INF')
         end
       end
+
+      context 'with negative infinity end' do
+        before do
+          subject.end = -Float::INFINITY
+        end
+
+        it 'is expected to convert to INF' do
+          expect(subject.as_json['end']).to eq('-INF')
+        end
+      end
     end
   end
 
