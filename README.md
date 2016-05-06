@@ -44,3 +44,11 @@ The authors have been supported by organizations:
 University of São Paulo (USP)
 FLOSS Competence Center
 http://ccsl.ime.usp.br
+
+Brazilian National Research Council (CNPQ)
+http://www.cnpq.br/
+
+University of Brasilia (UnB)
+Faculdade UnB Gama
+https://fga.unb.br/
+https://softwarepublico.gov.br/social/
