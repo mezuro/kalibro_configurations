@@ -1,7 +1,7 @@
 # Test coverage report
 require 'simplecov'
 
-SimpleCov.start do
+SimpleCov.start 'rails' do
   # Minimum coverage is only desired on CI tools when building the environment. CI is a
   # default environment variable used by Travis. For reference, see here:
   # https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
