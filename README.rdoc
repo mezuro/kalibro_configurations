@@ -1,5 +1,8 @@
-{<img src="https://codeclimate.com/github/mezuro/kalibro_configurations/badges/gpa.svg" />}[https://codeclimate.com/github/mezuro/kalibro_configurations]
 == README - Kalibro Configurations
+
+{<img src="https://codeclimate.com/github/mezuro/kalibro_configurations/badges/gpa.svg" />}[https://codeclimate.com/github/mezuro/kalibro_configurations]
+{<img src="https://codeclimate.com/github/mezuro/kalibro_configurations/badges/coverage.svg" />}[https://codeclimate.com/github/mezuro/kalibro_configurations/coverage]
+{<img src="https://travis-ci.org/mezuro/kalibro_configurations.svg?branch=master" />}[https://travis-ci.org/mezuro/kalibro_configurations]
 
 Kalibro Configurations is a source code analysis configuration web service which is also part of the Mezuro project. It is free software under the AGPLv3 license.
 
