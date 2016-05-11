@@ -4,6 +4,8 @@ KalibroConfigurations is the configuration storage web service for Mezuro.
 
 ## Unreleased
 
+## v2.1.1 - 11/05/2016
+
 - Add rubocop gem and configuration file
 - Make Travis fail if unit test coverage is below 100%
 - Cache bundle on travis
