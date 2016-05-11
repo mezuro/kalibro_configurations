@@ -4,6 +4,8 @@ KalibroConfigurations is the configuration storage web service for Mezuro.
 
 ## Unreleased
 
+- Fix rake tasks loading under production
+
 ## v2.1.1 - 11/05/2016
 
 - Add rubocop gem and configuration file

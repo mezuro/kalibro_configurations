@@ -1,3 +1,1 @@
-require 'rubocop/rake_task'
-
-RuboCop::RakeTask.new
+RuboCop::RakeTask.new if require 'rubocop/rake_task'
