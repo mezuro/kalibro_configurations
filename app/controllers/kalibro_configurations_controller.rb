@@ -65,6 +65,6 @@ class KalibroConfigurationsController < ApplicationController
   end
 
   def kalibro_configuration_params
-    params.require(:kalibro_configuration).permit(:name, :description)
+    params.require(:kalibro_configuration).permit(:name, :description, :language)
   end
 end

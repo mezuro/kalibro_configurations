@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :kalibro_configuration do
     name 'My Configuration'
     description 'Sample description'
+    language 'Ruby'
 
     trait :with_id do
       id 25

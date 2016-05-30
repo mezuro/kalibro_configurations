@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe KalibroConfiguration do
+  subject { FactoryGirl.build(:kalibro_configuration) }
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_uniqueness_of(:name) }
@@ -11,7 +13,6 @@ RSpec.describe KalibroConfiguration do
   end
 
   describe 'hotspot_metric_configurations' do
-    subject { FactoryGirl.build(:kalibro_configuration) }
     let(:tree_metric_configuration) { FactoryGirl.build(:tree_metric_configuration) }
     let(:hotspot_metric_configuration) { FactoryGirl.build(:hotspot_metric_configuration) }
 
@@ -45,7 +46,6 @@ RSpec.describe KalibroConfiguration do
   end
 
   describe 'tree_metric_configurations' do
-    subject { FactoryGirl.build(:kalibro_configuration) }
     let(:tree_metric_configuration) { FactoryGirl.build(:tree_metric_configuration) }
     let(:hotspot_metric_configuration) { FactoryGirl.build(:hotspot_metric_configuration) }
 
