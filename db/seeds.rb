@@ -1,13 +1,5 @@
 # encoding: utf-8
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 # Adds the method create_ranges to Ruby's super class
 class Array
   def create_ranges(metric_configuration_id)
@@ -54,28 +46,43 @@ readings = {
 ########################### Java/C/C++ Configuration ##########################
 ###############################################################################
 
-first_configuration = KalibroConfiguration.create(name: "First Configuration", description: <<-END
-Configuration proposed as starting point for C, C++ and Java. From Morais' master text.
+java_configuration = KalibroConfiguration.create(name: "Java Configuration", language: "Java", description: <<-END
+Configuration proposed as starting point for Java. From Morais' master text.
 END
 )
+
+c_configuration = KalibroConfiguration.create(name: "C Configuration", language: "C", description: <<-END
+Configuration proposed as starting point for C. From Morais' master text.
+END
+)
+
+cpp_configuration = KalibroConfiguration.create(name: "C++ Configuration", language: "C++", description: <<-END
+Configuration proposed as starting point for C++. From Morais' master text.
+END
+)
+
+analizo_configurations = [java_configuration, c_configuration, cpp_configuration]
 
 acc = NativeMetricSnapshot.create(
   name: "Afferent Connections per Class (used to calculate COF - Coupling Factor)",
   description: "", code: "acc", metric_collector_name: "Analizo",
   scope: {'type' => "CLASS"})
 
-acc_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: acc.id, weight: 2.0, aggregation_form: "MEAN",
-  reading_group_id: scholar.id, kalibro_configuration_id: first_configuration.id)
 
-[
-  { beginning: 0, end: 2, comments: "", reading_id: readings[:excellent].id },
-  { beginning: 2, end: 7, comments: "", reading_id: readings[:good].id },
-  { beginning: 7, end: 15, comments: "", reading_id: readings[:regular].id },
-  { beginning: 15, end: Float::INFINITY, reading_id: readings[:worrying].id,
-    comments: "A classe possui muitas dependências. Tente seguir o princípio de responsabilidade única. Talvez seja necessário reduzir a interface das classes utilizadas."
-  }
-].create_ranges(acc_metric_configuration.id)
+analizo_configurations.each do |analizo_configuration|
+  acc_metric_configuration = MetricConfiguration.create(
+    metric_snapshot_id: acc.id, weight: 2.0, aggregation_form: "MEAN",
+    reading_group_id: scholar.id, kalibro_configuration_id: analizo_configuration.id)
+
+  [
+    { beginning: 0, end: 2, comments: "", reading_id: readings[:excellent].id },
+    { beginning: 2, end: 7, comments: "", reading_id: readings[:good].id },
+    { beginning: 7, end: 15, comments: "", reading_id: readings[:regular].id },
+    { beginning: 15, end: Float::INFINITY, reading_id: readings[:worrying].id,
+      comments: "A classe possui muitas dependências. Tente seguir o princípio de responsabilidade única. Talvez seja necessário reduzir a interface das classes utilizadas."
+    }
+  ].create_ranges(acc_metric_configuration.id)
+end
 
 ###############################################################################
 
@@ -83,18 +90,20 @@ accm = NativeMetricSnapshot.create(
   name: "Average Cyclomatic Complexity per Method", description: "",
   code: "accm", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
-accm_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: accm.id, weight: 2.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
-  kalibro_configuration_id: first_configuration.id)
+analizo_configurations.each do |analizo_configuration|
+  accm_metric_configuration = MetricConfiguration.create(
+    metric_snapshot_id: accm.id, weight: 2.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+    kalibro_configuration_id: analizo_configuration.id)
 
-[
-  { beginning: 0, end: 3, comments: "", reading_id: readings[:excellent].id },
-  { beginning: 3, end: 5, comments: "", reading_id: readings[:good].id },
-  { beginning: 5, end: 7, comments: "", reading_id: readings[:regular].id },
-  { beginning: 7, end: Float::INFINITY, reading_id: readings[:worrying].id,
-    comments: "Os métodos estão muito “pesados”. Tente quebrá-los em métodos menores e menos complexos. Evite longos “switches”, ou vários laços aninhados no mesmo método."
-  }
-].create_ranges(accm_metric_configuration.id)
+  [
+    { beginning: 0, end: 3, comments: "", reading_id: readings[:excellent].id },
+    { beginning: 3, end: 5, comments: "", reading_id: readings[:good].id },
+    { beginning: 5, end: 7, comments: "", reading_id: readings[:regular].id },
+    { beginning: 7, end: Float::INFINITY, reading_id: readings[:worrying].id,
+      comments: "Os métodos estão muito “pesados”. Tente quebrá-los em métodos menores e menos complexos. Evite longos “switches”, ou vários laços aninhados no mesmo método."
+    }
+  ].create_ranges(accm_metric_configuration.id)
+end
 
 ###############################################################################
 
@@ -102,18 +111,20 @@ amloc = NativeMetricSnapshot.create(
   name: "Average Method Lines of Code", description: "", code: "amloc", metric_collector_name: "Analizo",
   scope: {'type' => "CLASS"})
 
-amloc_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: amloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
-  kalibro_configuration_id: first_configuration.id)
+analizo_configurations.each do |analizo_configuration|
+  amloc_metric_configuration = MetricConfiguration.create(
+    metric_snapshot_id: amloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+    kalibro_configuration_id: analizo_configuration.id)
 
-[
-  { beginning: 0, end: 8, comments: "", reading_id: readings[:excellent].id },
-  { beginning: 8, end: 19, comments: "", reading_id: readings[:good].id },
-  { beginning: 19, end: 37, comments: "", reading_id: readings[:regular].id },
-  { beginning: 37, end: Float::INFINITY, reading_id: readings[:worrying].id,
-    comments: "Os métodos estão muito longos. Tente quebrá-los em métodos menores, cada um no seu nível de abstração. Forte candidato a novo método é o código em maior aninhamento."
-  }
-].create_ranges(amloc_metric_configuration.id)
+  [
+    { beginning: 0, end: 8, comments: "", reading_id: readings[:excellent].id },
+    { beginning: 8, end: 19, comments: "", reading_id: readings[:good].id },
+    { beginning: 19, end: 37, comments: "", reading_id: readings[:regular].id },
+    { beginning: 37, end: Float::INFINITY, reading_id: readings[:worrying].id,
+      comments: "Os métodos estão muito longos. Tente quebrá-los em métodos menores, cada um no seu nível de abstração. Forte candidato a novo método é o código em maior aninhamento."
+    }
+  ].create_ranges(amloc_metric_configuration.id)
+end
 
 ###############################################################################
 
@@ -121,96 +132,108 @@ anpm = NativeMetricSnapshot.create(
   name: "Average Number of Parameters per Method", description: "", code: "anpm", metric_collector_name: "Analizo",
   scope: {'type' => "CLASS"})
 
-anpm_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: anpm.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
-  kalibro_configuration_id: first_configuration.id)
+analizo_configurations.each do |analizo_configuration|
+  anpm_metric_configuration = MetricConfiguration.create(
+    metric_snapshot_id: anpm.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+    kalibro_configuration_id: analizo_configuration.id)
 
-[
-  { beginning: 0, end: 2, comments: "", reading_id: readings[:excellent].id },
-  { beginning: 2, end: 3, comments: "", reading_id: readings[:good].id },
-  { beginning: 3, end: 5, comments: "", reading_id: readings[:regular].id },
-  { beginning: 5, end: Float::INFINITY, reading_id: readings[:worrying].id,
-    comments: "Os métodos estão recebendo muitos parâmetros. Conjuntos de parâmetros parecidos sugerem a criação de uma classe contendo esses dados, e transferência dos métodos para essa classe."
-  }
-].create_ranges(anpm_metric_configuration.id)
+  [
+    { beginning: 0, end: 2, comments: "", reading_id: readings[:excellent].id },
+    { beginning: 2, end: 3, comments: "", reading_id: readings[:good].id },
+    { beginning: 3, end: 5, comments: "", reading_id: readings[:regular].id },
+    { beginning: 5, end: Float::INFINITY, reading_id: readings[:worrying].id,
+      comments: "Os métodos estão recebendo muitos parâmetros. Conjuntos de parâmetros parecidos sugerem a criação de uma classe contendo esses dados, e transferência dos métodos para essa classe."
+    }
+  ].create_ranges(anpm_metric_configuration.id)
+end
 
 ###############################################################################
 
 dit = NativeMetricSnapshot.create(
   name: "Depth of Inheritance Tree", description: "", code: "dit", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
-dit_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: dit.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
-  kalibro_configuration_id: first_configuration.id)
 
-[
-  { beginning: 0, end: 2, comments: "", reading_id: readings[:excellent].id },
-  { beginning: 2, end: 4, comments: "", reading_id: readings[:good].id },
-  { beginning: 4, end: 6, comments: "", reading_id: readings[:regular].id },
-  { beginning: 6, end: Float::INFINITY, reading_id: readings[:worrying].id,
-    comments: "Talvez o mecanismo de herança esteja sendo utilizado em demasia. Sempre que fizer sentido, prefira composição à herança."
-  }
-].create_ranges(dit_metric_configuration.id)
+analizo_configurations.each do |analizo_configuration|
+  dit_metric_configuration = MetricConfiguration.create(
+    metric_snapshot_id: dit.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+    kalibro_configuration_id: analizo_configuration.id)
+
+  [
+    { beginning: 0, end: 2, comments: "", reading_id: readings[:excellent].id },
+    { beginning: 2, end: 4, comments: "", reading_id: readings[:good].id },
+    { beginning: 4, end: 6, comments: "", reading_id: readings[:regular].id },
+    { beginning: 6, end: Float::INFINITY, reading_id: readings[:worrying].id,
+      comments: "Talvez o mecanismo de herança esteja sendo utilizado em demasia. Sempre que fizer sentido, prefira composição à herança."
+    }
+  ].create_ranges(dit_metric_configuration.id)
+end
 
 ###############################################################################
 
 nom = NativeMetricSnapshot.create(
   name: "Number of Methods", description: "", code: "nom", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
-nom_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: nom.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
-  kalibro_configuration_id: first_configuration.id)
+analizo_configurations.each do |analizo_configuration|
+  nom_metric_configuration = MetricConfiguration.create(
+    metric_snapshot_id: nom.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+    kalibro_configuration_id: analizo_configuration.id)
 
-[
-  { beginning: 0, end: 10, comments: "", reading_id: readings[:excellent].id },
-  { beginning: 10, end: 17, comments: "", reading_id: readings[:good].id },
-  { beginning: 17, end: 27, comments: "", reading_id: readings[:regular].id },
-  { beginning: 27, end: Float::INFINITY, reading_id: readings[:worrying].id,
-    comments: "Muitos métodos em uma só classe a torna mais difícil de entender. Talvez o princípio da responsabilidade única esteja sendo violado. Talvez alguns métodos não sejam necessários."
-  }
-].create_ranges(nom_metric_configuration.id)
+  [
+    { beginning: 0, end: 10, comments: "", reading_id: readings[:excellent].id },
+    { beginning: 10, end: 17, comments: "", reading_id: readings[:good].id },
+    { beginning: 17, end: 27, comments: "", reading_id: readings[:regular].id },
+    { beginning: 27, end: Float::INFINITY, reading_id: readings[:worrying].id,
+      comments: "Muitos métodos em uma só classe a torna mais difícil de entender. Talvez o princípio da responsabilidade única esteja sendo violado. Talvez alguns métodos não sejam necessários."
+    }
+  ].create_ranges(nom_metric_configuration.id)
+end
 
 ###############################################################################
 
 npa = NativeMetricSnapshot.create(
   name: "Number of Public Attributes", description: "", code: "npa", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
-npa_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: npa.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
-  kalibro_configuration_id: first_configuration.id)
+analizo_configurations.each do |analizo_configuration|
+  npa_metric_configuration = MetricConfiguration.create(
+    metric_snapshot_id: npa.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+    kalibro_configuration_id: analizo_configuration.id)
 
-[
-  { beginning: 0, end: 1, comments: "", reading_id: readings[:excellent].id },
-  { beginning: 1, end: 2, comments: "", reading_id: readings[:good].id },
-  { beginning: 2, end: 3, comments: "", reading_id: readings[:regular].id },
-  { beginning: 3, end: Float::INFINITY, reading_id: readings[:worrying].id,
-    comments: "Em linguagens orientadas a objetos, atributos públicos são uma aberração e devem ser evitados ao máximo. Esconda os atributos e forneça métodos para controlar o acesso a eles."
-  }
-].create_ranges(npa_metric_configuration.id)
+  [
+    { beginning: 0, end: 1, comments: "", reading_id: readings[:excellent].id },
+    { beginning: 1, end: 2, comments: "", reading_id: readings[:good].id },
+    { beginning: 2, end: 3, comments: "", reading_id: readings[:regular].id },
+    { beginning: 3, end: Float::INFINITY, reading_id: readings[:worrying].id,
+      comments: "Em linguagens orientadas a objetos, atributos públicos são uma aberração e devem ser evitados ao máximo. Esconda os atributos e forneça métodos para controlar o acesso a eles."
+    }
+  ].create_ranges(npa_metric_configuration.id)
+end
 
 ###############################################################################
 
 sc = NativeMetricSnapshot.create(
   name: "Structural Complexity", description: "", code: "sc", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
-sc_metric_configuration = MetricConfiguration.create(
-  metric_snapshot_id: sc.id, weight: 4.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
-  kalibro_configuration_id: first_configuration.id)
+analizo_configurations.each do |analizo_configuration|
 
-[
-  { beginning: 0, end: 12, comments: "", reading_id: readings[:excellent].id },
-  { beginning: 12, end: 28, comments: "", reading_id: readings[:good].id },
-  { beginning: 28, end: 51, comments: "", reading_id: readings[:regular].id },
-  { beginning: 51, end: Float::INFINITY, reading_id: readings[:worrying].id,
-    comments: "Complexidade estrutural é um fator de risco. Verifique se a classe pode ser dividida em classes menores e mais coesas. Classes frutos dessa divisão tendem a ser menos acopladas."
-  }
-].create_ranges(sc_metric_configuration.id)
+  sc_metric_configuration = MetricConfiguration.create(
+    metric_snapshot_id: sc.id, weight: 4.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
+    kalibro_configuration_id: analizo_configuration.id)
 
+  [
+    { beginning: 0, end: 12, comments: "", reading_id: readings[:excellent].id },
+    { beginning: 12, end: 28, comments: "", reading_id: readings[:good].id },
+    { beginning: 28, end: 51, comments: "", reading_id: readings[:regular].id },
+    { beginning: 51, end: Float::INFINITY, reading_id: readings[:worrying].id,
+      comments: "Complexidade estrutural é um fator de risco. Verifique se a classe pode ser dividida em classes menores e mais coesas. Classes frutos dessa divisão tendem a ser menos acopladas."
+    }
+  ].create_ranges(sc_metric_configuration.id)
+end
 ###############################################################################
 ############################## Ruby Configuration #############################
 ###############################################################################
 
-ruby_configuration = KalibroConfiguration.create(name: "Ruby Configuration", description: "Example Ruby Configuration")
+ruby_configuration = KalibroConfiguration.create(name: "Ruby Configuration", language: "Ruby",
+  description: "Example Ruby Configuration")
 
 flog = NativeMetricSnapshot.create(
   name: "Pain", code: "flog", metric_collector_name: "MetricFu", scope: {'type' => "METHOD"},
@@ -263,7 +286,7 @@ MetricConfiguration.create(
 ############################# Python Configuration ###########################
 ################################################################################
 
-python_configuration = KalibroConfiguration.create(name: "Python",
+python_configuration = KalibroConfiguration.create(name: "Python Configuration", language: "Python",
   description: "Example Python Configuration using Radon. See http://radon.readthedocs.org/en/latest/intro.html for more details.")
 
 ################################################################################
