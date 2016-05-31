@@ -1,5 +1,6 @@
 codeclimate_phpmd_configuration = KalibroConfiguration.create(
   name: "CodeClimate PHPMD",
+  language: "PHP",
   description: "Example CodeClimate PHPMD configuration"
 )
 
