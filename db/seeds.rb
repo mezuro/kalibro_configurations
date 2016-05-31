@@ -4,7 +4,7 @@
 class Array
   def create_ranges(metric_configuration_id)
     self.each do |range_hash|
-      KalibroRange.create(range_hash.merge(
+      KalibroRange.create!(range_hash.merge(
         {metric_configuration_id: metric_configuration_id}))
     end
   end
@@ -22,7 +22,7 @@ end
 ########################### Reading Group & Readings ##########################
 ###############################################################################
 
-scholar =  ReadingGroup.create(name: "Scholar", description: <<-END
+scholar =  ReadingGroup.create!(name: "Scholar", description: <<-END
 This group imitates school grades and attributes generic labels from 'Terrible' (grade 0) to 'Excellent' (grade 10).
 The colors vary in wave length with the grades, ranging from red to green (between them are tones of orange and yellow).
 END
@@ -39,38 +39,38 @@ readings = {
   very_good:      { label: "Very Good", grade: 8.75, color: "40FF00" },
   excellent:      { label: "Excellent", grade: 10, color: "00FF00" }
 }.map { |k, v|
-  [k, Reading.create(v.merge({reading_group_id: scholar.id}))]
+  [k, Reading.create!(v.merge({reading_group_id: scholar.id}))]
 }.to_h
 
 ###############################################################################
 ########################### Java/C/C++ Configuration ##########################
 ###############################################################################
 
-java_configuration = KalibroConfiguration.create(name: "Java Configuration", language: "Java", description: <<-END
+java_configuration = KalibroConfiguration.create!(name: "Java Configuration", language: "Java", description: <<-END
 Configuration proposed as starting point for Java. From Morais' master text.
 END
 )
 
-c_configuration = KalibroConfiguration.create(name: "C Configuration", language: "C", description: <<-END
+c_configuration = KalibroConfiguration.create!(name: "C Configuration", language: "C", description: <<-END
 Configuration proposed as starting point for C. From Morais' master text.
 END
 )
 
-cpp_configuration = KalibroConfiguration.create(name: "C++ Configuration", language: "C++", description: <<-END
+cpp_configuration = KalibroConfiguration.create!(name: "C++ Configuration", language: "C++", description: <<-END
 Configuration proposed as starting point for C++. From Morais' master text.
 END
 )
 
 analizo_configurations = [java_configuration, c_configuration, cpp_configuration]
 
-acc = NativeMetricSnapshot.create(
+acc = NativeMetricSnapshot.create!(
   name: "Afferent Connections per Class (used to calculate COF - Coupling Factor)",
   description: "", code: "acc", metric_collector_name: "Analizo",
   scope: {'type' => "CLASS"})
 
 
 analizo_configurations.each do |analizo_configuration|
-  acc_metric_configuration = MetricConfiguration.create(
+  acc_metric_configuration = MetricConfiguration.create!(
     metric_snapshot_id: acc.id, weight: 2.0, aggregation_form: "MEAN",
     reading_group_id: scholar.id, kalibro_configuration_id: analizo_configuration.id)
 
@@ -86,12 +86,12 @@ end
 
 ###############################################################################
 
-accm = NativeMetricSnapshot.create(
+accm = NativeMetricSnapshot.create!(
   name: "Average Cyclomatic Complexity per Method", description: "",
   code: "accm", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
 analizo_configurations.each do |analizo_configuration|
-  accm_metric_configuration = MetricConfiguration.create(
+  accm_metric_configuration = MetricConfiguration.create!(
     metric_snapshot_id: accm.id, weight: 2.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
     kalibro_configuration_id: analizo_configuration.id)
 
@@ -107,12 +107,12 @@ end
 
 ###############################################################################
 
-amloc = NativeMetricSnapshot.create(
+amloc = NativeMetricSnapshot.create!(
   name: "Average Method Lines of Code", description: "", code: "amloc", metric_collector_name: "Analizo",
   scope: {'type' => "CLASS"})
 
 analizo_configurations.each do |analizo_configuration|
-  amloc_metric_configuration = MetricConfiguration.create(
+  amloc_metric_configuration = MetricConfiguration.create!(
     metric_snapshot_id: amloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
     kalibro_configuration_id: analizo_configuration.id)
 
@@ -128,12 +128,12 @@ end
 
 ###############################################################################
 
-anpm = NativeMetricSnapshot.create(
+anpm = NativeMetricSnapshot.create!(
   name: "Average Number of Parameters per Method", description: "", code: "anpm", metric_collector_name: "Analizo",
   scope: {'type' => "CLASS"})
 
 analizo_configurations.each do |analizo_configuration|
-  anpm_metric_configuration = MetricConfiguration.create(
+  anpm_metric_configuration = MetricConfiguration.create!(
     metric_snapshot_id: anpm.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
     kalibro_configuration_id: analizo_configuration.id)
 
@@ -149,12 +149,12 @@ end
 
 ###############################################################################
 
-dit = NativeMetricSnapshot.create(
+dit = NativeMetricSnapshot.create!(
   name: "Depth of Inheritance Tree", description: "", code: "dit", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
 
 analizo_configurations.each do |analizo_configuration|
-  dit_metric_configuration = MetricConfiguration.create(
+  dit_metric_configuration = MetricConfiguration.create!(
     metric_snapshot_id: dit.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
     kalibro_configuration_id: analizo_configuration.id)
 
@@ -170,11 +170,11 @@ end
 
 ###############################################################################
 
-nom = NativeMetricSnapshot.create(
+nom = NativeMetricSnapshot.create!(
   name: "Number of Methods", description: "", code: "nom", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
 analizo_configurations.each do |analizo_configuration|
-  nom_metric_configuration = MetricConfiguration.create(
+  nom_metric_configuration = MetricConfiguration.create!(
     metric_snapshot_id: nom.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
     kalibro_configuration_id: analizo_configuration.id)
 
@@ -190,11 +190,11 @@ end
 
 ###############################################################################
 
-npa = NativeMetricSnapshot.create(
+npa = NativeMetricSnapshot.create!(
   name: "Number of Public Attributes", description: "", code: "npa", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
 analizo_configurations.each do |analizo_configuration|
-  npa_metric_configuration = MetricConfiguration.create(
+  npa_metric_configuration = MetricConfiguration.create!(
     metric_snapshot_id: npa.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
     kalibro_configuration_id: analizo_configuration.id)
 
@@ -210,12 +210,12 @@ end
 
 ###############################################################################
 
-sc = NativeMetricSnapshot.create(
+sc = NativeMetricSnapshot.create!(
   name: "Structural Complexity", description: "", code: "sc", metric_collector_name: "Analizo", scope: {'type' => "CLASS"})
 
 analizo_configurations.each do |analizo_configuration|
 
-  sc_metric_configuration = MetricConfiguration.create(
+  sc_metric_configuration = MetricConfiguration.create!(
     metric_snapshot_id: sc.id, weight: 4.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
     kalibro_configuration_id: analizo_configuration.id)
 
@@ -232,15 +232,15 @@ end
 ############################## Ruby Configuration #############################
 ###############################################################################
 
-ruby_configuration = KalibroConfiguration.create(name: "Ruby Configuration", language: "Ruby",
+ruby_configuration = KalibroConfiguration.create!(name: "Ruby Configuration", language: "Ruby",
   description: "Example Ruby Configuration")
 
-flog = NativeMetricSnapshot.create(
+flog = NativeMetricSnapshot.create!(
   name: "Pain", code: "flog", metric_collector_name: "MetricFu", scope: {'type' => "METHOD"},
   description: "Flog mede a tortuosidade do código-fonte. Quanto mais doloroso e difícil de testar, maior a pontuação, baseando-se na métrica ABC e boas práticas de Ruby. Extraído do blog do autor da métrica: http://jakescruggs.blogspot.com.br/2008/08/whats-good-flog-score.html"
 )
 
-flog_metric_configuration = MetricConfiguration.create(
+flog_metric_configuration = MetricConfiguration.create!(
   metric_snapshot_id: flog.id, weight: 3.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: ruby_configuration.id)
 
@@ -255,12 +255,12 @@ flog_metric_configuration = MetricConfiguration.create(
 
 ###############################################################################
 
-saikuro = NativeMetricSnapshot.create(
+saikuro = NativeMetricSnapshot.create!(
   name: "Cyclomatic Complexity", code: "saikuro", metric_collector_name: "MetricFu", scope: {'type' => "METHOD"},
   description: "Cyclomatic complexity is a graphical measurement of the number of possible paths through the normal flow of a program"
 )
 
-saikuro_metric_configuration = MetricConfiguration.create(
+saikuro_metric_configuration = MetricConfiguration.create!(
   metric_snapshot_id: saikuro.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: ruby_configuration.id)
 
@@ -273,12 +273,12 @@ saikuro_metric_configuration = MetricConfiguration.create(
 
 ###############################################################################
 
-flay = HotspotMetricSnapshot.create(
+flay = HotspotMetricSnapshot.create!(
   name: "Duplicated Code", code: "flay", metric_collector_name: "MetricFu", scope: {'type' => "SOFTWARE"},
   description: "Flay analyzes code for structural similarities. Differences in literal values, variable, class, method names, whitespace, programming style, braces vs do/end, etc are all ignored."
 )
 
-MetricConfiguration.create(
+MetricConfiguration.create!(
   metric_snapshot_id: flay.id, kalibro_configuration_id: ruby_configuration.id
 )
 
@@ -286,17 +286,17 @@ MetricConfiguration.create(
 ############################# Python Configuration ###########################
 ################################################################################
 
-python_configuration = KalibroConfiguration.create(name: "Python Configuration", language: "Python",
+python_configuration = KalibroConfiguration.create!(name: "Python Configuration", language: "Python",
   description: "Example Python Configuration using Radon. See http://radon.readthedocs.org/en/latest/intro.html for more details.")
 
 ################################################################################
 
-py_cc = NativeMetricSnapshot.create(
+py_cc = NativeMetricSnapshot.create!(
     name: "Cyclomatic Complexity", code: "cc", metric_collector_name: "Radon", scope: {'type' => "METHOD"},
     description: "Cyclomatic Complexity corresponds to the number of decisions a block of code contains plus 1."
 )
 
-py_cc_metric_configuration = MetricConfiguration.create(
+py_cc_metric_configuration = MetricConfiguration.create!(
   metric_snapshot_id: py_cc.id, weight: 2.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: python_configuration.id)
 
@@ -309,12 +309,12 @@ py_cc_metric_configuration = MetricConfiguration.create(
 
 ################################################################################
 
-py_mi = NativeMetricSnapshot.create(
+py_mi = NativeMetricSnapshot.create!(
     name: "Maintainability Index", code: "mi", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "Maintainability Index is a software metric which measures how maintainable (easy to support and change) the source code is. The maintainability index is calculated as a factored formula consisting of SLOC (Source Lines Of Code), Cyclomatic Complexity and Halstead volume."
 )
 
-py_mi_metric_configuration = MetricConfiguration.create(
+py_mi_metric_configuration = MetricConfiguration.create!(
   metric_snapshot_id: py_mi.id, weight: 2.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: python_configuration.id)
 
@@ -344,34 +344,34 @@ loc_ranges = [
   { beginning: 5000, end: Float::INFINITY, comments: "", reading_id: readings[:bad].id },
 ]
 
-py_loc = NativeMetricSnapshot.create(
+py_loc = NativeMetricSnapshot.create!(
     name: "Lines of Code", code: "loc", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The total number of lines of code. It is the sum of the SLOC and the number of blank lines: the equation LOC = SLOC + Blanks should always hold."
 )
-py_loc_metric_configuration = MetricConfiguration.create(
+py_loc_metric_configuration = MetricConfiguration.create!(
   metric_snapshot_id: py_loc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: python_configuration.id)
 loc_ranges.create_ranges(py_loc_metric_configuration.id)
 
 ################################################################################
 
-py_lloc = NativeMetricSnapshot.create(
+py_lloc = NativeMetricSnapshot.create!(
     name: "Logical Lines of Code", code: "lloc", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The number of logical lines of code. Every logical line of code contains exactly one statement."
 )
 
-py_lloc_metric_configuration = MetricConfiguration.create(
+py_lloc_metric_configuration = MetricConfiguration.create!(
   metric_snapshot_id: py_lloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: python_configuration.id)
 loc_ranges.create_ranges(py_lloc_metric_configuration.id)
 
 ################################################################################
 
-py_sloc = NativeMetricSnapshot.create(
+py_sloc = NativeMetricSnapshot.create!(
     name: "Source Lines of Code", code: "sloc", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The number of source lines of code - not necessarily corresponding to the LLOC."
 )
-py_sloc_metric_configuration = MetricConfiguration.create(
+py_sloc_metric_configuration = MetricConfiguration.create!(
   metric_snapshot_id: py_sloc.id, weight: 1.0, aggregation_form: "MEAN", reading_group_id: scholar.id,
   kalibro_configuration_id: python_configuration.id)
 loc_ranges.create_ranges(py_sloc_metric_configuration.id)
@@ -388,11 +388,11 @@ indifferent_ranges = [
     { beginning: 0, end: Float::INFINITY, comments: "", reading_id: readings[:regular].id },
 ]
 
-py_comments = NativeMetricSnapshot.create(
+py_comments = NativeMetricSnapshot.create!(
     name: "Comment Lines", code: "comments", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The number of comment lines. Multi-line strings are not counted as comment since, to the Python interpreter, they are just strings."
 )
-py_comments_metric_configuration = MetricConfiguration.create(
+py_comments_metric_configuration = MetricConfiguration.create!(
     metric_snapshot_id: py_comments.id, weight: 0.1, aggregation_form: "SUM", reading_group_id: scholar.id,
     kalibro_configuration_id: python_configuration.id)
 
@@ -400,12 +400,12 @@ indifferent_ranges.create_ranges(py_comments_metric_configuration.id)
 
 ################################################################################
 
-py_multi = NativeMetricSnapshot.create(
+py_multi = NativeMetricSnapshot.create!(
     name: "Multi-line String Lines", code: "multi", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The number of lines which represent multi-line strings."
 )
 
-py_multi_metric_configuration = MetricConfiguration.create(
+py_multi_metric_configuration = MetricConfiguration.create!(
   metric_snapshot_id: py_multi.id, weight: 0.1, aggregation_form: "SUM", reading_group_id: scholar.id,
   kalibro_configuration_id: python_configuration.id)
 
@@ -413,12 +413,12 @@ indifferent_ranges.create_ranges(py_multi_metric_configuration.id)
 
 ################################################################################
 
-py_blank = NativeMetricSnapshot.create(
+py_blank = NativeMetricSnapshot.create!(
     name: "Blank Lines", code: "blank", metric_collector_name: "Radon", scope: {'type' => "PACKAGE"},
     description: "The number of blank lines (or whitespace-only ones)."
 )
 
-py_blank_metric_configuration = MetricConfiguration.create(
+py_blank_metric_configuration = MetricConfiguration.create!(
   metric_snapshot_id: py_blank.id, weight: 0.1, aggregation_form: "SUM", reading_group_id: scholar.id,
   kalibro_configuration_id: python_configuration.id)
 
