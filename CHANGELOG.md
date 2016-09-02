@@ -5,6 +5,7 @@ KalibroConfigurations is the configuration storage web service for Mezuro.
 ## Unreleased
 
 - Disable rubocop Lint/HandleExceptions cop for rake
+- Drop SQLite 3 support
 
 ## v2.1.3 - 11/05/2016
 
