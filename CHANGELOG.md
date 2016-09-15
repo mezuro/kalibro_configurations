@@ -4,6 +4,7 @@ KalibroConfigurations is the configuration storage web service for Mezuro.
 
 ## Unreleased
 
+- Check if the tmp folder already exists on setup file
 - Disable rubocop Lint/HandleExceptions cop for rake
 
 ## v2.1.3 - 11/05/2016
