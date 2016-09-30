@@ -7,6 +7,7 @@ KalibroConfigurations is the configuration storage web service for Mezuro.
 - Do not use bin/rake script on bin/setup anymore
 - Disable rubocop Lint/HandleExceptions cop for rake
 - Drop SQLite 3 support
+- Bump Ruby version 2.3.1
 
 ## v2.1.3 - 11/05/2016
 
