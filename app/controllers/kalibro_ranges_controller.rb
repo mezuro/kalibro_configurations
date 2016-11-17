@@ -46,13 +46,17 @@ class KalibroRangesController < ApplicationController
 
   private
 
+  def respond_json(exception)
+    respond_with_json({ errors: [exception.message] }, :not_found)
+    false
+  end
+
   def set_metric_configuration
     begin
       @metric_configuration = MetricConfiguration.find(params[:metric_configuration_id].to_i)
       true
     rescue ActiveRecord::RecordNotFound => exception
-      respond_with_json({ errors: [exception.message] }, :not_found)
-      false
+      respond_json(exception)
     end
   end
 
@@ -61,8 +65,7 @@ class KalibroRangesController < ApplicationController
       @kalibro_range = KalibroRange.find(params[:id].to_i)
       true
     rescue ActiveRecord::RecordNotFound => exception
-      respond_with_json({ errors: [exception.message] }, :not_found)
-      false
+      respond_json(exception)
     end
   end
 
