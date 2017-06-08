@@ -7,18 +7,29 @@ class MetricConfigurationsController < ApplicationController
     metric_snapshot = build_metric_snapshot
     @metric_configuration = MetricConfiguration.new(all_params.reject { |key, _| key == 'metric' })
     if valid_metric_snapshot_for_configuration(metric_snapshot, @metric_configuration)
-      if save_metric_configuration_with_snapshot(@metric_configuration, metric_snapshot)
-        data = { metric_configuration: @metric_configuration }
-        status = :created
-      else
-        data = { errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages }
-        status = :unprocessable_entity
-      end
+      result = try_to_save_metric_configuration(metric_snapshot)
     else
-      data = { errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages }
-      status = :unprocessable_entity
+      result = get_result_from_invalid_metric_configuration(metric_snapshot)
     end
-    respond_with_json data, status
+    respond_with_json result[:data], result[:status]
+  end
+
+  def try_to_save_metric_configuration(metric_snapshot)
+    result = {}
+    if save_metric_configuration_with_snapshot(@metric_configuration, metric_snapshot)
+      result[:data] = { metric_configuration: @metric_configuration }
+      result[:status] = :created
+    else
+      result = get_result_from_invalid_metric_configuration(metric_snapshot)
+    end
+    result
+  end
+
+  def get_result_from_invalid_metric_configuration(metric_snapshot)
+    result = {}
+    result[:data] = { errors: @metric_configuration.errors.full_messages + metric_snapshot.errors.full_messages }
+    result[:status] = :unprocessable_entity
+    result
   end
 
   def update
