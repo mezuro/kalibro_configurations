@@ -2,6 +2,7 @@ require 'validators/interval_validator.rb'
 require 'validators/range_overlapping_validator.rb'
 
 class KalibroRange < ActiveRecord::Base
+  include InfinityModule
   belongs_to :reading
   belongs_to :metric_configuration
 
@@ -36,15 +37,4 @@ class KalibroRange < ActiveRecord::Base
     super(extract_infinity value)
   end
 
-  private
-
-  def extract_infinity(parameter)
-    if parameter == 'INF'
-      Float::INFINITY
-    elsif parameter == '-INF'
-      -Float::INFINITY
-    else
-      parameter
-    end
-  end
 end
